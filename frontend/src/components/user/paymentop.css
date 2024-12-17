@@ -1,0 +1,104 @@
+/* Overlay */
+.pr-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+}
+
+/* Modal Content */
+.pr-modal-content {
+    background-color: #f9f9f9;
+    padding: 30px;
+    border-radius: 12px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    animation: fadeIn 0.4s ease;
+}
+
+.pr-modal-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #222;
+    font-weight: 600;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.pr-modal-content ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 15px 0;
+}
+
+.pr-modal-content li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+    font-size: 1rem;
+    color: #555;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+/* Buy Now Button Styling */
+.pr-modal-content li button {
+    padding: 8px 18px;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 123, 255, 0.3);
+}
+
+.pr-modal-content li button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.pr-modal-content li button:active {
+    transform: scale(0.98);
+}
+
+/* Close Button Styling */
+.pr-modal-content .close-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    background-color: #666;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.pr-modal-content .close-btn:hover {
+    background-color: #444;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

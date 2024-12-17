@@ -1,0 +1,15 @@
+.mloan-container {
+    display: flex;
+    justify-content: space-between; /* Distributes space between the components */
+    margin-top: 0; /* Ensure no extra space above */
+}
+
+.margin-c {
+    width: 30%; /* Adjust width of the margin component */
+    margin: 0; /* Remove any default margin */
+}
+
+.mloan-list {
+    width: 70%; /* Adjust width of the scholarship list */
+    margin: 0; /* Remove any default margin */
+}

@@ -1,0 +1,31 @@
+.buy-premium-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  }
+  
+  .buy-premium-button {
+    padding: 10px 15px;
+    font-size: 1.2rem;
+    color: #ffffff;
+    background: linear-gradient(135deg, #ff7a18 0%, #af002d 100%);
+    border: none;
+    border-radius: 25px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .buy-premium-button:hover {
+    background: linear-gradient(135deg, #ff8c42 0%, #ff3a44 100%);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    transform: translateY(-2px);
+  }
+  
+  .buy-premium-button:active {
+    background: linear-gradient(135deg, #e57373 0%, #d32f2f 100%);
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    transform: translateY(2px);
+  }
+  

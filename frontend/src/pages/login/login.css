@@ -1,0 +1,213 @@
+/* Ensure full height and width of the page */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex; /* Apply Flexbox to the container */
+  height: 100vh; /* Full height of the viewport */
+  width: 100vw; /* Full width of the viewport */
+  flex-direction: row; /* Align the two sections side by side horizontally */
+}
+
+.left-page, .right-page {
+  flex: 1; /* Both sections take equal space */
+  display: flex;
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
+  font-size: 24px;
+  font-weight: bold;
+  height: 100%;
+}
+
+/* Optional styling for visibility */
+.left-page {
+  background-color: #ffffff;
+  flex: 5.8;
+  color: #000;
+}
+
+.right-page {
+  background-color: #2B4A62;
+  flex: 4.2;
+  position: relative;
+}
+
+.mainlogo {
+  position: absolute;
+  width: 200px;
+  height: 150px;
+  left: 110px;
+  top: 30px;
+}
+
+.welcome-text {
+  position: absolute;
+  width: 746px;
+  height: 83px;
+  left: 20px;
+  top: 180px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 19px;
+  text-align: center;
+  color: #000000;
+}
+
+.gl {
+  position: absolute;
+  width: 380px;
+  height: 320px;
+  left: 250px;
+  top: 280px;
+  border-radius: 10px;
+}
+
+.smalllogo {
+  width: 120px;
+  height: 66px;
+  position: absolute;
+  top: 50px;
+  margin-left: auto;
+  margin-right: auto; /* Centers the image horizontally */
+}
+
+.login_text {
+  position: absolute;
+  width: 358px;
+  height: 49px;
+  top: 160px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 23px;
+  line-height: 25px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.un, .pass {
+  position: absolute; /* Position it relative to the parent container */
+  width: 300px;
+  height: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  outline: none;
+  color: #000000;
+  background-color: #ffffff;
+}
+
+.un {
+  top: 230px; /* Adjust this to move it closer to the login text */
+}
+
+.pass {
+  top: 310px;
+}
+
+.fp {
+  position: absolute;
+  width: 120px;
+  height: 18px;
+  left: 360px;
+  top: 370px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 18px;
+  text-align: center;
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.lb {
+  box-sizing: border-box;
+  position: absolute;
+  width: 201px;
+  height: 46px;
+  top: 420px;
+  left: 220px;
+  background: #ffbb00;
+  border: 1px solid #000000;
+  border-radius: 10px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 23px;
+  line-height: 15px;
+  text-align: center;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.not {
+  position: absolute;
+  width: 100%; /* Make sure it takes full width */
+  height: auto; /* Let height adjust automatically */
+  top: 480px; /* Adjust this value as needed to move it below the login button */
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Inter';
+  font-weight: 400;
+  font-size: 16px; /* Corrected the typo in the font size */
+  line-height: 24px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.regis {
+  position: relative;
+  width: 100%; /* Make sure it takes full width */
+  height: auto; /* Let height adjust automatically */
+  top: 0px; /* Adjust this value as needed to move it below the login button */
+  left: 10px;
+  transform: translateX(-50%);
+  font-family: 'Inter';
+  font-weight: 400;
+  font-size: 16px; /* Corrected the typo in the font size */
+  line-height: 24px;
+  text-align: center;
+  color: #ffbb00;
+  text-decoration: none;
+}
+
+/* Media query for smaller screens */
+@media screen and (max-width: 1080px) {
+  /* Adjust element sizes and positions as needed */
+  .container {
+    flex-direction: column; /* Stack sections vertically */
+  }
+
+  .left-page, .right-page {
+    flex: 1 0 auto; /* Ensure sections take full available height */
+  }
+
+  .mainlogo {
+    width: auto; /* Adjust logo size */
+    height: auto;
+  }
+
+  .welcome-text {
+    width: 100%; /* Make welcome text full width */
+    left: 0;
+    top: 100px; /* Adjust top position */
+  }
+
+  .gl {
+    width: auto; /* Adjust image size */
+    height: auto;
+    left: auto; /* Adjust left position */
+    top: auto;
+  }
+}

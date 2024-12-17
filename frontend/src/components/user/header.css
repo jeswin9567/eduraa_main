@@ -1,0 +1,33 @@
+.uhome-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .uhome-search-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .uhome-search-input {
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .uhome-search-button {
+    padding: 5px 10px;
+    font-size: 16px;
+    border: none;
+    background-color: #004429;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  /* Other styles for buttons and navigation remain unchanged */
+  

@@ -1,0 +1,135 @@
+.mocktest {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mocktest h2 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.mocktest-form-group {
+  margin-bottom: 20px;
+}
+
+.mocktest label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.mocktest input,
+.mocktest textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.mocktest input:focus,
+.mocktest textarea:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.mocktest .mocktest-question {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid #e9ecef;
+  border-radius: 5px;
+  background-color: #f8f9fa;
+  transition: box-shadow 0.2s;
+}
+
+.mocktest .mocktest-question:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mocktest .mocktest-option,
+.mocktest .mocktest-step {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.mocktest .mocktest-button {
+  margin-top: 10px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.mocktest .mocktest-add-option {
+  background-color: #28a745; /* Green */
+}
+
+.mocktest .mocktest-add-option:hover {
+  background-color: #218838; /* Darker Green */
+}
+
+.mocktest .mocktest-remove-option {
+  background-color: #dc3545; /* Red */
+}
+
+.mocktest .mocktest-remove-option:hover {
+  background-color: #c82333; /* Darker Red */
+}
+
+.mocktest .mocktest-add-step {
+  background-color: #007bff; /* Blue */
+}
+
+.mocktest .mocktest-add-step:hover {
+  background-color: #0056b3; /* Darker Blue */
+}
+
+.mocktest .mocktest-remove-step {
+  background-color: #dc3545; /* Red */
+}
+
+.mocktest .mocktest-remove-step:hover {
+  background-color: #c82333; /* Darker Red */
+}
+
+.mocktest .mocktest-add-question {
+  background-color: #17a2b8; /* Teal */
+}
+
+.mocktest .mocktest-add-question:hover {
+  background-color: #138496; /* Darker Teal */
+}
+
+.mocktest .mocktest-remove-question {
+  background-color: #dc3545; /* Red */
+}
+
+.mocktest .mocktest-remove-question:hover {
+  background-color: #c82333; /* Darker Red */
+}
+
+.mocktest .mocktest-submit {
+  background-color: #007bff; /* Blue */
+}
+
+.mocktest .mocktest-submit:hover {
+  background-color: #0056b3; /* Darker Blue */
+}
+
+.mocktest-error-message {
+  color: #dc3545; /* Red */
+  font-weight: bold;
+}
+
+.mocktest-validation-error {
+  color: #ffc107; /* Yellow */
+  font-weight: bold;
+}

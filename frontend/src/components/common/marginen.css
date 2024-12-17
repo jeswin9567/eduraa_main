@@ -1,0 +1,53 @@
+.entrfiltr-container {
+    background-color: #E0E8F0;
+    width: 20%;
+    padding: 20px; /* Optional: Add some padding */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow */
+    min-height: 400px;
+
+  }
+  
+  .entrfiltr-group {
+    margin-bottom: 15px;
+  }
+  
+  .entrfiltr-header {
+    cursor: pointer;
+
+    color: rgb(0, 0, 0);
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .entrfiltr-options {
+    padding: 10px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+    margin-top: 5px;
+  }
+  
+  .entrfiltr-checkbox-group {
+    margin: 5px 0;
+  }
+  
+  .entrfiltr-checkbox-group input {
+    margin-right: 8px;
+  }
+  
+  .entrfiltr-button {
+    padding: 10px 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .entrfiltr-button:hover {
+    background-color: #218838;
+  }
+  

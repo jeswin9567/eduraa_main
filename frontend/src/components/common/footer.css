@@ -1,0 +1,27 @@
+/* src/components/user/Footer.css */
+.uhome-footer {
+    padding: 50px;
+    background-color: #D3D3D3;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .uhome-footer-logo {
+    width: 150px;
+  }
+  
+  .uhome-footer-content {
+    max-width: 50%;
+  }
+  
+  .uhome-footer-content h3 {
+    font-size: 24px;
+    color: #004429;
+    margin-bottom: 20px;
+  }
+  
+  .uhome-footer-content p {
+    font-size: 18px;
+    color: #333;
+  }
+  

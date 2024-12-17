@@ -1,0 +1,65 @@
+.entrance-details {
+    max-width: 800px; /* Set a maximum width for the details section */
+    margin: 40px auto; /* Center the details section and add margin for spacing */
+    padding: 20px;
+    background-color: #f9f9f9; /* Light background for the details container */
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+.entrance-details h1 {
+    font-size: 28px; /* Larger font size for the title */
+    color: #333; /* Darker color for the title */
+    margin-bottom: 20px; /* Space below the title */
+    text-align: center;
+}
+
+.entrance-details h3 {
+    font-size: 20px; /* Font size for section headings */
+    color: #555; /* Medium gray for headings */
+    margin-bottom: 10px; /* Space below headings */
+    border-bottom: 1px solid #ddd; /* Underline each heading */
+    padding-bottom: 5px; /* Add space between heading text and underline */
+}
+
+.entrance-details p {
+    font-size: 16px; /* Standard font size for paragraphs */
+    color: #555; /* Medium gray for text */
+    line-height: 1.6; /* Better readability with line height */
+    margin-bottom: 20px; /* Space between paragraphs */
+}
+
+.entrance-details a {
+    color: #007bff; /* Blue color for links */
+    text-decoration: none; /* Remove underline from links */
+}
+
+.entrance-details a:hover {
+    text-decoration: underline; /* Add underline on hover */
+}
+
+.date {
+    font-weight: bold; /* Make the date stand out */
+    color: #333; /* Darker color for dates */
+}
+
+.button-container {
+    margin-top: 30px; /* Space above the button */
+    text-align: center;
+}
+
+.back-button, .delete-button, .update-button {
+    background-color: #007bff; /* Blue button background */
+    color: #fff; /* White text color */
+    padding: 10px 20px; /* Padding for the button */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin: 0 10px; /* Space between buttons */
+}
+
+.back-button:hover, .delete-button:hover, .update-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}

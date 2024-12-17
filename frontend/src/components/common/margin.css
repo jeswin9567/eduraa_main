@@ -1,0 +1,14 @@
+.my-component {
+    background-color: #E0E8F0;
+    width: 20%;
+    padding: 20px; /* Optional: Add some padding */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow */
+    min-height: 400px;
+}
+
+.my-componentfilter {
+    background-color: #E0E8F0;
+    width: 20%;
+    padding: 20px; /* Optional: Add some padding */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow */
+}

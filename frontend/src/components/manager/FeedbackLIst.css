@@ -1,0 +1,61 @@
+.feedbacklist-container {
+    width: 85%;
+    margin: 40px auto;
+    padding: 20px;
+    background: linear-gradient(135deg, #ffffff 0%, #f4f4f4 100%);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease; /* Fade-in effect */
+}
+
+.feedbacklist-title {
+    font-size: 32px; /* Slightly larger title */
+    color: #2c3e50;
+    margin-bottom: 30px; /* Increased margin */
+    text-align: center;
+    font-weight: bold; /* Bold title */
+}
+
+.feedbacklist-list {
+    list-style: none;
+    padding: 0;
+}
+
+.feedbacklist-item {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow */
+    padding: 20px; /* Increased padding */
+    margin-bottom: 20px;
+    transition: transform 0.2s, box-shadow 0.2s; /* Transition for hover effect */
+}
+
+.feedbacklist-item:hover {
+    transform: translateY(-3px); /* Lift effect on hover */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+}
+
+.feedbacklist-item h3 {
+    margin: 0 0 10px; /* Spacing for the title */
+    color: #3498db; /* Color for mock test name */
+}
+
+.feedbacklist-item p {
+    margin: 5px 0; /* Consistent spacing for paragraphs */
+}
+
+.feedbacklist-date {
+    font-size: 12px;
+    color: #888;
+    margin-top: 10px; /* Add space above date */
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

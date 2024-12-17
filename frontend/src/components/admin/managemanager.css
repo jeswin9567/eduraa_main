@@ -1,0 +1,89 @@
+.mmanager-list-container {
+    margin: 0 auto;
+    min-height: 300px;
+    padding: 20px;
+    background-color: #f8f9faaf;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .mmanager-list-container h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .merror-message {
+    color: #e74c3c;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .mmanager-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 10px;
+  }
+  
+  .mmanager-table thead {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .mmanager-table th, .mmanager-table td {
+    padding: 15px;
+    text-align: left;
+    font-size: 16px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .mmanager-table tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .mmanager-table th {
+    font-weight: 600;
+  }
+  
+  .mstatus-active {
+    color: #28a745;
+    font-weight: 500;
+  }
+  
+  .mstatus-inactive {
+    color: #dc3545;
+    font-weight: 500;
+  }
+  
+  .mstatus-toggle-button {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .mactivate {
+    background-color: #28a745;
+    color: #fff;
+  }
+  
+  .mdeactivate {
+    background-color: #dc3545;
+    color: #fff;
+  }
+  
+  .mstatus-toggle-button.mactivate:hover {
+    background-color: #218838;
+  }
+  
+  .mstatus-toggle-button.mdeactivate:hover {
+    background-color: #c82333;
+  }
+  

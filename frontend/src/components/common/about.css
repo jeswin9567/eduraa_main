@@ -1,0 +1,38 @@
+/* About Section */
+.uhome-about-section {
+    display: flex;
+    padding: 50px;
+    background-color: #FFFFFF;
+    align-items: center;
+  }
+  
+  .uhome-about-content {
+    flex: 1;
+    max-width: 50%;
+  }
+  
+  .uhome-about-content h2 {
+    font-size: 32px;
+    color: #004429;
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+  
+  .uhome-about-content p {
+    font-size: 20px;
+    color: #333;
+  }
+  
+  .uhome-about-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .uhome-about-image img {
+    max-width: 60%;
+    height: auto;
+    margin-left: 100px;
+    border-radius: 10px;
+  }
+  

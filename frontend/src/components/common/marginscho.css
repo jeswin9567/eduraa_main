@@ -1,0 +1,55 @@
+
+  /* Container styles */
+.schofilter-container {
+    background-color: #E0E8F0;
+    width: 20%;
+    padding: 20px; /* Optional: Add some padding */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow */
+    min-height: 400px;
+}
+
+/* Grouping the filters */
+.schofilter-group {
+    margin-bottom: 20px;
+}
+
+/* Labels */
+.schofilter-group label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+/* Inputs (checkboxes, radio buttons, text inputs) */
+.schofilter-group input[type="checkbox"],
+.schofilter-group input[type="radio"] {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.schofilter-group input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+/* Button styles */
+.schofilter-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007BFF;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.schofilter-button:hover {
+    background-color: #0056b3;
+}

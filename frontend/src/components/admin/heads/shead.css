@@ -1,0 +1,81 @@
+/* Header Styles */
+.ScH-header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #FFFFFF;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo Styling */
+.ScH-logo-container {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.ScH-logo-image {
+  max-width: 150px;
+  height: auto;
+  margin-left: 20px;
+}
+
+/* Navigation Styling */
+.ScH-nav-container {
+  display: flex;
+  gap: 20px;
+  margin-right: 50px;
+}
+
+.ScH-nav-container button {
+  font-size: 20px;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  color: #004429;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.ScH-search-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ScH-search-input {
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #004429;
+  border-radius: 25px;
+  width: 200px;
+}
+
+.ScH-search-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 25px;
+  background-color: #004429;
+  color: #FFFFFF;
+  border: none;
+  cursor: pointer;
+}
+
+.ScH-auth-container {
+  display: flex;
+  gap: 30px;
+}
+
+.ScH-logout-btn {
+  padding: 10px 20px;
+  font-size: 20px;
+  border-radius: 25px;
+  text-align: center;
+  background-color: #FFFFFF;
+  border: 2px solid #004429;
+  color: #004429;
+  cursor: pointer;
+  width: 120px;
+}

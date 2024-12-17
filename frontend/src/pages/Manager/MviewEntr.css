@@ -1,0 +1,88 @@
+/* Container for the entrance details */
+.managerviewentr-details {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 800px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for the main heading (entrance name) */
+.managerviewentr-details h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #2c3e50;
+    text-align: center;
+}
+
+/* Styling for the subheadings (labels like Education Required, etc.) */
+.managerviewentr-details h2 {
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: #2980b9;
+    font-weight: bold;
+}
+
+/* Styling for the details (values) */
+.managerviewentr-details p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #555;
+    line-height: 1.5;
+}
+
+/* Styling for links */
+.managerviewentr-details a {
+    color: #3498db;
+    text-decoration: underline;
+}
+
+.managerviewentr-details a:hover {
+    color: #2980b9;
+}
+
+/* Button container for back, delete, and update buttons */
+.managerviewentr-button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* General button styling */
+.managerviewentr-button-container button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Individual button styling */
+.managerviewentr-back-button {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.managerviewentr-back-button:hover {
+    background-color: #ddd;
+}
+
+.managerviewentr-delete-button {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+.managerviewentr-delete-button:hover {
+    background-color: #c0392b;
+}
+
+.managerviewentr-update-button {
+    background-color: #3498db;
+    color: #fff;
+}
+
+.managerviewentr-update-button:hover {
+    background-color: #2980b9;
+}

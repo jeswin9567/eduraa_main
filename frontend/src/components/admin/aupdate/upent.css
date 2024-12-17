@@ -1,0 +1,74 @@
+.adupdentr {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #004429;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+  }
+  
+  .adupdentr h1 {
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 20px;
+  }
+  
+  .adupdentr form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .adupdentr label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #ffffff;
+  }
+  
+  .adupdentr input[type="text"],
+  .adupdentr input[type="url"],
+  .adupdentr input[type="date"],
+  .adupdentr textarea,
+  .adupdentr select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  
+  .adupdentr textarea {
+    resize: vertical;
+    height: 150px;      
+  }
+  
+  .adupdentr input[type="checkbox"] {
+    margin-right: 10px;
+  }
+  
+  .adupdentr .error {
+    color: red;
+    font-size: 14px;
+  }
+  
+  .adupdentr button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .adupdentr button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .adupdentr button:hover:not(:disabled) {
+    background-color: #0056b3;
+  }
+  

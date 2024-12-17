@@ -1,0 +1,189 @@
+/* Container for the mock test details */
+.viewmocktst-details {
+    background-color: #ffffff;
+    padding: 30px;
+    margin: 20px auto;
+    border-radius: 12px;
+    max-width: 900px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease;
+  }
+  
+  .viewmocktst-details:hover {
+    transform: scale(1.02); /* Slight zoom-in effect on hover */
+  }
+  
+  /* Heading styles */
+  .viewmocktst-details h2 {
+    color: #222;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #4CAF50;
+    padding-bottom: 10px;
+    text-align: center;
+  }
+  
+  .viewmocktst-details h3 {
+    color: #444;
+    font-size: 22px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+  }
+  
+  .viewmocktst-details h4 {
+    color: #333;
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+  
+  /* Paragraph styles */
+  .viewmocktst-details p {
+    color: #555;
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 15px;
+  }
+  
+  /* List styles for questions and steps */
+  .viewmocktst-details ul {
+    padding-left: 25px;
+    margin-bottom: 25px;
+  }
+  
+  .viewmocktst-details ul li {
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #333;
+    background-color: #f5f5f5;
+    padding: 10px;
+    border-radius: 6px;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* List item hover effect */
+  .viewmocktst-details ul li:hover {
+    background-color: #e0f7fa;
+    transform: translateX(5px);
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  /* Option text styles */
+  .viewmocktst-details ul li p {
+    margin: 5px 0;
+  }
+  
+  /* Correct answer highlight */
+  .viewmocktst-details ul li .correct {
+    color: #28a745;
+    font-weight: bold;
+  }
+  
+  /* Error message styling */
+  .viewmocktst-error {
+    color: #d9534f;
+    background-color: #fce4e4;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 900px;
+    margin: 20px auto;
+    font-size: 18px;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Loading message styling */
+  .viewmocktst-loading {
+    color: #5bc0de;
+    background-color: #e2f3f9;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 900px;
+    margin: 20px auto;
+    font-size: 18px;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Step list styling */
+  .viewmocktst-details .steps ul {
+    padding-left: 30px;
+    margin-top: 10px;
+  }
+  
+  .viewmocktst-details .steps ul li {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #444;
+    background-color: #e8f5e9;
+    padding: 8px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .viewmocktst-details .steps ul li:hover {
+    background-color: #c8e6c9;
+  }
+  
+  /* Additional styling for hover states */
+  .manvmocbutton:hover,
+  .viewmocktst-details:hover h2,
+  .viewmocktst-details ul li:hover {
+    color: #1e7f5a;
+    cursor: pointer;
+  }
+
+  /* Button container styling */
+.mocktest-buttons {
+  display: flex;
+  justify-content: space-around; /* Space the buttons evenly */
+  margin-top: 20px; /* Add some space above the buttons */
+}
+
+/* General button styling */
+.mocktest-back-button,
+.mocktest-update-button,
+.mocktest-delete-button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 30%; /* Make the buttons take equal width */
+}
+
+/* Back button styling */
+.mocktest-back-button {
+  background-color: #3498db; /* Blue color */
+  color: white;
+}
+
+.mocktest-back-button:hover {
+  background-color: #2980b9; /* Darker blue on hover */
+}
+
+/* Update button styling */
+.mocktest-update-button {
+  background-color: #f39c12; /* Orange color */
+  color: white;
+}
+
+.mocktest-update-button:hover {
+  background-color: #e67e22; /* Darker orange on hover */
+}
+
+/* Delete button styling */
+.mocktest-delete-button {
+  background-color: #e74c3c; /* Red color */
+  color: white;
+}
+
+.mocktest-delete-button:hover {
+  background-color: #c0392b; /* Darker red on hover */
+}
+
+  

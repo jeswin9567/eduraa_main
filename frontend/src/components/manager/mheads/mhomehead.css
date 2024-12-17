@@ -1,0 +1,85 @@
+/* Header Styles */
+.mhomehead-header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    /* padding: 15px 30px; Increased padding for better spacing */
+    background-color: #FFFFFF; /* Background color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Logo Styling */
+.mhomehead-logo {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.mhomehead-small_logo {
+    max-width: 150px; /* Maximum width for logo */
+    height: auto; /* Maintain aspect ratio */
+    margin-left: 20px; /* Margin for spacing */
+}
+
+/* Navigation Styling */
+.mhomehead-nav {
+    display: flex;
+    gap: 20px; /* Spacing between navigation buttons */
+    align-items: center; /* Ensure all items are vertically centered */
+}
+
+.mhomehead-nav button {
+    font-size: 20px; /* Font size for navigation */
+    background-color: transparent; /* Transparent background */
+    border: none; /* No border */
+    color: #004429; /* Text color */
+    cursor: pointer; /* Pointer cursor for buttons */
+    transition: color 0.3s ease; /* Transition effect for hover */
+}
+
+.mhomehead-nav button:hover {
+    color: #007a5e; /* Change color on hover */
+}
+
+/* Authentication Buttons */
+.mhomehead-auth-buttons {
+    display: flex;
+    gap: 30px; /* Space between buttons */
+    align-items: center; /* Ensure items are aligned */
+}
+
+.mhomehead-login-btn {
+    padding: 10px 20px; /* Padding for button */
+    font-size: 20px; /* Font size */
+    border-radius: 25px; /* Rounded corners */
+    text-align: center; /* Centered text */
+    background-color: #FFFFFF; /* Button background */
+    border: 2px solid #004429; /* Border color */
+    color: #004429; /* Text color */
+    cursor: pointer; /* Pointer cursor */
+    width: 120px; /* Fixed width */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transition effects */
+}
+
+.mhomehead-login-btn:hover {
+    background-color: #004429; /* Darker background on hover */
+    color: #FFFFFF; /* Change text color on hover */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .mhomehead-header {
+        flex-direction: column; /* Stack items vertically */
+        align-items: flex-start; /* Align items to the start */
+    }
+
+    .mhomehead-nav {
+        flex-direction: column; /* Stack navigation buttons */
+        gap: 10px; /* Reduce gap */
+    }
+
+    .mhomehead-logo {
+        margin-bottom: 15px; /* Margin below logo */
+    }
+}

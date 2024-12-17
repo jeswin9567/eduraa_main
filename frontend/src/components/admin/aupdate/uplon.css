@@ -1,0 +1,79 @@
+.uplon {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.uplon-title {
+    text-align: center;
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.uplon-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.uplon-label {
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.uplon-input {
+    width: 100%;
+    padding: 12px; /* Increased padding for touch targets */
+    margin-top: 5px;
+    margin-bottom: 15px; /* Added margin for spacing between inputs */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+/* Add focus state for better accessibility */
+.uplon-input:focus {
+    outline: none;
+    border-color: #28a745;
+    box-shadow: 0px 0px 5px rgba(40, 167, 69, 0.5);
+}
+
+.uplon-button {
+    padding: 12px 10px; /* Increased padding for touch targets */
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.uplon-button:hover {
+    background-color: #218838;
+}
+
+/* Disabled button state */
+.uplon-button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    .uplon {
+        width: 90%;
+        padding: 10px;
+    }
+}
+
+/* Error message styling */
+.uplon-error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}

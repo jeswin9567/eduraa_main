@@ -1,0 +1,56 @@
+/* Header Styles */
+.MSh1 {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo Styling */
+.MSl1 {
+    display: flex;
+    align-items: center;
+
+}
+
+.MSl2 {
+    max-width: 150px;
+    height: auto;
+    margin-left: 100px;
+}
+
+/* Navigation Styling */
+.MSn1 {
+    display: flex;
+    gap: 20px;
+    margin-left: -800px;
+}
+
+.MSn1 button {
+    font-size: 20px;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    color: #004429;
+    cursor: pointer;
+    margin: 0 5px;
+}
+
+.MSa1 {
+    display: flex;
+    gap: 30px;
+}
+
+.MSa2 {
+    padding: 10px 20px;
+    font-size: 20px;
+    border-radius: 25px;
+    text-align: center;
+    background-color: #FFFFFF;
+    border: 2px solid #004429;
+    color: #004429;
+    cursor: pointer;
+    width: 120px;
+}

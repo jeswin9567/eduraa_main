@@ -1,0 +1,55 @@
+.manupdentr {
+    background-color: #f9f9f9; /* Light background color for the form */
+    padding: 20px; /* Padding around the form */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+    max-width: 600px; /* Max width of the form */
+    margin: 20px auto; /* Center the form horizontally */
+}
+
+.manupdentr h1 {
+    text-align: center; /* Centered heading */
+    color: #333; /* Dark text color */
+    margin-bottom: 20px; /* Space below the heading */
+}
+
+.manupdentr form {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack children vertically */
+}
+
+.manupdentr input[type="text"],
+.manupdentr input[type="url"],
+.manupdentr input[type="date"],
+.manupdentr select,
+.manupdentr textarea {
+    padding: 10px; /* Padding inside input fields */
+    margin-bottom: 15px; /* Space below each field */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 4px; /* Rounded corners for inputs */
+    font-size: 16px; /* Font size for inputs */
+}
+
+.manupdentr input[type="checkbox"] {
+    margin-right: 5px; /* Space between checkbox and label */
+}
+
+.manupdentr button {
+    background-color: #4CAF50; /* Green background for the button */
+    color: white; /* White text color */
+    border: none; /* No border */
+    padding: 10px 15px; /* Padding inside button */
+    border-radius: 4px; /* Rounded corners for button */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Font size for button */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.manupdentr button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+.manupdentr label {
+    margin-bottom: 5px; /* Space below labels */
+    font-weight: bold; /* Bold font for labels */
+}

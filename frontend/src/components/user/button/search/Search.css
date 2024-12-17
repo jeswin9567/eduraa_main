@@ -1,0 +1,13 @@
+.usearch-input {
+    border-radius: 5px;
+    height: 24px;
+    width: 200px;
+}
+
+.usearch-button {
+    border-radius: 5px;
+    height: 24px;
+    width: 50px;
+    background-color: #004429;
+    color: #ffffff;
+}

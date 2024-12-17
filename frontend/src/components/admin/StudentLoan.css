@@ -1,0 +1,86 @@
+/* Form Container */
+.formdata {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #004429;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Title */
+.formdata h2 {
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Form Field Spacing */
+.formdata div {
+    margin-bottom: 20px;
+}
+
+/* Form Labels */
+.formdata label {
+    display: block;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 8px;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Form Inputs */
+.formdata input,
+.formdata textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Focus Effect on Inputs */
+.formdata input:focus,
+.formdata textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+}
+
+/* Textarea Styling */
+.formdata textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Submit Button */
+.formdata button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Button Hover Effect */
+.formdata button:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive Form for Smaller Screens */
+@media (max-width: 768px) {
+    .formdata {
+        padding: 20px;
+        margin: 20px;
+    }
+}

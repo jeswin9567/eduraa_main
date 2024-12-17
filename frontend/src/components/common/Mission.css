@@ -1,0 +1,44 @@
+/* Mission Section */
+.uhome-mission-section {
+    display: flex;
+    align-items: center;
+    padding: 50px;
+    background-color: #F2F0E9;
+  }
+  
+  .uhome-mission-content {
+    flex: 1;
+    max-width: 50%;
+    padding-right: 50px;
+  }
+  
+  .uhome-mission-logo {
+    width: 150px;
+    margin-top: -100px;
+    margin-bottom: 20px;
+  }
+  
+  .uhome-mission-content h2 {
+    font-size: 32px;
+    color: #004429;
+    margin-top: -40px;
+    margin-bottom: 20px;
+  }
+  
+  .uhome-mission-content p {
+    font-size: 20px;
+    color: #333;
+  }
+  
+  .uhome-mission-image {
+    flex: 1;
+  }
+  
+  .uhome-mission-image img {
+    max-width: 60%;
+    height: auto;
+    border-radius: 2%;
+    margin-top: 50px;
+    margin-left: 200px;
+  }
+  

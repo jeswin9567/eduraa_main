@@ -1,0 +1,27 @@
+/* Additional Info Section */
+.uhome-additional-info-section {
+    padding: 50px;
+    background-color: #F2F0E9;
+  }
+  
+  .uhome-additional-info-section h4 {
+    font-size: 20px;
+    color: #004429;
+    margin-bottom: 20px;
+    margin-left: 640px;
+    font-weight: 100;
+  }
+  
+  .uhome-additional-info-section h2 {
+    font-size: 28px;
+    color: #004429;
+    margin-bottom: 20px;
+    margin-left: 430px;
+  }
+  
+  .uhome-additional-info-section p {
+    font-size: 20px;
+    color: #004429;
+    margin-left: 200px;
+  }
+  

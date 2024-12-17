@@ -1,0 +1,64 @@
+.adp-payment-option-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    min-height: 300px;
+  }
+  
+  .adp-payment-option-container h2 {
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .adp-message {
+    font-size: 16px;
+    color: #28a745; /* Success color */
+    margin-bottom: 15px;
+  }
+  
+  .adp-message.error {
+    color: #dc3545; /* Error color */
+  }
+  
+  .adp-payment-option-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .adp-payment-option-container label {
+    font-weight: 500;
+    color: #555;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+  
+  .adp-payment-option-container input,
+  .adp-payment-option-container select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-top: 5px;
+  }
+  
+  .adp-payment-option-container button {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .adp-payment-option-container button:hover {
+    background-color: #0056b3;
+  }
+  

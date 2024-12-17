@@ -1,0 +1,112 @@
+/* General container for the list */
+.manvmoc-list {
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9a1;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+}
+
+.manvmoc-list h2 {
+  text-align: center;
+  color: #333;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+/* Error message styling */
+.manvmoc-error-message {
+  color: red;
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Grid layout for displaying mock tests */
+.mocktest-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin: 0 auto;
+}
+
+/* Styling for each mock test item */
+.manvmoc-item {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  transition: box-shadow 0.3s ease;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.manvmoc-item:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.manvmoc-item h3 {
+  margin-bottom: 10px;
+  color: #2c3e50;
+  font-size: 22px;
+}
+
+.manvmoc-item p {
+  margin: 5px 0;
+  color: #555;
+  font-size: 16px;
+}
+
+/* Buttons styling */
+.manvmoc-update-button,
+.manvmoc-delete-button,
+.manvmoc-view-button { /* Add the view button styling here */
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  margin: 10px auto 0;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.manvmoc-update-button {
+  background-color: #3498db;
+  color: white;
+}
+
+.manvmoc-update-button:hover {
+  background-color: #2980b9;
+}
+
+.manvmoc-delete-button {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.manvmoc-delete-button:hover {
+  background-color: #c0392b;
+}
+
+/* New view button styling */
+.manvmoc-view-button {
+  background-color: #2ecc71; /* Green color */
+  color: white;
+}
+
+.manvmoc-view-button:hover {
+  background-color: #27ae60; /* Darker green on hover */
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+  .mocktest-grid {
+    grid-template-columns: 1fr;
+  }
+}

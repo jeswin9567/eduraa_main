@@ -1,0 +1,41 @@
+/* Hero Section */
+.uhome-hero-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+    background-color: #004429;
+  }
+  
+  .uhome-hero-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 1%;
+  }
+  
+  .uhome-hero-content {
+    max-width: 50%;
+    color: #FFFFFF;
+  }
+  
+  .uhome-hero-content h1, .uhome-hero-content h2 {
+    font-size: 36px;
+    color: #FFFFFF;
+    font-weight: 400;
+  }
+  
+  .uhome-hero-content h1 {
+    margin-left: 100px;
+  }
+  
+  .uhome-hero-content h2 {
+    margin-left: 275px;
+  }
+  
+  .uhome-hero-content p {
+    font-size: 20px;
+    color: #FFFFFF;
+    margin: 50px 0;
+    margin-left: 50px;
+  }
+  
