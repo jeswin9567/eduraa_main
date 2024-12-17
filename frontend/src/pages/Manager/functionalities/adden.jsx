@@ -37,9 +37,129 @@ const MEntranceForm = () => {
   const states = ['All India', 'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal'];
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    // Validation logic
+    const newErrors = { ...errors };
+    if (name === 'name') {
+      const onlyAlphabets = /^[a-zA-Z ]+$/; // Only alphabets and spaces
+      const validCombination = /^[a-zA-Z0-9() ]+$/; // Alphabets, numbers, spaces, and parentheses
+  
+      if (value.trim() === '') {
+          newErrors.name = 'Name cannot be empty or contain only spaces';
+      } else if (/^\d+$/.test(value)) { // Check if the input contains only numbers
+          newErrors.name = 'Name cannot consist of only numbers';
+      } else if (!validCombination.test(value)) { 
+          newErrors.name = 'Name can only contain alphabets, numbers, spaces, and parentheses';
+      } else if (!/\d|\(|\)/.test(value) && !onlyAlphabets.test(value)) {
+          newErrors.name = 'Only alphabets allowed if not using a combination';
+      } else {
+          delete newErrors.name; // Clear errors
+      }
+  }
+    
+  if (name === 'details') {
+    const onlyAlphabets = /^[a-zA-Z ]+$/; // Only alphabets and spaces
+    const validCombination = /^[a-zA-Z0-9(),. ]+$/; // Alphabets, numbers, commas, periods, and spaces
+
+    if (value.trim() === '') {
+        newErrors.details = 'Details cannot be empty or contain only spaces';
+    } else if (/^\d+$/.test(value)) { // Check if the input contains only numbers
+        newErrors.details = 'Details cannot consist of only numbers';
+    } else if (!validCombination.test(value)) { 
+        newErrors.details = 'Details can only contain alphabets, numbers, commas, periods, parentheses, and spaces';
+    } else if (!/[\d(),.]/.test(value) && !onlyAlphabets.test(value)) {
+        newErrors.details = 'Only alphabets allowed if not using a combination';
+    } else {
+        delete newErrors.details; // Clear errors
+    }
+}
+ 
+
+    if (
+      name === 'marksGeneral' &&
+      (!/^(0|[1-9][0-9]?|100)$/.test(value))
+    ) {
+      newErrors.marksGeneral = 'Marks for General Category must be a number between 0 and 100 without leading zeros or invalid repetitions';
+    } else {
+      delete newErrors.marksGeneral;
+    }
+    
+    if (name === 'marksBackward' && (!/^(0|[1-9][0-9]?|100)$/.test(value))){
+      newErrors.marksBackward = 'Marks should be a number between 0 and 100'
+    }
+    else {
+      delete newErrors.marksBackward;
+    }
+
+    if (name === 'syllabus') {
+      const onlyAlphabets = /^[a-zA-Z ]+$/; // Only alphabets and spaces
+      const validCombination = /^[a-zA-Z0-9(),. ]+$/; // Alphabets, numbers, commas, periods, and spaces
+  
+      if (value.trim() === '') {
+          newErrors.syllabus = 'Syllabus cannot be empty or contain only spaces';
+      } else if (/^\d+$/.test(value)) { // Check if the input contains only numbers
+          newErrors.syllabus = 'Syllabus cannot consist of only numbers';
+      } else if (!validCombination.test(value)) { 
+          newErrors.syllabus = 'Syllabus can only contain alphabets, numbers, commas, periods, parentheses, and spaces';
+      } else if (!/[\d(),.]/.test(value) && !onlyAlphabets.test(value)) {
+          newErrors.syllabus = 'Only alphabets allowed if not using a combination';
+      } else {
+          delete newErrors.syllabus; // Clear errors
+      }
+  }
+  
+    
+  if (name === 'howtoapply') {
+    const onlyAlphabets = /^[a-zA-Z ]+$/; // Only alphabets and spaces
+    const validCombination = /^[a-zA-Z0-9(),. ]+$/; // Alphabets, numbers, commas, periods, and spaces
+
+    if (value.trim() === '') {
+        newErrors.howtoapply = 'How to Apply cannot be empty or contain only spaces';
+    } else if (/^\d+$/.test(value)) { // Check if the input contains only numbers
+        newErrors.howtoapply = 'How to Apply cannot consist of only numbers';
+    } else if (!validCombination.test(value)) { 
+        newErrors.howtoapply = 'How to Apply can only contain alphabets, numbers, commas, periods, parentheses, and spaces';
+    } else if (!/[\d(),.]/.test(value) && !onlyAlphabets.test(value)) {
+        newErrors.howtoapply = 'Only alphabets allowed if not using a combination';
+    } else {
+        delete newErrors.howtoapply; // Clear errors
+    }
+}
+
+    
+
+    if (name === 'link' && !/^(https?:\/\/)?([\w.-]+)\.([a-z]{2,6}\.?)(\/[\w.-]*)*\/?$/.test(value)) {
+      newErrors.link = 'Please enter a valid link';
+    } else {
+      delete newErrors.link;
+    }
+
+    if (name === 'startdate') {
+      const currentYear = new Date().getFullYear();
+      const selectedStartDate = new Date(value);
+      if (selectedStartDate.getFullYear() !== currentYear) {
+        newErrors.startdate = 'Start date must be within the current year';
+      } else {
+        delete newErrors.startdate;
+      }
+    }
+  
+    if (name === 'enddate') {
+      const selectedEndDate = new Date(value);
+      const selectedStartDate = new Date(formData.startdate);
+      if (selectedEndDate < selectedStartDate) {
+        newErrors.enddate = 'End date must not be before the start date';
+      } else {
+        delete newErrors.enddate;
+      }
+    }
+
+    setErrors(newErrors);
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value,
     });
   };
 
@@ -78,44 +198,13 @@ const MEntranceForm = () => {
     }
   };
 
-  // Validation function
-  const validateForm = () => {
-    const newErrors = {};
-
-    // Check for required fields
-    if (!formData.name.trim()) newErrors.name = 'Name is required';
-    if (!formData.details.trim()) newErrors.details = 'Details are required';
-    if (!formData.examType) newErrors.examType = 'Exam type required';
-    if (!formData.education) newErrors.education = 'Education is required';
-    if (formData.education === 'Undergraduate' && formData.degree.length === 0)
-      newErrors.degree = 'At least one undergraduate degree must be selected';
-    if (formData.education === 'Postgraduate' && formData.degree.length === 0)
-      newErrors.degree = 'At least one postgraduate degree must be selected';
-    if (!formData.marksGeneral.trim()) newErrors.marksGeneral = 'Marks for General Category are required';
-    if (!formData.marksBackward.trim()) newErrors.marksBackward = 'Marks for Backward Category are required';
-    if (!formData.syllabus.trim()) newErrors.syllabus = 'Syllabus is required';
-    if (!formData.startdate) newErrors.startdate = 'Start Date is required';
-    if (!formData.enddate) newErrors.enddate = 'End Date is required';
-    if (!formData.howtoapply.trim()) newErrors.howtoapply = 'How to Apply is required';
-    if (!formData.link.trim()) newErrors.link = 'Link is required';
-    if (!formData.state) newErrors.state = 'State is required';
-
-    // Date validation
-    const startDate = new Date(formData.startdate);
-    const endDate = new Date(formData.enddate);
-    const today = new Date();
-
-    if (startDate < today) newErrors.startdate = 'Start Date cannot be in the past';
-    if (endDate <= startDate) newErrors.enddate = 'End Date must be after the Start Date';
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; // Return true if no errors
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if (!validateForm()) return; // Do not submit if validation fails
+
+    if (Object.keys(errors).length > 0) {
+      alert('Please fix the errors before submitting');
+      return;
+    }
 
     setLoading(true);
     
@@ -149,7 +238,7 @@ const MEntranceForm = () => {
   return (
     <>
       <Header />
-      <div className="maddentracn"> {/* Updated class name here */}
+      <div className="maddentracn">
         <h2>Submit an Entrance</h2>
         <form onSubmit={handleSubmit}>
           <div>
@@ -174,6 +263,7 @@ const MEntranceForm = () => {
             />
             {errors.details && <p className="error">{errors.details}</p>}
           </div>
+
           <div>
             <label>Exam Type:</label>
             <select
@@ -263,7 +353,7 @@ const MEntranceForm = () => {
           </div>
 
           <div>
-            <label>Marks for General Category:</label>
+            <label>Marks (General Category):</label>
             <input
               type="text"
               name="marksGeneral"
@@ -275,7 +365,7 @@ const MEntranceForm = () => {
           </div>
 
           <div>
-            <label>Marks for Backward Category:</label>
+            <label>Marks (Backward Category):</label>
             <input
               type="text"
               name="marksBackward"
@@ -304,6 +394,7 @@ const MEntranceForm = () => {
               name="startdate"
               value={formData.startdate}
               onChange={handleChange}
+              
               required
             />
             {errors.startdate && <p className="error">{errors.startdate}</p>}
@@ -318,7 +409,7 @@ const MEntranceForm = () => {
               onChange={handleChange}
               required
             />
-            {errors.enddate && <p className="error">{errors.enddate}</p>}
+            {errors.enddate && <p className='error'>{errors.enddate}</p>}
           </div>
 
           <div>

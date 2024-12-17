@@ -8,6 +8,7 @@ const MUpdateEntrance = () => {
     useAuth();
     const { id } = useParams();
     const navigate = useNavigate();
+    
     const [entrance, setEntrance] = useState({
         name: '',
         details: '',
@@ -23,6 +24,8 @@ const MUpdateEntrance = () => {
         state: '',
         examType: ''
     });
+
+    const [errors, setErrors] = useState({});
 
     const states = ['All India', 'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal'];
     const examType = ['B.Tech', 'MBA', 'MCA', 'Medical', 'Law', 'Other'];
@@ -51,18 +54,125 @@ const MUpdateEntrance = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        const newErrors = { ...errors };
 
-        // Check if the changed field is education
-        if (name === 'education') {
-            // Reset degrees if the education level changes
-            setEntrance((prev) => ({
-                ...prev,
-                education: value,
-                degree: [] // Reset degree selections
-            }));
-        } else {
-            setEntrance((prev) => ({ ...prev, [name]: value }));
+        // Validation logic
+        if (name === 'name') {
+            const onlyAlphabets = /^[a-zA-Z ]+$/; // Only alphabets and spaces
+            const validCombination = /^[a-zA-Z0-9() ]+$/; // Alphabets, numbers, spaces, and parentheses
+        
+            if (value.trim() === '') {
+                newErrors.name = 'Name cannot be empty or contain only spaces';
+            } else if (/^\d+$/.test(value)) { // Check if the input contains only numbers
+                newErrors.name = 'Name cannot consist of only numbers';
+            } else if (!validCombination.test(value)) {
+                newErrors.name = 'Name can only contain alphabets, numbers, spaces, and parentheses';
+            } else if (!/[\d()]/.test(value) && !onlyAlphabets.test(value)) {
+                newErrors.name = 'Only alphabets allowed if not using a combination';
+            } else {
+                delete newErrors.name; // Clear errors
+            }
         }
+        
+
+        if (name === 'details') {
+            const onlyAlphabets = /^[a-zA-Z ]+$/; // Only alphabets and spaces
+            const validCombination = /^[a-zA-Z0-9(),.() ]+$/; // Alphabets, numbers, commas, periods, parentheses, and spaces
+        
+            if (value.trim() === '') {
+                newErrors.details = 'Details cannot be empty or contain only spaces';
+            } else if (/^\d+$/.test(value)) { // Check if the input contains only numbers
+                newErrors.details = 'Details cannot consist of only numbers';
+            } else if (!validCombination.test(value)) {
+                newErrors.details = 'Details can only contain alphabets, numbers, commas, periods, parentheses, and spaces';
+            } else if (!/[\d(),.()]/.test(value) && !onlyAlphabets.test(value)) {
+                newErrors.details = 'Only alphabets allowed if not using a combination';
+            } else {
+                delete newErrors.details; // Clear errors
+            }
+        }
+        
+
+        if (name === 'marksGeneral' && !/^(0|[1-9][0-9]?|100)$/.test(value)) {
+            newErrors.marksGeneral = 'Marks for General Category must be a number between 0 and 100 without leading zeros or invalid repetitions';
+        } else {
+            delete newErrors.marksGeneral;
+        }
+
+        if (name === 'marksBackward' && !/^(0|[1-9][0-9]?|100)$/.test(value)) {
+            newErrors.marksBackward = 'Marks for Backward Category must be a number between 0 and 100';
+        } else {
+            delete newErrors.marksBackward;
+        }
+
+        if (name === 'syllabus') {
+            const onlyAlphabets = /^[a-zA-Z ]+$/; // Only alphabets and spaces
+            const validCombination = /^[a-zA-Z0-9(),.() ]+$/; // Alphabets, numbers, commas, periods, parentheses, and spaces
+        
+            if (value.trim() === '') {
+                newErrors.syllabus = 'Syllabus cannot be empty or contain only spaces';
+            } else if (/^\d+$/.test(value)) { // Check if the input contains only numbers
+                newErrors.syllabus = 'Syllabus cannot consist of only numbers';
+            } else if (!validCombination.test(value)) {
+                newErrors.syllabus = 'Syllabus can only contain alphabets, numbers, commas, periods, parentheses, and spaces';
+            } else if (!/[\d(),.()]/.test(value) && !onlyAlphabets.test(value)) {
+                newErrors.syllabus = 'Only alphabets allowed if not using a combination';
+            } else {
+                delete newErrors.syllabus; // Clear errors
+            }
+        }
+        
+
+        if (name === 'howtoapply') {
+            const onlyAlphabets = /^[a-zA-Z ]+$/; // Only alphabets and spaces
+            const validCombination = /^[a-zA-Z0-9(),.() ]+$/; // Alphabets, numbers, commas, periods, parentheses, and spaces
+        
+            if (value.trim() === '') {
+                newErrors.howtoapply = 'How to Apply cannot be empty or contain only spaces';
+            } else if (/^\d+$/.test(value)) { // Check if the input contains only numbers
+                newErrors.howtoapply = 'How to Apply cannot consist of only numbers';
+            } else if (!validCombination.test(value)) {
+                newErrors.howtoapply = 'How to Apply can only contain alphabets, numbers, commas, periods, parentheses, and spaces';
+            } else if (!/[\d(),.()]/.test(value) && !onlyAlphabets.test(value)) {
+                newErrors.howtoapply = 'Only alphabets allowed if not using a combination';
+            } else {
+                delete newErrors.howtoapply; // Clear errors
+            }
+        }
+        
+
+        if (name === 'link' && !/^(https?:\/\/)?([\w.-]+)\.([a-z]{2,6}\.?)(\/[\w.-]*)*\/?$/.test(value)) {
+            newErrors.link = 'Please enter a valid link';
+        } else {
+            delete newErrors.link;
+        }
+
+        if (name === 'startdate') {
+            const currentYear = new Date().getFullYear();
+            const selectedStartDate = new Date(value);
+            if (selectedStartDate.getFullYear() !== currentYear) {
+                newErrors.startdate = 'Start date must be within the current year';
+            } else {
+                delete newErrors.startdate;
+            }
+        }
+
+        if (name === 'enddate') {
+            const selectedEndDate = new Date(value);
+            const selectedStartDate = new Date(entrance.startdate);
+            if (selectedEndDate < selectedStartDate) {
+                newErrors.enddate = 'End date must not be before the start date';
+            } else {
+                delete newErrors.enddate;
+            }
+        }
+
+        setErrors(newErrors);
+
+        setEntrance((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
     };
 
     const handleDegreeChange = (e) => {
@@ -70,18 +180,22 @@ const MUpdateEntrance = () => {
         if (checked) {
             setEntrance((prev) => ({
                 ...prev,
-                degree: [...prev.degree, value]
+                degree: [...prev.degree, value],
             }));
         } else {
             setEntrance((prev) => ({
                 ...prev,
-                degree: prev.degree.filter((deg) => deg !== value)
+                degree: prev.degree.filter((deg) => deg !== value),
             }));
         }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (Object.keys(errors).length > 0) {
+            alert('Please fix the errors before submitting');
+            return;
+        }
         try {
             const response = await fetch(`http://localhost:5000/upentr/${id}`, {
                 method: 'PUT',
@@ -110,6 +224,7 @@ const MUpdateEntrance = () => {
             <div className="manupdentr">
                 <h1>Update Entrance Details</h1>
                 <form onSubmit={handleSubmit}>
+                    <label>Name</label>
                     <input
                         type="text"
                         name="name"
@@ -118,6 +233,8 @@ const MUpdateEntrance = () => {
                         placeholder="Name"
                         required
                     />
+                    {errors.name && <p className="error">{errors.name}</p>}
+                    <label>Details</label>
                     <textarea
                         name="details"
                         value={entrance.details}
@@ -125,6 +242,7 @@ const MUpdateEntrance = () => {
                         placeholder="Details"
                         required
                     />
+                    {errors.details && <p className="error">{errors.details}</p>}
                     <label>Exam Type</label>
                     <select
                         name="examType"
@@ -139,6 +257,8 @@ const MUpdateEntrance = () => {
                             </option>
                         ))}
                     </select>
+                    {errors.examType && <p className="error">{errors.examType}</p>}
+                    <label>Education Required</label>
                     <select
                         name="education"
                         value={entrance.education}
@@ -151,8 +271,9 @@ const MUpdateEntrance = () => {
                         <option value="Undergraduate">Undergraduate</option>
                         <option value="Postgraduate">Postgraduate</option>
                     </select>
+                    {errors.education && <p className="error">{errors.education}</p>}
 
-                    {/* Dropdown for selecting state */}
+                    <label>State</label>
                     <select
                         name="state"
                         value={entrance.state}
@@ -166,6 +287,7 @@ const MUpdateEntrance = () => {
                             </option>
                         ))}
                     </select>
+                    {errors.state && <p className="error">{errors.state}</p>}
 
                     <div>
                         <label>Select Degrees:</label>
@@ -192,7 +314,7 @@ const MUpdateEntrance = () => {
                             </div>
                         ))}
                     </div>
-
+                    <label>Marks for General Category</label>
                     <input
                         type="text"
                         name="marksGeneral"
@@ -201,6 +323,8 @@ const MUpdateEntrance = () => {
                         placeholder="Marks for General Category"
                         required
                     />
+                    {errors.marksGeneral && <p className="error">{errors.marksGeneral}</p>}
+                    <label>Marks for Backward Category</label>
                     <input
                         type="text"
                         name="marksBackward"
@@ -209,22 +333,26 @@ const MUpdateEntrance = () => {
                         placeholder="Marks for Backward Category"
                         required
                     />
+                    {errors.marksBackward && <p className="error">{errors.marksBackward}</p>}
+                    <label>Syllabus</label>
                     <textarea
-                        type="text"
                         name="syllabus"
                         value={entrance.syllabus}
                         onChange={handleChange}
                         placeholder="Syllabus"
                         required
                     />
+                    {errors.syllabus && <p className="error">{errors.syllabus}</p>}
+                    <label>How to Apply</label>
                     <textarea
-                        type="text"
                         name="howtoapply"
                         value={entrance.howtoapply}
                         onChange={handleChange}
                         placeholder="How to Apply"
                         required
                     />
+                    {errors.howtoapply && <p className="error">{errors.howtoapply}</p>}
+                    <label>Link</label>
                     <input
                         type="url"
                         name="link"
@@ -233,6 +361,8 @@ const MUpdateEntrance = () => {
                         placeholder="Link"
                         required
                     />
+                    {errors.link && <p className="error">{errors.link}</p>}
+                    <label>Start Date</label>
                     <input
                         type="date"
                         name="startdate"
@@ -240,6 +370,8 @@ const MUpdateEntrance = () => {
                         onChange={handleChange}
                         required
                     />
+                    {errors.startdate && <p className="error">{errors.startdate}</p>}
+                    <label>End Date</label>
                     <input
                         type="date"
                         name="enddate"
@@ -247,7 +379,11 @@ const MUpdateEntrance = () => {
                         onChange={handleChange}
                         required
                     />
+                    {errors.enddate && <p className="error">{errors.enddate}</p>}
                     <button type="submit">Update Entrance</button>
+                    <button type="button" onClick={() => navigate(-1)}>
+                        BACK
+                    </button>
                 </form>
             </div>
         </div>

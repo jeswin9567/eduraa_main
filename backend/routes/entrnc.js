@@ -43,10 +43,10 @@ router.post('/', async (req, res) => {
     }
 
     // Validate date fields
-    const dateValidation = validateDates(startdate, enddate);
-    if (!dateValidation.valid) {
-        return res.status(400).json({ message: dateValidation.message });
-    }
+    // const dateValidation = validateDates(startdate, enddate);
+    // if (!dateValidation.valid) {
+    //     return res.status(400).json({ message: dateValidation.message });
+    // }
 
     try {
         // Check if the entrance with the same name already exists
