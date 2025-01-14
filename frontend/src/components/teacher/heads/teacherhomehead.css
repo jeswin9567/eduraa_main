@@ -1,0 +1,42 @@
+/* Only apply flex to the outer container, not all divs globally */
+.teacherdashhead-container {
+    display: flex;
+    justify-content: space-between; /* Space between items */
+    align-items: center; /* Center items vertically */
+    background-color: #ffffff;  
+    border-bottom: 1px solid #ddd; /* Optional: Separator line */
+}
+
+/* Logo section */
+.teacherdashheadlogo img {
+    height: 140px;
+    width: auto; /* Maintain aspect ratio */
+    padding-left: 60%;
+}
+
+/* Button styles for Profile and Log Out */
+.teacherdashhead-buttons {
+    display: flex;
+    gap: 15px; /* Add spacing between buttons */
+    padding-right: 3%;
+}
+
+.teacherheadprobtn {
+    padding: 8px 16px;
+    color: #004429;
+    background-color: #ffffff;
+    cursor: pointer;
+    font-size: 20px;
+    border: none;
+}
+.teacherheadlogbtn{
+    padding: 8px 16px;
+    background-color: #004429;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 20px;
+    
+}
+
+

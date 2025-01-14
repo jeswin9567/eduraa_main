@@ -49,13 +49,116 @@ const MUpdateScholarship = () => {
     }, [id]);
 
     // Handle input changes
+    const [errors, setErrors] = useState({});
+
     const handleChange = (e) => {
         const { name, value } = e.target;
+        const newErrors = { ...errors };
+    
+        // Validation logic for 'name'
+        if (name === 'name') {
+            const onlyAlphabets = /^[a-zA-Z ]+$/;
+            const validCombination = /^[a-zA-Z0-9() ]+$/;
+            
+            if (value.trim() === '') {
+                newErrors.name = 'Name cannot be empty or contain only spaces';
+            } else if (/^\d+$/.test(value)) {
+                newErrors.name = 'Name cannot consist of only numbers';
+            } else if (!validCombination.test(value)) {
+                newErrors.name = 'Name can only contain alphabets, numbers, spaces, and parentheses';
+            } else {
+                delete newErrors.name;
+            }
+        }
+    
+        // Validation logic for 'description'
+        if (name === 'description') {
+            const validCharacters = /^[a-zA-Z0-9(),. ]+$/;
+    
+            if (value.trim() === '') {
+                newErrors.description = 'Description cannot be empty or contain only spaces';
+            } else if (!validCharacters.test(value)) {
+                newErrors.description = 'Description can only contain alphabets, numbers, commas, periods, and spaces';
+            } else {
+                delete newErrors.description;
+            }
+        }
+    
+        // Validation for 'award'
+        if (name === 'award') {
+            if (value.trim() === '') {
+                newErrors.award = 'Award amount is required';
+            } else if (isNaN(value) || parseFloat(value) < 0) {
+                newErrors.award = 'Award must be a positive number';
+            } else {
+                delete newErrors.award;
+            }
+        }
+    
+        // Validation for 'link'
+        if (name === 'link') {
+            const urlPattern = /^(https?:\/\/)?([\w.-]+)\.([a-z]{2,6}\.?)(\/[\w.-]*)*\/?$/;
+            if (!urlPattern.test(value)) {
+                newErrors.link = 'Please enter a valid link (e.g., https://example.com)';
+            } else {
+                delete newErrors.link;
+            }
+        }
+    
+        // Validation for 'startdate'
+        if (name === 'startdate') {
+            const selectedStartDate = new Date(value);
+            if (isNaN(selectedStartDate)) {
+                newErrors.startdate = 'Please enter a valid start date';
+            } else {
+                delete newErrors.startdate;
+            }
+        }
+    
+        // Validation for 'enddate'
+        if (name === 'enddate') {
+            const selectedEndDate = new Date(value);
+            const selectedStartDate = new Date(scholarship.startdate);
+            if (isNaN(selectedEndDate)) {
+                newErrors.enddate = 'Please enter a valid end date';
+            } else if (selectedEndDate < selectedStartDate) {
+                newErrors.enddate = 'End date cannot be before the start date';
+            } else {
+                delete newErrors.enddate;
+            }
+        }
+    
+        // Validation for 'annualIncome'
+        if (name === 'annualIncome') {
+            if (value.trim() === '') {
+                newErrors.annualIncome = 'Annual Income is required';
+            } else if (isNaN(value) || parseFloat(value) < 0) {
+                newErrors.annualIncome = 'Annual Income must be a positive number';
+            } else {
+                delete newErrors.annualIncome;
+            }
+        }
+    
+        // Validation for 'marks'
+        if (name === 'marks') {
+            if (value.trim() === '') {
+                newErrors.marks = 'Marks are required';
+            } else if (isNaN(value) || parseFloat(value) < 0 || parseFloat(value) > 100) {
+                newErrors.marks = 'Marks must be between 0 and 100';
+            } else {
+                delete newErrors.marks;
+            }
+        }
+    
+        setErrors(newErrors);
+    
+        // Update the scholarship state
         setScholarship((prev) => ({
             ...prev,
-            [name]: value
+            [name]: value,
         }));
     };
+    
 
     // Handle eligibility change separately
     const handleEligibilityChange = (e) => {
@@ -188,6 +291,7 @@ const MUpdateScholarship = () => {
                         required
                         className="uscho-input"
                     />
+                    {errors.name && <span style={{ color: 'red', fontSize: '12px' }}>{errors.name}</span>}
                     
                     <label>Description:</label>
                     <textarea
@@ -198,6 +302,7 @@ const MUpdateScholarship = () => {
                         required
                         className="uscho-textarea"
                     />
+                    {errors.description && <span style={{ color: 'red', fontSize: '12px' }}>{errors.description}</span>}
                     
                     <label>Award Amount:</label>
                     <input
@@ -210,6 +315,7 @@ const MUpdateScholarship = () => {
                         min="0"
                         className="uscho-input"
                     />
+                    {errors.award && <span style={{ color: 'red', fontSize: '12px' }}>{errors.award}</span>}
                     
                     <label>Eligibility:</label>
                     <select
@@ -255,6 +361,7 @@ const MUpdateScholarship = () => {
                         required
                         className="uscho-input"
                     />
+                    {errors.howToApply && <span style={{ color: 'red', fontSize: '12px' }}>{errors.howToApply}</span>}
                     
                     <label>Link:</label>
                     <input
@@ -266,6 +373,7 @@ const MUpdateScholarship = () => {
                         required
                         className="uscho-input"
                     />
+                    {errors.link && <span style={{ color: 'red', fontSize: '12px' }}>{errors.link}</span>}
                     
                     <label>Start Date:</label>
                     <input
@@ -276,6 +384,7 @@ const MUpdateScholarship = () => {
                         required
                         className="uscho-input"
                     />
+                    {errors.startdate && <span style={{ color: 'red', fontSize: '12px' }}>{errors.startdate}</span>}
                     
                     <label>End Date:</label>
                     <input
@@ -286,6 +395,7 @@ const MUpdateScholarship = () => {
                         required
                         className="uscho-input"
                     />
+                    {errors.enddate && <span style={{ color: 'red', fontSize: '12px' }}>{errors.enddate}</span>}
 
                     {/* New Fields */}
                     <label>Document:</label>
@@ -298,8 +408,9 @@ const MUpdateScholarship = () => {
                         required
                         className="uscho-input"
                     />
+                    {errors.document && <span style={{ color: 'red', fontSize: '12px' }}>{errors.document}</span>}
 
-<label>State:</label>
+                    <label>State:</label>
                     <select
                         name="states"
                         value={scholarship.states} // Ensure it's a single value
@@ -338,6 +449,7 @@ const MUpdateScholarship = () => {
                         min="0"
                         className="uscho-input"
                     />
+                    {errors.annualIncome && <span style={{ color: 'red', fontSize: '12px' }}>{errors.annualIncome}</span>}
 
                     <label>Marks:</label>
                     <input
@@ -350,6 +462,7 @@ const MUpdateScholarship = () => {
                         min="0"
                         className="uscho-input"
                     />
+                    {errors.marks && <span style={{ color: 'red', fontSize: '12px' }}>{errors.marks}</span>}
 
                     <button type="submit" className="uscho-button">Update Scholarship</button>
                 </form>

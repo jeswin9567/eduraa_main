@@ -61,6 +61,7 @@ import ManageManager from './pages/admin/ManageMan';
 import Amount from './pages/Manager/Amount';
 import ViewPrices from './pages/Manager/ViewPrice';
 import EditPr from './pages/Manager/EditPr';
+import TeacherDash from './pages/Teacher/teacherdashboard';
 
 
 function App() {
@@ -130,6 +131,7 @@ function App() {
         <Route path = "/manager/price" element={<Amount />} />
         <Route path = "/manager/vprice" element={<ViewPrices />} />
         <Route path = "/manager/eprice/:id" element={<EditPr />} />
+        <Route path = "/teacher" element={<TeacherDash />} />
 
       </Routes>
     </Router>
