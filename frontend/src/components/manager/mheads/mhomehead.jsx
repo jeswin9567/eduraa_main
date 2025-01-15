@@ -1,13 +1,10 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import ManProfileBtn from '../button/mprofile';
-import PriceBtn from '../button/pricebtn';
-import FeedBackBtn from '../button/Feedback';
-import './mhomehead.css'; // Ensure this file contains the header-specific styles
+import React from "react";
+import './mhomehead.css';
+import { useNavigate } from "react-router-dom";
+import ManProfileBtn from "../button/mprofile";
 
-function ManHomHeader({ scrollToAbout, scrollToServices, scrollToContact }) {
+const ManagerDashHead = () => {
     const navigate = useNavigate();
-
     const logout = () => {
         const token = localStorage.getItem('token');
         if (token) {
@@ -15,26 +12,18 @@ function ManHomHeader({ scrollToAbout, scrollToServices, scrollToContact }) {
             navigate('/');
         }
     }
-
     return (
-        <header className="mhomehead-header">
-            <div className="mhomehead-logo">
-                <img src="/images/mainl.png" alt="main" className="mhomehead-small_logo" />
+        
+        <div className="managerdashhead-container">
+            <div className="managerdashheadlogo">
+                <img src="/images/Main logo.png" alt="Eduraa Logo" />
             </div>
-            <nav className="mhomehead-nav">
-                <button className="mhomehead-homb">Home</button>
-                <button className="mhomehead-aboutb" onClick={scrollToAbout}>About</button>
-                <button className="mhomehead-serb" onClick={scrollToServices}>Services</button>
-                <PriceBtn />
-                <FeedBackBtn />
-                <button className="mhomehead-contb" onClick={scrollToContact}>Contact Us</button>
-                <ManProfileBtn />
-            </nav>
-            <div className="mhomehead-auth-buttons">
-                <button className="mhomehead-login-btn" onClick={logout}>Logout</button>
+            <div className="managerdashhead-buttons">
+                <button className="managerheadprobtn"><ManProfileBtn /></button>
+                <button className="managerheadlogbtn" onClick={logout}>Log Out</button>
             </div>
-        </header>
+        </div>
     );
-}
+};
 
-export default ManHomHeader;
+export default ManagerDashHead;

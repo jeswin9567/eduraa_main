@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import '../../admin/abutton/servicebtn.css'
+// import '../../admin/abutton/servicebtn.css'
 
 function MServiceButton() {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -8,20 +8,34 @@ function MServiceButton() {
   const navigate = useNavigate();
 
   return (
-    <div 
-      className="adminserv-container" 
-      onMouseEnter={() => setShowDropdown(true)}
-      onMouseLeave={() => setShowDropdown(false)}
-    >
-      <button className="adminserv-button">
+    <div className="managerservicebtnnn-container">
+      <button
+        className="managerservicebtnnn-button"
+        onClick={() => setShowDropdown(!showDropdown)}
+      >
         Services
       </button>
 
       {showDropdown && (
-        <div className="adminbtndropdown">
-          <button className="adminbtndropdown-item" onClick={ () => navigate('/manager/scholarship')}>Scholarship</button>
-          <button className="adminbtndropdown-item" onClick={ () => navigate('/manager/loan')}>Loan</button>
-          <button className="adminbtndropdown-item" onClick={ () => navigate('/manager/entrance')}>Entrance</button>
+        <div className="managerservicebtnnn-dropdown">
+          <button
+            className="managerservicebtnnn-dropdown-item"
+            onClick={() => navigate('/manager/scholarship')}
+          >
+            Scholarship
+          </button>
+          <button
+            className="managerservicebtnnn-dropdown-item"
+            onClick={() => navigate('/manager/loan')}
+          >
+            Loan
+          </button>
+          <button
+            className="managerservicebtnnn-dropdown-item"
+            onClick={() => navigate('/manager/entrance')}
+          >
+            Entrance
+          </button>
         </div>
       )}
     </div>

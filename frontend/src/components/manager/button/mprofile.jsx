@@ -11,6 +11,9 @@ const ManProfileBtn = () => {
             <button onClick={ () => navigate('/manager/profile')}
                 style={{
                     fontSize:'14px',
+                    background:'transparent',
+                    border:'none'
+            
                 }}
                 ><SessEmail /></button>
         </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './MviewEntr.css'; // Create this CSS for styling
 import MVEHeader from '../../components/manager/mviewservicehead/menhead';
+import Managersidebrcom from '../../components/manager/sidebarmain/sidebarmain';
 import { useParams, useNavigate } from 'react-router-dom';
 import useAuth from '../../../function/useAuth';
 
@@ -46,6 +47,8 @@ const MVEntranceDetails = () => {
     return (
         <div>
             <MVEHeader />
+            <div className="managerviewentr-container">
+            <Managersidebrcom />
             <div className="managerviewentr-details">
     <h1>{entrance.name}</h1>
     <h2>Details</h2>
@@ -96,6 +99,7 @@ const MVEntranceDetails = () => {
         <button className="managerviewentr-delete-button" onClick={handleDelete}>Delete</button>
         <button className="managerviewentr-update-button" onClick={() => navigate(`/mupdateentrance/${id}`)}>Update</button>
     </div>
+</div>
 </div>
 
         </div>

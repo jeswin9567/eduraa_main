@@ -2,24 +2,13 @@ import React, { useEffect, useState } from 'react';
 import '../admin/Scholarlist.css';
 import { Link } from 'react-router-dom';
 
-const ManScholarshipList = ({filters}) => {
+const ManScholarshipList = () => {
     const [scholarships, setScholarships] = useState([]);
 
     useEffect(() => {
         const fetchScholarships = async () => {
             try {
-                const queryParams = new URLSearchParams({
-                    eligibility: filters.eligibility.join(','),
-                    subEligibility: Object.values(filters.subEligibility).flat().join(','),
-                    gender: filters.gender,
-                    category: filters.category.join(','),
-                    states: filters.states.join(','),
-                    awardDuration: filters.awardDuration.join(','),
-                    annualIncome: filters.annualIncome ? filters.annualIncome : '', 
-                    marks: filters.marks,
-                }).toString();
-
-                const response = await fetch(`http://localhost:5000/viewscho?${queryParams}`);
+                const response = await fetch('http://localhost:5000/viewscho'); // No filters in the query params
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -31,7 +20,7 @@ const ManScholarshipList = ({filters}) => {
         };
 
         fetchScholarships();
-    }, [filters]);
+    }, []); // Empty dependency array means this runs only once on component mount
 
     return (
         <div className="scholarship-list">

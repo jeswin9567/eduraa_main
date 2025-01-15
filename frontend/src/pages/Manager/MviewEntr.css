@@ -1,4 +1,10 @@
 /* Container for the entrance details */
+.managerviewentr-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    min-height: 80.4vh;
+}
 .managerviewentr-details {
     margin: 20px auto;
     padding: 20px;

@@ -26,7 +26,6 @@ function MVLHeader({ scrollToContact }) {
       <nav className="MLn1">
         <button className="MLn2" onClick={() => navigate('/mhome')}>Home</button>
         <MAddln />
-        <MServiceButton />
       </nav>
 
       <div className="MLa1">

@@ -1,4 +1,4 @@
-.mloann-container {
+.mscholar-container {
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -6,7 +6,7 @@
 }
 
 
-.loan-list {
+.scholarship-list {
     width: 75%; /* Occupies the remaining space */
     
 }

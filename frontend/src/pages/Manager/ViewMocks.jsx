@@ -1,8 +1,9 @@
 import React from "react";
 import MockTestList from "../../components/manager/ViewMockTest";
 import MVEHeader from "../../components/manager/mviewservicehead/menhead";
-import Footer from "../../components/common/footer";
+import Managersidebrcom from "../../components/manager/sidebarmain/sidebarmain";
 import useAuth from "../../../function/useAuth";
+import './ViewMock.css';
 
 const ViewMock = () => {
     useAuth();
@@ -10,8 +11,12 @@ const ViewMock = () => {
         <>
         <div>
             <MVEHeader />
+            <div className="viewmocktestsidebar-container">
+            <Managersidebrcom />
             <MockTestList />
-            <Footer />
+            
+            </div>
+
         </div>
         </>
     )

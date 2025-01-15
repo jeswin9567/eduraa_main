@@ -65,6 +65,28 @@ body {
   margin: 0 10px; /* Adds space between buttons */
 }
 
+.careers {
+  position: relative;
+}
+
+.careerdropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color:transparent;
+  width: 200px;
+  z-index: 10;
+}
+
+.careerdropdown-menu button {
+  width: 100%;
+  padding: 10px;
+  text-align: left;
+  border: none;
+  cursor: pointer;
+}
+
+
 .auth-buttons {
   display: flex;
   gap: 30px;

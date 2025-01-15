@@ -1,0 +1,131 @@
+/* General container for the entire page */
+.managerscholarshipcontainer {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    min-height: 80.4vh;
+}
+.managerscholarship-details {
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+/* Title styling - highlighted with larger font and color */
+.managerscholarship-details h1 {
+    font-size: 2.5rem;
+    color: #01472B;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-align: center;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+}
+
+/* Description styling - placed below heading with more space */
+.managerscholarship-details p {
+    font-size: 1.2rem;
+    color: #555;
+    margin: 15px 0;
+    text-align: justify;
+}
+
+/* Bolded labels (e.g., Award, Eligibility) */
+.managerscholarship-details strong {
+    font-weight: bold;
+    color: #000;
+}
+
+/* Styling for the date information */
+.managerscholarship-details .date {
+    color: #007bff;
+    font-size: 1rem;
+    margin: 10px 0;
+}
+
+/* Link styling */
+.managerscholarship-details a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.managerscholarship-details a:hover {
+    text-decoration: underline;
+}
+
+.managerscholarshipsub-eligibility {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    gap: 8px; /* Add space between items */
+}
+
+.managerscholarshipsub-eligibility-item {
+    margin: 2px 0; /* Optional for additional margin */
+}
+
+
+/* Back button styling */
+.managerscholarshipbutton-container {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.managerscholarshipback-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.managerscholarshipdelete-button {
+    background-color: #c21e1e;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.managerscholarshipupdate-button {
+    background-color: #96b2cf;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.managerscholarshipupdate-button:hover {
+    background-color: #0056b3;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .managerscholarship-details {
+        padding: 15px;
+        font-size: 0.95rem;
+    }
+
+    .managerscholarship-details h1 {
+        font-size: 2rem;
+    }
+
+    .managerscholarshipback-button {
+        width: 100%;
+        padding: 12px;
+    }
+}

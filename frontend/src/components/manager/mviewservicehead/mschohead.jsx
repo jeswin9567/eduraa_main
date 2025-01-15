@@ -26,7 +26,6 @@ function MVSHeader({ scrollToContact }) {
       <nav className="MSn1">
         <button className="MSn2" onClick={() => navigate('/mhome')}>Home</button>
         <MAddscholar />
-        <MServiceButton />
       </nav>
 
       <div className="MSa1">

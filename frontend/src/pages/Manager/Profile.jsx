@@ -1,17 +1,20 @@
 import React from "react";
-import ManSerHeader from "../../components/manager/mheads/mehead";
+import ManagerDashHead from "../../components/manager/mheads/mhomehead";
+import Managersidebrcom from "../../components/manager/sidebarmain/sidebarmain";
 import MProfile from "../../components/manager/mprofile";
-import Footer from "../../components/common/footer";
 import useAuth from "../../../function/useAuth";
+import './Profile.css'
 
 const ManagerProfile = () => {
     useAuth();
     return (
         <>
         <div>
-            <ManSerHeader />
+            <ManagerDashHead />
+            <div className="manprocontainerrrr-container">
+            <Managersidebrcom />
             <MProfile />
-            <Footer />
+            </div>
         </div>
         </>
     );

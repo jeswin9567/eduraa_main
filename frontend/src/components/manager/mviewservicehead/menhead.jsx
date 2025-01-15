@@ -1,36 +1,34 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
 import MAddentr from '../button/maddent';
-import MServiceButton from '../button/mservice';
 import MockTestBtn from '../button/maddmocktest';
-import './menhead.css';
+import ManProfileBtn from "../button/mprofile";
+import './menhead.css'
+import { useNavigate } from "react-router-dom";
 
-function MVEHeader({ scrollToContact }) {
-  const navigate = useNavigate();
-  const logout = () => {
-    const token=localStorage.getItem('token');
-    if (token){
-      localStorage.removeItem('token');
-      navigate('/');
-    }
-  }
+const MVEHeader = () => {
+    const navigate = useNavigate();
+    const logout = () => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            localStorage.removeItem('token');
+            navigate('/');
+        }
+    };
 
-  return (
-    <header className="VMEH-header">
-      <div className="VMEH-logo-container">
-        <img src="/images/mainl.png" alt="main" className="VMEH-logo-image" />
-      </div>
-      <nav className="VMEH-nav-container">
-        <button className="VMEH-nav-home-btn" onClick={() => navigate('/mhome')}>Home</button>
-        <MAddentr />
-        <MServiceButton />
-        <MockTestBtn />
-      </nav>
-      <div className="VMEH-auth-container">
-        <button className="VMEH-logout-btn" onClick={logout}>Logout</button>
-      </div>
-    </header>
-  );
-}
+    return (
+        <div className="mentranceviewheadd-container">
+            <div className="mentranceviewheadd-logo">
+                <img src="/images/Main logo.png" alt="Eduraa Logo" />
+
+            </div>
+            <div className="mentranceviewheadd-buttons">
+            <MAddentr /> 
+            <MockTestBtn />
+                <button className="mentranceviewheadd-profilebtn"><ManProfileBtn/></button>
+                <button className="mentranceviewheadd-logoutbtn" onClick={logout}>Log Out</button>
+            </div>
+        </div>
+    );
+};
 
 export default MVEHeader;

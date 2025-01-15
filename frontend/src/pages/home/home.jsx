@@ -1,31 +1,33 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './home.css';
 import useAuth from '../../../function/useAuth';
 
 function HomePage() {
-    useAuth();
+  useAuth();
 
+  const navigate = useNavigate();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-    const navigate = useNavigate();
+  const AboutSectionRef = useRef(null);
+  const ServiceSectionRef = useRef(null);
+  const ContactSection = useRef(null);
 
-    const AboutSectionRef = useRef(null);
+  const scrollToAbout = () => {
+    AboutSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
-    const scrollToAbout = () =>{
-      AboutSectionRef.current?.scrollIntoView({behavior:'smooth'});
-    };
+  const ScrollToService = () => {
+    ServiceSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
-    const ServiceSectionRef = useRef(null)
+  const ScrollToContact = () => {
+    ContactSection.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
-    const ScrollToService =() =>{
-      ServiceSectionRef.current?.scrollIntoView({behavior:'smooth'})
-    }
-
-    const ContactSection = useRef(null)
-
-    const ScrollToContact = () =>{
-      ContactSection.current?.scrollIntoView({behavior:'smooth'})
-    }
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prevState) => !prevState);
+  };
 
   return (
     <div className="container">
@@ -34,32 +36,52 @@ function HomePage() {
           <img src="/images/mainl.png" alt="main" className="small_logo" />
         </div>
         <nav className="nav">
-          <button className="homb">Home</button>    
-          <button className="aboutb" onClick={scrollToAbout}>About</button>
-          <button className="serb" onClick={ScrollToService}>Services</button>
-          <button className="contb" onClick={ScrollToContact}>Contact Us</button>
+          <button className="homb">Home</button>
+          <button className="aboutb" onClick={scrollToAbout}>
+            About
+          </button>
+          <button className="serb" onClick={ScrollToService}>
+            Services
+          </button>
+
+          <div className="careers">
+            <button className="carr" onClick={toggleDropdown}>
+              Careers
+            </button>
+            {isDropdownOpen && (
+              <div className="careerdropdown-menu">
+                <button onClick={() => navigate('/teacherregistration')}>Teacher</button>
+                <button onClick={() => navigate('/financialagentregistration')}>Financial Agent</button>
+              </div>
+            )}
+          </div>
+
+          <button className="contb" onClick={ScrollToContact}>
+            Contact Us
+          </button>
         </nav>
         <div className="auth-buttons">
-          <button className="login-btn" onClick={() => navigate('/login')} >Login</button>
-          <button className="signup-btn" onClick={ () => navigate('/signup')}>Sign Up</button>
+          <button className="login-btn" onClick={() => navigate('/login')}>
+            Login
+          </button>
+          <button className="signup-btn" onClick={() => navigate('/signup')}>
+            Sign Up
+          </button>
         </div>
       </header>
 
-<section className="hero-section">
-  {/* Hero Image Section */}
-  <div className="hero-image">
-    <img src="/images/group.jpeg" alt="main" />
-  </div>
-
-  {/* Hero Content Section */}
-  <div className="hero-content">
-    <h1>DISCOVER THE PATH TO YOUR </h1>
-    <h2>SUCCESS</h2>
-    <p>
-      Unlock the opportunities that shape your future. From exams to scholarships, we make it simple to find and seize the best educational paths for you. Explore tailored resources and achieve your goals.
-    </p>
-  </div>
-</section>
+      <section className="hero-section">
+        <div className="hero-image">
+          <img src="/images/group.jpeg" alt="main" />
+        </div>
+        <div className="hero-content">
+          <h1>DISCOVER THE PATH TO YOUR </h1>
+          <h2>SUCCESS</h2>
+          <p>
+            Unlock the opportunities that shape your future. From exams to scholarships, we make it simple to find and seize the best educational paths for you. Explore tailored resources and achieve your goals.
+          </p>
+        </div>
+      </section>
 
 
 

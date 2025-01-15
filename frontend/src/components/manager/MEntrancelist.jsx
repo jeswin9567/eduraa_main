@@ -3,19 +3,13 @@ import '../../components/admin/Entrancelist.css'
 import { Link } from 'react-router-dom';
 
 
-const MEntranceList = ({filters}) => {
+const MEntranceList = () => {
     const [entrances, setEntrances] = useState([]);
 
     useEffect(() => {
         const fetchEntrances = async () => {
             try {
-                const queryParams = new URLSearchParams({
-                    education: filters.education.join(','),
-                    examType: filters.examType.join(','),
-                    state: filters.state.join(','),
-                    degrees: filters.degrees.join(','),  // Fix: corrected to 'degrees'
-                }).toString();
-                const response = await fetch(`http://localhost:5000/viewentr?${queryParams}`);
+                const response = await fetch(`http://localhost:5000/viewentr`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -27,7 +21,7 @@ const MEntranceList = ({filters}) => {
         };
 
         fetchEntrances();
-    }, [filters]);
+    }, []);
 
     return (
         <div className="entrance-list">

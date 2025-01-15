@@ -1,0 +1,64 @@
+.managersidebar {
+    width: 25%;
+    min-height: 80.4vh;
+    background-color: #01472B;
+}
+
+.managersidebarbtns {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+}
+
+.managersidebarbtns button {
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 20px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    color: #FFFFFF;
+    text-align: left;
+    transition: margin 0.3s ease; /* smooth transition for margin change */
+}
+
+.managerservicebtnnn-container {
+    position: relative;
+    width: 100%;
+}
+
+.managerservicebtnnn-button {
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 20px;
+    background-color: transparent;
+    color: #FFFFFF;
+    border: none;
+    text-align: left;
+}
+
+.managerservicebtnnn-dropdown {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #01472B;
+    width: 100%;
+    padding: 10px 20px;
+}
+
+.managerservicebtnnn-dropdown-item {
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 20px;
+    background-color: transparent;
+    color: #FFFFFF;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+}
+
+/* Optional: hover effect for dropdown items */
+.managerservicebtnnn-dropdown-item:hover {
+    background-color: #024e3b;
+}

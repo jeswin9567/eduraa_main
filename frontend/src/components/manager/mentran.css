@@ -1,15 +1,10 @@
-.mentrance-container {
+.mentrcnnn-container {
     display: flex;
-    justify-content: space-between; /* Distributes space between the components */
-    margin-top: 0; /* Ensure no extra space above */
+    flex-direction: row;
+    width: 100%;
+    min-height: 80.4vh;
 }
-
-.mmargin-c {
-    width: 30%; /* Adjust width of the margin component */
-    margin: 0; /* Remove any default margin */
-}
-
-.mentrance-list {
+.mentrc-list {
     width: 70%; /* Adjust width of the scholarship list */
     margin: 0; /* Remove any default margin */
 }

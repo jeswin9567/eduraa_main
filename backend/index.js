@@ -36,7 +36,8 @@ const UserStatus = require('./routes/user');
 const PriceRoute = require('./routes/price');
 const PaymentRoute = require('./routes/paymt');
 const FeedBackRoute = require('./routes/Feedback');
-
+const TeacherRegistraionRoute = require('./routes/teacherRegistration');
+const ViewTeacherRoute = require('./routes/viewteachers');
 
 
 
@@ -103,7 +104,8 @@ app.use('/user',UserStatus);
 app.use('/price',PriceRoute);
 app.use('/payment',PaymentRoute);
 app.use('/feed',FeedBackRoute);
-
+app.use('/api/teachers',TeacherRegistraionRoute);
+app.use('/api/viewteachers', ViewTeacherRoute);
 
 
 
