@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
-function MServiceButton() {
+function MTeacherButton() {
   const [showDropdown, setShowDropdown] = useState(false);
 
   const navigate = useNavigate();
@@ -13,33 +12,28 @@ function MServiceButton() {
         className="managerservicebtnnn-button"
         onClick={() => setShowDropdown(!showDropdown)}
       >
-        Services
+        Teachers
       </button>
 
       {showDropdown && (
         <div className="managerservicebtnnn-dropdown">
           <button
             className="managerservicebtnnn-dropdown-item"
-            onClick={() => navigate('/manager/scholarship')}
+            onClick={() => navigate('/manager/viewteacherrequests')}
           >
-            Scholarship
+            Requests
           </button>
           <button
             className="managerservicebtnnn-dropdown-item"
-            onClick={() => navigate('/manager/loan')}
+            onClick={() => navigate('/manager/viewteacher')}
           >
-            Loan
+            Teacher list
           </button>
-          <button
-            className="managerservicebtnnn-dropdown-item"
-            onClick={() => navigate('/manager/entrance')}
-          >
-            Entrance
-          </button>
+
         </div>
       )}
     </div>
   );
 }
 
-export default MServiceButton;
+export default MTeacherButton;

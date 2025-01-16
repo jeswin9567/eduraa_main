@@ -120,8 +120,16 @@ case "declaration":
           error = "Address must be in the correct format.";
         }
         break;
+        case "photo":
+          if (!value) {
+            error = "Photo is required.";
+          } else if (value.type !== "image/jpeg") {
+            error = "Only JPG files are allowed.";
+          } else if (value.size > 2 * 1024 * 1024) {
+            error = "File size should not exceed 2MB.";
+          }
+          break;
         case "idCard":
-            case "photo":
             case "degreeCertificate":
             case "experienceCertificate":
             case "resume":
@@ -396,17 +404,23 @@ case "declaration":
           {errors.idCard && <span className="teachreg">{errors.idCard}</span>}
         </div>
         <div>
-          <label htmlFor="photo">Photo (PDF only):</label>
-          <input
-            type="file"
-            id="photo"
-            name="photo"
-            accept="application/pdf"
-            onChange={handleChange}
-            className="teachreg"
-          />
-          {errors.photo && <span className="teachreg">{errors.photo}</span>}
-        </div>
+  <label htmlFor="photo">Photo (JPG only, max 2MB):</label>
+  <input
+    type="file"
+    id="photo"
+    name="photo"
+    accept="image/jpeg"
+    onChange={handleChange}
+    className="teachreg"
+  />
+  {errors.photo && <span className="teachreg error">{errors.photo}</span>}
+  {formData.photo && (
+    <p className="teachreg success">
+      Selected file: {formData.photo.name} ({(formData.photo.size / 1024).toFixed(2)} KB)
+    </p>
+  )}
+</div>
+
         <div>
           <label htmlFor="degreeCertificate">Degree Certificate (PDF only):</label>
           <input

@@ -19,6 +19,7 @@ const teacherSchema = new mongoose.Schema({
   experienceCertificate: { type: String, required: true },
   resume: { type: String, required: true },
   subjects: {type : String, required: true},
+  active: {type:Boolean, default:false},
 });
 
 module.exports = mongoose.model("Teacher", teacherSchema);

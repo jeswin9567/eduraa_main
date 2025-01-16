@@ -63,7 +63,9 @@ import ViewPrices from './pages/Manager/ViewPrice';
 import EditPr from './pages/Manager/EditPr';
 import TeacherDash from './pages/Teacher/teacherdashboard';
 import TeacherRegistration from './pages/home/registration/teacher';
-import ViewTeacherr from './pages/Manager/ViewTeacher';
+import ViewTeacher from './pages/Manager/ViewTeach';
+import ViewTeachReq from './pages/Manager/ViewTeachReqs';
+import ViewTeachID from './pages/Manager/ViewTeacherId';
 
 
 function App() {
@@ -134,8 +136,10 @@ function App() {
         <Route path = "/manager/vprice" element={<ViewPrices />} />
         <Route path = "/manager/eprice/:id" element={<EditPr />} />
         <Route path = "/teacherregistration" element = {<TeacherRegistration />} />
-        <Route path = "/teacher" element={<TeacherDash />} />
-        <Route path = "/viewteacher" element={<ViewTeacherr />} />
+        <Route path = "/teacherhome" element={<TeacherDash />} />
+        <Route path = "/manager/viewteacher" element={<ViewTeacher />} />
+        <Route path = "/manager/viewteacherrequests" element={<ViewTeachReq />} />
+        <Route path = "/manager/viewteacherdetails/:id" element={<ViewTeachID />} />
 
       </Routes>
     </Router>

@@ -1,0 +1,236 @@
+/* Main container */
+.manteachervie-container {
+    padding: 40px;
+    background: linear-gradient(145deg, #f3f4f9, #e8ecf0);
+    font-family: 'Roboto', sans-serif;
+    width: 100%;
+    color: #333;
+}
+
+/* Page title */
+.manteachervie-page-title {
+    font-size: 2.5rem;
+    color: #2d3a4b;
+    text-align: center;
+    font-weight: bold;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+}
+
+/* Grid for teacher cards */
+.manteachervie-teacher-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+/* Teacher card */
+.manteachervie-teacher-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.manteachervie-teacher-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Photo section */
+.manteachervie-teacher-photo p {
+    padding: 15px;
+    font-size: 1rem;
+    color: #555;
+    text-align: center;
+}
+
+/* Thumbnail for teacher photo */
+.teacher-photo-thumbnail {
+    width: 100px;  /* Set the desired thumbnail size */
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover; /* Ensures the image doesn't get distorted */
+    transition: transform 0.3s ease;
+}
+
+.teacher-photo-thumbnail:hover {
+    transform: scale(1.1);  /* Enlarge the thumbnail slightly on hover */
+}
+
+/* Summary section */
+.manteachervie-teacher-summary {
+    padding: 20px;
+    text-align: center;
+}
+
+.manteachervie-teacher-summary h3 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: #2a3d47;
+}
+
+.manteachervie-teacher-summary p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.manteachervie-toggle-details {
+    margin-top: 15px;
+    background-color: #00796b;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.manteachervie-toggle-details:hover {
+    background-color: #005f56;
+}
+
+/* Detailed section */
+.manteachervie-teacher-details {
+    padding: 20px;
+    background: #f9f9f9;
+    border-top: 2px solid #e0e0e0;
+    text-align: left;
+}
+
+.manteachervie-teacher-details p {
+    margin-bottom: 10px;
+}
+
+.manteachervie-teacher-documents a {
+    color: #00796b;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.manteachervie-teacher-documents a:hover {
+    text-decoration: underline;
+    color: #004d40;
+}
+
+/* Disable button */
+.manteachervie-disable-button {
+    margin-top: 15px;
+    background: linear-gradient(145deg, #ff6f61, #e63946);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.manteachervie-disable-button:hover {
+    background: linear-gradient(145deg, #e63946, #ff6f61);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.manteachervie-disable-button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+    color: #999;
+}
+
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .manteachervie-page-title {
+        font-size: 2rem;
+    }
+
+    .manteachervie-teacher-summary h3 {
+        font-size: 1.5rem;
+    }
+
+    .manteachervie-toggle-details {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+}
+
+/* Modal overlay */
+/* Modal overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  /* Modal content */
+  .modal-content {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    max-width: 800px; /* Increased width */
+    width: 90%;
+    max-height: 80vh; /* Set max height for modal */
+    overflow-y: auto; /* Allow scrolling if content overflows */
+    position: relative;
+    text-align: left;
+  }
+  
+  /* Close button */
+  .modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.8rem; /* Larger close button */
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+  }
+  
+  .modal-close:hover {
+    color: #ff0000;
+  }
+  
+  /* Larger heading for teacher name */
+  .modal-content h3 {
+    font-size: 2rem; /* Bigger font size */
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Paragraph styling for details */
+  .modal-content p {
+    font-size: 1.2rem; /* Larger font size for better readability */
+    margin-bottom: 15px;
+    color: #444;
+  }
+  
+  /* Make links more prominent in the documents section */
+  .manteachervie-teacher-documents a {
+    font-size: 1.2rem;
+    color: #00796b;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .manteachervie-teacher-documents a:hover {
+    text-decoration: underline;
+    color: #004d40;
+  }
+  

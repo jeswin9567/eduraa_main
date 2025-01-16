@@ -1,8 +1,21 @@
 const express = require("express");
 const upload = require("../config/multerStorage");
 const Teacher = require("../model/Teacher");
+const nodemailer = require('nodemailer'); // package to sent email
+const dotenv = require('dotenv');
+
+dotenv.config()
 
 const router = express.Router();
+
+// configure nodemailer transporter
+const transporter = nodemailer.createTransport({
+  service:'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
 
 router.post("/register", upload.fields([
   { name: "idCard", maxCount: 1 },
@@ -37,6 +50,22 @@ router.post("/register", upload.fields([
     });
 
     await teacher.save();
+
+    const mailOptions = {
+      from:'your-email@gmail.com',
+      to:email,
+      subject:'Teacher Registration successfull',
+      text:`Hello, ${firstname},\n\nYour registration as a teacher was successful! We are thrilled to have you on board.\n\nBest regards,\nThe Eduraa Team`
+    };
+
+    transporter.sendMail(mailOptions,(error, info) => {
+      if (error) {
+        console.log('Error sending email:' ,error);
+      }
+      else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
 
     res.status(200).json({
         success: true,  // Add the success flag

@@ -32,6 +32,9 @@ function Login() {
           else if(userRole === "user"){
             navigate('/userhome');
           }
+          else if(userRole === "teacher"){
+            navigate('/teacherhome');
+          }
 
           else if(userRole === "manager"){
             navigate('/mhome');
