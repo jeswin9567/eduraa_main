@@ -1,0 +1,96 @@
+/* General Container */
+.viewteacherprofcom {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fa;
+    padding: 30px;
+    border-radius: 10px;
+    width: 75%;
+    margin: 0 auto;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Section */
+.header-section {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header-section .profile-photo {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px solid #007BFF;
+    margin-bottom: 10px;
+}
+
+.header-section h2 {
+    font-size: 1.8rem;
+    color: #007BFF;
+    margin: 10px 0 5px;
+}
+
+.header-section .designation {
+    font-size: 1rem;
+    color: #555;
+    margin: 0;
+}
+
+/* Profile Info */
+.profile-info {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.profile-info p {
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.6;
+}
+
+.profile-info p strong {
+    color: #007BFF;
+}
+
+/* Documents Section */
+.documents {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.documents h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.documents a {
+    color: #007BFF;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.documents a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Layout */
+@media screen and (max-width: 768px) {
+    .header-section h2 {
+        font-size: 1.5rem;
+    }
+
+    .profile-info, .documents {
+        padding: 15px;
+    }
+
+    .header-section .profile-photo {
+        width: 120px;
+        height: 120px;
+    }
+}

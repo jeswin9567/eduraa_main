@@ -1,21 +1,17 @@
 import React, { useRef } from "react";
-import ManPriHeader from "../../components/manager/mheads/mpricehead";
+import ManagerDashHead from "../../components/manager/mheads/mhomehead";
+import Managersidebrcom from "../../components/manager/sidebarmain/sidebarmain";
 import AddPaymentOption from "../../components/manager/addprice";
-import Footer from "../../components/common/footer";
-
+import './Amount.css'
 const Amount = () => {
-    const footerRef = useRef(null);
-
-    const scrollToFooter = () => {
-        footerRef.current.scrollIntoView({ behavior: 'smooth' });
-    };
-
     return (
         <>
         <div>
-            <ManPriHeader scrollToFooter={scrollToFooter} />
-            <AddPaymentOption />
-            <Footer ref={footerRef} />
+            <ManagerDashHead />
+            <div className="priceaddman-container">
+                <Managersidebrcom />
+                <AddPaymentOption />
+            </div>
         </div>
         </>
     );

@@ -44,5 +44,16 @@ router.post('/user/incrementParticipate', async (req, res) => {
   }
 });
 
+// to get the user count
+
+router.get("/users/count", async (req, res) => {
+  try {
+    const userCount = await UserModel.countDocuments();
+    res.json({ count: userCount });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch user count" });
+  }
+});
+
 module.exports = router;
 

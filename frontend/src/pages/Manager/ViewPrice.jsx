@@ -1,15 +1,19 @@
 import React from "react";
-import ManPriHeader from "../../components/manager/mheads/mpricehead";
+import ManagerDashHead from "../../components/manager/mheads/mhomehead";
+import Managersidebrcom from "../../components/manager/sidebarmain/sidebarmain";
 import PriceTable from "../../components/manager/viewprice";
-import Footer from "../../components/common/footer";
+import './ViewPrice.css'
+
 
 const ViewPrices = () => {
     return (
         <>
         <div>
-            <ManPriHeader />
+            <ManagerDashHead />
+            <div className="manviewpricelist-container">
+                <Managersidebrcom />
             <PriceTable />
-            <Footer />
+            </div>
         </div>
         </>
     )

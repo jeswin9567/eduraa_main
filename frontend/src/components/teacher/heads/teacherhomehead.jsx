@@ -18,7 +18,7 @@ const logout = () => {
                 <img src="/images/Main logo.png" alt="Eduraa Logo" />
             </div>
             <div className="teacherdashhead-buttons">
-                <button className="teacherheadprobtn">Profile</button>
+                <button className="teacherheadprobtn" onClick={ () => navigate('/teacher/profile')}>Profile</button>
                 <button className="teacherheadlogbtn"onClick={logout}>Log Out</button>
             </div>
         </div>

@@ -2,6 +2,71 @@ const express = require('express');
 const router = express.Router();
 const MockTest = require('../model/Mocktest'); // Assuming the MockTest model is in the 'models' folder
 const Entrance = require('../model/Entrance');
+const Teacher = require('../model/Teacher')
+
+//teacher add mocktest
+router.post('/teacheraddMockTest', async (req, res) => {
+  try {
+    const {
+      title,
+      description,
+      duration,
+      totalMarks,
+      numberOfQuestions,
+      passingMarks,
+      questions,
+      entranceExam, // Entrance exam's ID
+      email // Teacher ID passed from the frontend
+    } = req.body;
+
+    // Check if the entrance exam exists
+    const exam = await Entrance.findById(entranceExam);
+    if (!exam) {
+      return res.status(404).json({ message: 'Entrance exam not found' });
+    }
+
+    // Fetch the teacher's name using the teacherId
+    const teacher = await Teacher.findOne({email});
+    if (!teacher) {
+      return res.status(404).json({ message: 'Teacher not found' });
+    }
+
+    // Combine teacher's firstname and lastname to get the full name
+    const teacherFullName = `${teacher.firstname} ${teacher.lastname}`;
+    console.log(teacherFullName);
+
+    // Check for duplicate mock test by title within the same entrance exam
+    const existingMockTest = await MockTest.findOne({ title, examId: entranceExam });
+    if (existingMockTest) {
+      return res.status(400).json({ message: 'A mock test with this title already exists for the selected entrance exam.' });
+    }
+
+    // Create the mock test with teacher's full name
+    const mockTest = new MockTest({
+      examId: entranceExam,
+      title,
+      description,
+      duration,
+      totalMarks,
+      numberOfQuestions,
+      passingMarks,
+      questions,
+      teacherName: teacherFullName // Store the teacher's full name here
+    });
+
+    // Save the mock test and link it to the entrance exam
+    const savedMockTest = await mockTest.save();
+
+    // Add the new mock test to the entrance exam
+    exam.mockTests.push(savedMockTest._id);
+    await exam.save();
+
+    res.status(201).json(savedMockTest);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
+});
 
 // Create a new mock test
 router.post('/addMockTest', async (req, res) => {

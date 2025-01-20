@@ -38,6 +38,7 @@ const PaymentRoute = require('./routes/paymt');
 const FeedBackRoute = require('./routes/Feedback');
 const TeacherRegistraionRoute = require('./routes/teacherRegistration');
 const ViewTeacherRoute = require('./routes/viewteachers');
+const ViewTeacherProfileRoute = require('./routes/viewteacherprofile');
 
 
 
@@ -106,7 +107,7 @@ app.use('/payment',PaymentRoute);
 app.use('/feed',FeedBackRoute);
 app.use('/api/teachers',TeacherRegistraionRoute);
 app.use('/api/viewteachers', ViewTeacherRoute);
-
+app.use('/api/profile', ViewTeacherProfileRoute);
 
 
 

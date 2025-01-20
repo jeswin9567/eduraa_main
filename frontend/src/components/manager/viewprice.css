@@ -1,8 +1,7 @@
 /* Container styling */
 .viewprice-container {
-    max-width: 600px;
-    min-height: 260px;
-    margin: 20px auto;
+   width: 75%;
+   height: 30%;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 8px;

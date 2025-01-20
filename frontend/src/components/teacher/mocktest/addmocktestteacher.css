@@ -1,0 +1,128 @@
+.teacheraddmock-form {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .teacheraddmock-title {
+    font-size: 1.8em;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .teacheraddmock-field {
+    margin-bottom: 25px;
+  }
+  
+  .teacheraddmock-label {
+    font-size: 1.1em;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 8px;
+  }
+  
+  .teacheraddmock-input,
+  .teacheraddmock-textarea,
+  .teacheraddmock-select {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease-in-out;
+  }
+  
+  .teacheraddmock-input:focus,
+  .teacheraddmock-textarea:focus,
+  .teacheraddmock-select:focus {
+    border-color: #4CAF50;
+    outline: none;
+  }
+  
+  .teacheraddmock-textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+  
+  .teacheraddmock-subtitle {
+    font-size: 1.5em;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #444;
+  }
+  
+  .teacheraddmock-question,
+  .teacheraddmock-option {
+    margin-bottom: 15px;
+  }
+  
+  .teacheraddmock-question label,
+  .teacheraddmock-option label {
+    display: block;
+    font-size: 1em;
+    margin-bottom: 5px;
+    color: #666;
+  }
+  
+  .teacheraddmock-add-step,
+  .teacheraddmock-add-option,
+  .teacheraddmock-add-question,
+  .teacheraddmock-submit {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: 500;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .teacheraddmock-add-step:hover,
+  .teacheraddmock-add-option:hover,
+  .teacheraddmock-add-question:hover,
+  .teacheraddmock-submit:hover {
+    background-color: #45a049;
+  }
+  
+  .teacheraddmock-step {
+    margin-bottom: 10px;
+  }
+  
+  .teacheraddmock-error {
+    color: #e74c3c;
+    font-size: 0.9em;
+    margin-top: 5px;
+  }
+  
+  .teacheraddmock-success {
+    color: #2ecc71;
+    font-size: 1em;
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+  /* Checkbox styling */
+  .teacheraddmock-checkbox {
+    margin-right: 8px;
+  }
+  
+  .teacheraddmock-checkbox-label {
+    font-size: 1em;
+    color: #666;
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  

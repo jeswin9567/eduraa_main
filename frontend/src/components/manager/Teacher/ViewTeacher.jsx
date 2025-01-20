@@ -27,18 +27,21 @@ const ViewTeacherCom = () => {
     setModalTeacher(null);
   };
 
-  const handleDisable = async (id) => {
+  const handleStatusChange = async (id, newStatus) => {
     try {
-      const response = await axios.patch(`http://localhost:5000/api/viewteachers/viewteachers/disable/${id}`);
-      alert("Teacher has been disabled successfully!");
+      const response = await axios.patch(
+        `http://localhost:5000/api/viewteachers/viewteachers/${newStatus ? "activate" : "disable"}/${id}`
+      );
+      alert(`Teacher has been ${newStatus ? "activated" : "disabled"} successfully!`);
       setTeachers((prevTeachers) =>
         prevTeachers.map((teacher) =>
-          teacher._id === id ? { ...teacher, active: false } : teacher
+          teacher._id === id ? { ...teacher, status: newStatus } : teacher
         )
       );
+      
     } catch (error) {
-      console.error("Error disabling teacher:", error);
-      alert("Failed to disable teacher. Please try again.");
+      console.error(`Error ${newStatus ? "activating" : "disabling"} teacher:`, error);
+      alert(`Failed to ${newStatus ? "activate" : "disable"} teacher. Please try again.`);
     }
   };
 
@@ -46,49 +49,49 @@ const ViewTeacherCom = () => {
     <div className="manteachervie-container">
       <h2 className="manteachervie-page-title">Teacher Profiles</h2>
       <div className="manteachervie-teacher-grid">
-        {teachers.map((teacher) => (
-          <div key={teacher._id} className="manteachervie-teacher-card">
-            <div className="manteachervie-teacher-photo">
-              <p>
-                <a href={teacher.photo} target="_blank" rel="noopener noreferrer">
-                  <img
-                    src={teacher.photo}
-                    alt={`${teacher.firstname} ${teacher.lastname}`}
-                    className="teacher-photo-thumbnail"
-                  />
-                </a>
-              </p>
-            </div>
+      {teachers.map((teacher) => (
+  <div key={teacher._id} className="manteachervie-teacher-card">
+    <div className="manteachervie-teacher-photo">
+      <p>
+        <a href={teacher.photo} target="_blank" rel="noopener noreferrer">
+          <img
+            src={teacher.photo}
+            alt={`${teacher.firstname} ${teacher.lastname}`}
+            className="teacher-photo-thumbnail"
+          />
+        </a>
+      </p>
+    </div>
 
-            <div className="manteachervie-teacher-summary">
-              <h3>
-                {teacher.firstname} {teacher.lastname}
-              </h3>
-              <p>
-                <strong>Email:</strong> {teacher.email}
-              </p>
-              <p>
-                <strong>Phone:</strong> {teacher.phone}
-              </p>
-              <p>
-                <strong>Subjects:</strong> {teacher.subjects}
-              </p>
-              <button
-                className="manteachervie-toggle-details"
-                onClick={() => openModal(teacher)}
-              >
-                View Details
-              </button>
-              <button
-                className="manteachervie-disable-button"
-                onClick={() => handleDisable(teacher._id)}
-                disabled={!teacher.active} // Disable button if already inactive
-              >
-                Disable
-              </button>
-            </div>
-          </div>
-        ))}
+    <div className="manteachervie-teacher-summary">
+      <h3>
+        {teacher.firstname} {teacher.lastname}
+      </h3>
+      <p>
+        <strong>Email:</strong> {teacher.email}
+      </p>
+      <p>
+        <strong>Phone:</strong> {teacher.phone}
+      </p>
+      <p>
+        <strong>Subjects:</strong> {teacher.subjects}
+      </p>
+      <button
+        className="manteachervie-toggle-details"
+        onClick={() => openModal(teacher)}
+      >
+        View Details
+      </button>
+      <button
+        className={`manteachervie-${teacher.status ? "disable" : "activate"}-button`}
+        onClick={() => handleStatusChange(teacher._id, !teacher.status)}
+      >
+        {teacher.status ? "Disable" : "Activate"}
+      </button>
+    </div>
+  </div>
+))}
+
       </div>
 
       {/* Modal */}

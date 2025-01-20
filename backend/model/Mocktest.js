@@ -58,6 +58,10 @@ const MockTestSchema = new mongoose.Schema({
         type: Boolean,
         default: true,
     },
+    teachername: {
+        type: String,
+        default: false,
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model('MockTest', MockTestSchema);

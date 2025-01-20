@@ -4,6 +4,7 @@ import Managersidebrcom from "../../components/manager/sidebarmain/sidebarmain";
 import useAuth from "../../../function/useAuth";
 import TeacherRequestBox from "../../components/manager/Teacher/Requestcomp";
 import ActiveTeacherBox from "../../components/manager/Teacher/Teacherbox";
+import UserBox from "../../components/manager/User/userbox";
 import './mhome.css';
 
 function Mhome()
@@ -20,6 +21,7 @@ function Mhome()
             <Managersidebrcom />
             <TeacherRequestBox />
             <ActiveTeacherBox />
+            <UserBox />
             </div>
         </div>
         </>

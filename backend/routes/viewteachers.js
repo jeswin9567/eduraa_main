@@ -20,13 +20,24 @@ const transporter = nodemailer.createTransport({
 
 // Route to get all teachers
 router.get("/teachers", async (req, res) => {
-    try {
-        const teachers = await Teacher.find({active:true});
-        res.status(200).json(teachers);
-    } catch (error) {
-        res.status(500).json({ message: "Error fetching teachers", error: error.message });
-    }
+  try {
+    const teachers = await Teacher.find({active:true});
+    const teacherWithStatus = await Promise.all(
+      teachers.map(async (teacher) => {
+        const login = await LoginModel.findOne({ email: teacher.email });
+        return {
+          ...teacher.toObject(),
+          status: login ? login.status : false, // Add status from Login model
+        };
+      })
+    );
+
+    res.status(200).json(teacherWithStatus);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching teachers", error: error.message });
+  }
 });
+
 
 
 // Route to get all teachers request
@@ -58,10 +69,11 @@ router.get("/viewteacherdet/:id", async (req, res) => {
 
   router.patch("/teacheraccept/:id", async (req, res) => {
     try {
-      const { active } = req.body;
+      const { active, subjectassigned } = req.body; // Get active and subjectassigned from request body
+  
       const teacher = await Teacher.findByIdAndUpdate(
         req.params.id,
-        { active },
+        { active, subjectassigned },
         { new: true }
       );
   
@@ -75,7 +87,7 @@ router.get("/viewteacherdet/:id", async (req, res) => {
       // Create a new login entry for the teacher
       const login = new LoginModel({
         email: teacher.email,
-        password: randomPassword, // Store the generated password
+        password: randomPassword,
         role: "teacher",
       });
   
@@ -86,7 +98,7 @@ router.get("/viewteacherdet/:id", async (req, res) => {
         from: "your-email@gmail.com",
         to: teacher.email,
         subject: "Congratulations! You have been selected as a teacher.",
-        text: `Dear ${teacher.firstname} ${teacher.lastname},\n\nYou have been selected as a teacher. Your login details are as follows:\n\nEmail: ${teacher.email}\nPassword: ${randomPassword}\n\nPlease use these details to log in to your account.\n\nBest regards,\nYour Team`,
+        text: `Dear ${teacher.firstname} ${teacher.lastname},\n\nYou have been selected as a teacher. Your assigned subject is: ${subjectassigned}.\n\nYour login details are as follows:\n\nEmail: ${teacher.email}\nPassword: ${randomPassword}\n\nPlease use these details to log in to your account.\n\nBest regards,\nYour Team`,
       };
   
       transporter.sendMail(mailOptions, (error, info) => {
@@ -118,22 +130,61 @@ router.get("/viewteacherdet/:id", async (req, res) => {
 
   // disable teacher
 
-  router.patch("/viewteachers/disable/:id", async (req, res) => {
-    try {
-      const teacher = await Teacher.findByIdAndUpdate(req.params.id, { active: false }, { new: true });
-      if (!teacher) {
-        return res.status(404).json({ error: "Teacher not found" });
-      }
-  
-      // Update status in Login model
-      await LoginModel.findOneAndUpdate({ email: teacher.email }, { status: false });
-  
-      res.status(200).json({ message: "Teacher disabled successfully", teacher });
-    } catch (error) {
-      console.error("Error disabling teacher:", error);
-      res.status(500).json({ error: "Failed to disable teacher" });
+// Disable teacher (updates only Login model)
+router.patch("/viewteachers/disable/:id", async (req, res) => {
+  try {
+    // Find the teacher in the Teacher model to get the email (optional)
+    const teacher = await Teacher.findById(req.params.id);
+    if (!teacher) {
+      return res.status(404).json({ error: "Teacher not found" });
     }
-  });
+
+    // Update the status in the Login model based on the teacher's email
+    const loginUpdate = await LoginModel.findOneAndUpdate(
+      { email: teacher.email },
+      { status: false }, // Assuming "status" is the field to disable the user
+      { new: true }
+    );
+
+    if (!loginUpdate) {
+      return res.status(404).json({ error: "Login record not found" });
+    }
+
+    res.status(200).json({ message: "Teacher disabled successfully in Login model", login: loginUpdate });
+  } catch (error) {
+    console.error("Error disabling teacher:", error);
+    res.status(500).json({ error: "Failed to disable teacher" });
+  }
+});
+
+// Activate teacher
+router.patch("/viewteachers/activate/:id", async (req, res) => {
+  try {
+    // Find the teacher in the Teacher model to get the email
+    const teacher = await Teacher.findById(req.params.id);
+    if (!teacher) {
+      return res.status(404).json({ error: "Teacher not found" });
+    }
+
+    // Update the status in the Login model based on the teacher's email
+    const loginUpdate = await LoginModel.findOneAndUpdate(
+      { email: teacher.email },
+      { status: true }, // Assuming "status" is the field to enable the user
+      { new: true }
+    );
+
+    if (!loginUpdate) {
+      return res.status(404).json({ error: "Login record not found" });
+    }
+
+    res.status(200).json({ message: "Teacher activated successfully in Login model", login: loginUpdate });
+  } catch (error) {
+    console.error("Error activating teacher:", error);
+    res.status(500).json({ error: "Failed to activate teacher" });
+  }
+});
+
+
 
   // box component 
   router.get("/inactive-teachers", async (req, res) => {

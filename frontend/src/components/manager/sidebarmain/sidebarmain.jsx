@@ -2,6 +2,7 @@ import React from "react";
 import './managersidebarcom.css'
 import MServiceButton from "../button/mservice";
 import MTeacherButton from "../button/teachers";
+import MPriceButton from "../button/pricebtn";
 import { useNavigate } from "react-router-dom";
 
 const Managersidebrcom = () => {
@@ -17,7 +18,7 @@ const Managersidebrcom = () => {
             <button>Students</button>
             <button>Announcements</button>
             <button>Feedback</button>
-            <button>Payment Option</button>
+            <MPriceButton />
             </div>
         </div>
         

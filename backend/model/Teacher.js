@@ -20,6 +20,7 @@ const teacherSchema = new mongoose.Schema({
   resume: { type: String, required: true },
   subjects: {type : String, required: true},
   active: {type:Boolean, default:false},
+  subjectassigned: {type:String, required:false},
 });
 
 module.exports = mongoose.model("Teacher", teacherSchema);

@@ -66,6 +66,8 @@ import TeacherRegistration from './pages/home/registration/teacher';
 import ViewTeacher from './pages/Manager/ViewTeach';
 import ViewTeachReq from './pages/Manager/ViewTeachReqs';
 import ViewTeachID from './pages/Manager/ViewTeacherId';
+import TeacherProfile from './pages/Teacher/TeacherProfile';
+import TeacherMocktest from './components/teacher/mocktest/addmocktest';
 
 
 function App() {
@@ -140,6 +142,8 @@ function App() {
         <Route path = "/manager/viewteacher" element={<ViewTeacher />} />
         <Route path = "/manager/viewteacherrequests" element={<ViewTeachReq />} />
         <Route path = "/manager/viewteacherdetails/:id" element={<ViewTeachID />} />
+        <Route path = "/teacher/profile" element = {<TeacherProfile />} />
+        <Route path = "/teacher/addmocktest" element = {<TeacherMocktest />} />
 
       </Routes>
     </Router>

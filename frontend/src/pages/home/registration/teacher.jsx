@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Swal from "sweetalert2"; // Import SweetAlert
-import { useNavigate } from 'react-router-dom'; // React Router's navigation hook
-import './teacher.css'
+import Swal from "sweetalert2";
+import { useNavigate } from 'react-router-dom';
+import './teacher.css';
 
 const TeacherRegistration = () => {
   const [formData, setFormData] = useState({
@@ -18,16 +18,17 @@ const TeacherRegistration = () => {
     degreeCertificate: null,
     experienceCertificate: null,
     resume: null,
-    subjects:'',
+    subjects: "",
     altPhone: "",
-  qualification: "",
-  specialization: "",
-  experience: "",
-  declaration: false,
+    qualification: "",
+    specialization: "",
+    experience: "",
+    declaration: false,
   });
 
   const [errors, setErrors] = useState({});
-  const navigate = useNavigate(); // React Router's navigation hook
+  const [showTerms, setShowTerms] = useState(false); // State for displaying the modal
+  const navigate = useNavigate();
 
   const validateField = (name, value) => {
     let error = "";
@@ -178,49 +179,40 @@ case "declaration":
       setErrors(validationErrors);
     } else {
       setErrors({});
-  
       const formDataToSend = new FormData();
       Object.keys(formData).forEach((key) => {
         if (formData[key]) {
           formDataToSend.append(key, formData[key]);
         }
       });
-  
-      // Send form data to backend using Axios
       axios.post("http://localhost:5000/api/teachers/register", formDataToSend)
-      .then((response) => {
-        console.log(response);  // Log the full response to inspect it
-    
-        // Check if the backend returns the 'success' flag
-        if (response.data.success) {
-          Swal.fire({
-            title: 'Success!',
-            text: 'Teacher registered successfully!',
-            icon: 'success',
-            confirmButtonText: 'OK'
-          }).then(() => {
-            navigate('/teacher-dashboard');  // Redirect after success
-          });
-        } else {
-          // If success flag is not present, handle it as an error
+        .then((response) => {
+          if (response.data.success) {
+            Swal.fire({
+              title: 'Success!',
+              text: 'Teacher registered successfully!',
+              icon: 'success',
+              confirmButtonText: 'OK'
+            }).then(() => {
+              navigate('/teacher-dashboard');
+            });
+          } else {
+            Swal.fire({
+              title: 'Error!',
+              text: response.data.message || 'An unexpected error occurred.',
+              icon: 'error',
+              confirmButtonText: 'OK'
+            });
+          }
+        })
+        .catch((error) => {
           Swal.fire({
             title: 'Error!',
-            text: response.data.message || 'An unexpected error occurred.',
+            text: error.response?.data?.message || 'An unexpected error occurred.',
             icon: 'error',
             confirmButtonText: 'OK'
           });
-        }
-      })
-      .catch((error) => {
-        // Handle Axios error here
-        console.error('Axios error:', error);
-        Swal.fire({
-          title: 'Error!',
-          text: error.response?.data?.message || 'An unexpected error occurred.',
-          icon: 'error',
-          confirmButtonText: 'OK'
         });
-      });
     }
   };
   
@@ -458,23 +450,52 @@ case "declaration":
           {errors.resume && <span className="teachreg">{errors.resume}</span>}
         </div>
         <div>
-  <label>
-    <input
-      type="checkbox"
-      name="declaration"
-      checked={formData.declaration}
-      onChange={(e) =>
-        setFormData({ ...formData, declaration: e.target.checked })
-      }
-      className="teachreg"
-    />
-    I agree to the terms and conditions and confirm the accuracy of the information provided.
-  </label>
-  {errors.declaration && <span className="teachreg">{errors.declaration}</span>}
-</div>
-
+          <label>
+            <input
+              type="checkbox"
+              name="declaration"
+              checked={formData.declaration}
+              onChange={(e) =>
+                setFormData({ ...formData, declaration: e.target.checked })
+              }
+              className="teachreg"
+            />
+            I agree to the terms and conditions and confirm the accuracy of the information provided.{" "}<br></br>
+            <span
+              className="terms-link"
+              onClick={() => setShowTerms(true)} // Show modal on click
+            >
+              terms and conditions
+            </span>
+          </label>
+          {errors.declaration && <span className="teachreg">{errors.declaration}</span>}
+        </div>
+        {showTerms && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>Terms and Conditions</h2>
+            <p>
+              As a teacher on the Eduraa platform, you agree to the following:
+            </p>
+            <ul>
+              <li>Complete the training period as per guidelines.</li>
+              <li>Upload classes and schedule live sessions as per deadlines.</li>
+              <li>Maintain professionalism during interactions with students.</li>
+              <li>Adhere to the platform's content standards and guidelines.</li>
+              <li>Provide accurate and truthful information during registration.</li>
+            </ul>
+            <p>
+              Failing to meet these terms may result in termination of your account.
+            </p>
+            <button onClick={() => setShowTerms(false)}>Close</button>
+          </div>
+        </div>
+      )}
         <button type="submit" className="teachreg">Register</button>
       </form>
+
+      {/* Terms and Conditions Modal */}
+      
     </div>
   );
 };
