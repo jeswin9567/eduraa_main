@@ -58,7 +58,12 @@ const MockTestSchema = new mongoose.Schema({
         type: Boolean,
         default: true,
     },
-    teachername: {
+    teacherName: {
+        type: String,
+        default: false,
+    },
+
+    email: {
         type: String,
         default: false,
     }

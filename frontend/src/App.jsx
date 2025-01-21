@@ -67,7 +67,10 @@ import ViewTeacher from './pages/Manager/ViewTeach';
 import ViewTeachReq from './pages/Manager/ViewTeachReqs';
 import ViewTeachID from './pages/Manager/ViewTeacherId';
 import TeacherProfile from './pages/Teacher/TeacherProfile';
-import TeacherMocktest from './components/teacher/mocktest/addmocktest';
+import TeacherAddMock from './pages/Teacher/addmocktest';
+import TeacherMocktestList from './pages/Teacher/mocktestlist';
+import TeacherViewMock from './pages/Teacher/viewmocktests';
+import TeacherViewMockDetails from './pages/Teacher/viewmocktestdetails';
 
 
 function App() {
@@ -143,7 +146,10 @@ function App() {
         <Route path = "/manager/viewteacherrequests" element={<ViewTeachReq />} />
         <Route path = "/manager/viewteacherdetails/:id" element={<ViewTeachID />} />
         <Route path = "/teacher/profile" element = {<TeacherProfile />} />
-        <Route path = "/teacher/addmocktest" element = {<TeacherMocktest />} />
+        <Route path = "/teacher/addmocktest" element = {<TeacherAddMock />} />
+        <Route path = "/teacher/mocktestlist" element = {<TeacherMocktestList />} />
+        <Route path = "/teacher/viewmocktest/:examId" element = {<TeacherViewMock />} />
+        <Route path = "/teacher/viewmocktestdetails/:mockTestId" element = {<TeacherViewMockDetails />} />
 
       </Routes>
     </Router>

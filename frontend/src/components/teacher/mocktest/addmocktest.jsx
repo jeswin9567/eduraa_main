@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // For making API requests
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import './addMocktestteacher.css';
+
 
 const TeacherMocktest = () => {
 

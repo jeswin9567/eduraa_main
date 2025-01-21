@@ -51,6 +51,7 @@ router.post('/teacheraddMockTest', async (req, res) => {
       numberOfQuestions,
       passingMarks,
       questions,
+      email,
       teacherName: teacherFullName // Store the teacher's full name here
     });
 
@@ -67,6 +68,7 @@ router.post('/teacheraddMockTest', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
 
 // Create a new mock test
 router.post('/addMockTest', async (req, res) => {
@@ -153,6 +155,36 @@ router.get('/viewmocktests/:examId', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+// teacher mocktest view
+
+router.get('/teacherviewmocktests/:examId', async (req, res) => { 
+  try {
+    const { examId } = req.params;
+    const email = req.headers.email; // Retrieve email from the request headers
+
+    if (!email) {
+      return res.status(400).json({ message: 'Email is required' });
+    }
+
+    // Find the entrance exam and populate its mock tests with the email filter and status true
+    const entranceExam = await Entrance.findById(examId)
+      .populate({
+        path: 'mockTests',
+        match: { email, status: true }, // Filter by email and status true
+      });
+
+    if (!entranceExam) {
+      return res.status(404).json({ message: 'Entrance exam not found' });
+    }
+
+    res.json(entranceExam.mockTests); // Return the filtered mock tests
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 
 // route to get deleted mocktest
 
