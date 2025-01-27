@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // For making API requests
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-
+import './addmocktest.css';
 
 const TeacherMocktest = () => {
-
   const navigate = useNavigate();
 
   const [title, setTitle] = useState('');
@@ -64,15 +63,15 @@ const TeacherMocktest = () => {
   const validateForm = () => {
     let valid = true;
 
-    if (!title) {
-      setTitleError('Title is required');
+    if (!title || /^[^a-zA-Z]*$/.test(title)) {
+      setTitleError('Title must contain letters and cannot consist of only numbers or special characters.');
       valid = false;
     } else {
       setTitleError('');
     }
 
-    if (!description) {
-      setDescriptionError('Description is required');
+    if (!description || /^[^a-zA-Z]*$/.test(description)) {
+      setDescriptionError('Description must contain letters and cannot consist of only numbers or special characters.');
       valid = false;
     } else {
       setDescriptionError('');
@@ -117,33 +116,32 @@ const TeacherMocktest = () => {
   };
 
   const hasDuplicateQuestions = () => {
-    const questionTexts = questions.map(q => q.questionText);
+    const questionTexts = questions.map((q) => q.questionText);
     const uniqueQuestions = new Set(questionTexts);
     return uniqueQuestions.size !== questionTexts.length;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const email = localStorage.getItem('userEmail');
 
-  
     if (!validateForm()) {
       return;
     }
-  
+
     const totalAssignedMarks = calculateTotalAssignedMarks();
-  
+
     if (totalAssignedMarks !== totalMarks) {
       setError(`The sum of the marks assigned to questions (${totalAssignedMarks}) does not match the total marks (${totalMarks}).`);
       return;
     }
-  
+
     if (hasDuplicateQuestions()) {
       setError('Duplicate questions are not allowed.');
       return;
     }
-  
+
     const mockTest = {
       title,
       description,
@@ -155,23 +153,22 @@ const TeacherMocktest = () => {
       entranceExam: selectedEntranceExam,
       email
     };
-  
+
     try {
       const response = await axios.post('http://localhost:5000/mocktest/teacheraddMockTest', mockTest);
       setMessage('Mock test created successfully!');
       setError('');
-  
+
       await Swal.fire({
         title: 'Success!',
         text: 'Mock test created successfully!',
         icon: 'success',
         confirmButtonText: 'OK'
       });
-  
+
       navigate('/teacherhome');
     } catch (error) {
       console.error('Error creating mock test:', error);
-      console.log(email)
       if (error.response && error.response.status === 400) {
         setError(error.response.data.message);
       } else {
@@ -179,78 +176,83 @@ const TeacherMocktest = () => {
       }
     }
   };
-  
 
   return (
-    <form className="manmocktest-form" onSubmit={handleSubmit}>
-      <h2 className="manmocktest-title">Create a Mock Test</h2>
+    <div className='teachermocktest-container'>
+      <form className="teachermocktest-form" onSubmit={handleSubmit}>
+        <h2 className="teachermocktest-title">Create a Mock Test</h2>
 
-      <div className="manmocktest-field">
-        <label className="manmocktest-label">Select Entrance Exam:</label>
-        <select
-          className="manmocktest-input"
-          value={selectedEntranceExam}
-          onChange={(e) => {
-            setSelectedEntranceExam(e.target.value);
-            if (!e.target.value) {
-              setEntranceExamError('You must select an entrance exam');
-            } else {
-              setEntranceExamError('');
-            }
-          }}
-          required
-        >
-          <option value="" className='manmocktest-select'>-- Select Entrance Exam --</option>
-          {entranceExams.map((exam) => (
-            <option key={exam._id} value={exam._id}>
-              {exam.name}
-            </option>
-          ))}
-        </select>
-        {entranceExamError && <p className="manmocktest-error">{entranceExamError}</p>}
-      </div>
+        {/* Entrance Exam Selection */}
+        <div className="teachermocktest-field">
+          <label className="teachermocktest-label">Select Entrance Exam:</label>
+          <select
+            className="teachermocktest-input"
+            value={selectedEntranceExam}
+            onChange={(e) => {
+              setSelectedEntranceExam(e.target.value);
+              if (!e.target.value) {
+                setEntranceExamError('You must select an entrance exam');
+              } else {
+                setEntranceExamError('');
+              }
+            }}
+            required
+          >
+            <option value="" className='teachermocktest-select'>-- Select Entrance Exam --</option>
+            {entranceExams.map((exam) => (
+              <option key={exam._id} value={exam._id}>
+                {exam.name}
+              </option>
+            ))}
+          </select>
+          {entranceExamError && <p className="teachermocktest-error">{entranceExamError}</p>}
+        </div>
 
-      <div className="manmocktest-field">
-        <label className="manmocktest-label">Title:</label>
+        {/* Title Field */}
+        <div className="teachermocktest-field">
+          <label className="teachermocktest-label">Title:</label>
+          <input
+            className="teachermocktest-input"
+            type="text"
+            value={title}
+            onChange={(e) => {
+              const value = e.target.value;
+              setTitle(value);
+              if (!value || /^[^a-zA-Z]*$/.test(value)) {
+                setTitleError('Title must contain letters and cannot consist of only numbers or special characters.');
+              } else {
+                setTitleError('');
+              }
+            }}
+            required
+          />
+          {titleError && <p className="teachermocktest-error">{titleError}</p>}
+        </div>
+
+        {/* Description Field */}
+        <div className="teachermocktest-field">
+          <label className="teachermocktest-label">Description:</label>
+          <textarea
+            className="teachermocktest-textarea"
+            value={description}
+            onChange={(e) => {
+              const value = e.target.value;
+              setDescription(value);
+              if (!value || /^[^a-zA-Z]*$/.test(value)) {
+                setDescriptionError('Description must contain letters and cannot consist of only numbers or special characters.');
+              } else {
+                setDescriptionError('');
+              }
+            }}
+            required
+          />
+          {descriptionError && <p className="teachermocktest-error">{descriptionError}</p>}
+        </div>
+
+      <div className="teachermocktest-field">
+        <label className="teachermocktest-label">Duration (minutes):</label>
         <input
-          className="manmocktest-input"
-          type="text"
-          value={title}
-          onChange={(e) => {
-            setTitle(e.target.value);
-            if (!e.target.value) {
-              setTitleError('Title is required');
-            } else {
-              setTitleError('');
-            }
-          }}
-          required
-        />
-        {titleError && <p className="manmocktest-error">{titleError}</p>}
-      </div>
-
-      <div className="manmocktest-field">
-        <label className="manmocktest-label">Description:</label>
-        <textarea
-          className="manmocktest-textarea"
-          value={description}
-          onChange={(e) => {
-            setDescription(e.target.value);
-            if (!e.target.value) {
-              setDescriptionError('Description is required');
-            } else {
-              setDescriptionError('');
-            }
-          }}
-          required
-        />
-        {descriptionError && <p className="manmocktest-error">{descriptionError}</p>}
-      </div>
-
-      <div className="manmocktest-field">
-        <label className="manmocktest-label">Duration (minutes):</label>
-        <input
-          className="manmocktest-input"
+          className="teachermocktest-input"
           type="number"
           value={duration}
           onChange={(e) => {
@@ -264,13 +266,13 @@ const TeacherMocktest = () => {
           }}
           required
         />
-        {durationError && <p className="manmocktest-error">{durationError}</p>}
+        {durationError && <p className="teachermocktest-error">{durationError}</p>}
       </div>
 
-      <div className="manmocktest-field">
-        <label className="manmocktest-label">Total Marks:</label>
+      <div className="teachermocktest-field">
+        <label className="teachermocktest-label">Total Marks:</label>
         <input
-          className="manmocktest-input"
+          className="teachermocktest-input"
           type="number"
           value={totalMarks}
           onChange={(e) => {
@@ -284,13 +286,13 @@ const TeacherMocktest = () => {
           }}
           required
         />
-        {totalMarksError && <p className="manmocktest-error">{totalMarksError}</p>}
+        {totalMarksError && <p className="teachermocktest-error">{totalMarksError}</p>}
       </div>
 
-      <div className="manmocktest-field">
-        <label className="manmocktest-label">Passing Marks:</label>
+      <div className="teachermocktest-field">
+        <label className="teachermocktest-label">Passing Marks:</label>
         <input
-          className="manmocktest-input"
+          className="teachermocktest-input"
           type="number"
           value={passingMarks}
           onChange={(e) => {
@@ -304,13 +306,13 @@ const TeacherMocktest = () => {
           }}
           required
         />
-        {passingMarksError && <p className="manmocktest-error">{passingMarksError}</p>}
+        {passingMarksError && <p className="teachermocktest-error">{passingMarksError}</p>}
       </div>
 
-      <div className="manmocktest-field">
-        <label className="manmocktest-label">Number of Questions:</label>
+      <div className="teachermocktest-field">
+        <label className="teachermocktest-label">Number of Questions:</label>
         <input
-          className="manmocktest-input"
+          className="teachermocktest-input"
           type="number"
           value={numberOfQuestions}
           onChange={(e) => {
@@ -324,16 +326,16 @@ const TeacherMocktest = () => {
           }}
           required
         />
-        {questionsError && <p className="manmocktest-error">{questionsError}</p>}
+        {questionsError && <p className="teachermocktest-error">{questionsError}</p>}
       </div>
 
-      <div className="manmocktest-questions">
-        <h3 className="manmocktest-subtitle">Questions:</h3>
+      <div className="teachermocktest-questions">
+        <h3 className="teachermocktest-subtitle">Questions:</h3>
         {questions.map((question, index) => (
-          <div key={index} className="manmocktest-question">
-            <label className="manmocktest-label">Question {index + 1}:</label>
+          <div key={index} className="teachermocktest-question">
+            <label className="teachermocktest-label">Question {index + 1}:</label>
             <input
-              className="manmocktest-input"
+              className="teachermocktest-input"
               type="text"
               value={question.questionText}
               onChange={(e) => {
@@ -344,9 +346,9 @@ const TeacherMocktest = () => {
               required
             />
 
-            <label className="manmocktest-label">Marks:</label>
+            <label className="teachermocktest-label">Marks:</label>
             <input
-              className="manmocktest-input"
+              className="teachermocktest-input"
               type="number"
               value={question.marks}
               onChange={(e) => {
@@ -360,10 +362,10 @@ const TeacherMocktest = () => {
             {/* Steps Section */}
             <h4>Steps to solve the question:</h4>
             {question.steps.map((step, stepIndex) => (
-              <div key={stepIndex} className="manmocktest-step">
-                <label className="manmocktest-label">Step {stepIndex + 1}:</label>
+              <div key={stepIndex} className="teachermocktest-step">
+                <label className="teachermocktest-label">Step {stepIndex + 1}:</label>
                 <input
-                  className="manmocktest-input"
+                  className="teachermocktest-input"
                   type="text"
                   value={step}
                   onChange={(e) => {
@@ -377,7 +379,7 @@ const TeacherMocktest = () => {
             ))}
             <button
               type="button"
-              className="manmocktest-add-step"
+              className="teachermocktest-add-step"
               onClick={() => {
                 const newQuestions = [...questions];
                 newQuestions[index].steps.push('');
@@ -390,9 +392,9 @@ const TeacherMocktest = () => {
             {/* Options Section */}
             <h4>Options:</h4>
             {question.options.map((option, optionIndex) => (
-              <div key={optionIndex} className="manmocktest-option">
+              <div key={optionIndex} className="teachermocktest-option">
                 <input
-                  className="manmocktest-input"
+                  className="teachermocktest-input"
                   type="text"
                   value={option.optionText}
                   onChange={(e) => {
@@ -402,10 +404,10 @@ const TeacherMocktest = () => {
                   }}
                   required
                 />
-                <label className="manmocktest-label">
+                <label className="teachermocktest-label">
                   Correct:
                   <input
-                    className="manmocktest-checkbox"
+                    className="teachermocktest-checkbox"
                     type="checkbox"
                     checked={option.isCorrect}
                     onChange={(e) => {
@@ -417,22 +419,23 @@ const TeacherMocktest = () => {
                 </label>
               </div>
             ))}
-            <button type="button" className="manmocktest-add-option" onClick={() => addOption(index)}>
+            <button type="button" className="teachermocktest-add-option" onClick={() => addOption(index)}>
               Add Option
             </button>
           </div>
         ))}
 
-        <button type="button" className="manmocktest-add-question" onClick={addQuestion}>
+        <button type="button" className="teachermocktest-add-question" onClick={addQuestion}>
           Add Question
         </button>
       </div>
 
-      {error && <p className="manmocktest-error">{error}</p>}
-      {message && <p className="manmocktest-success">{message}</p>}
+      {error && <p className="teachermocktest-error">{error}</p>}
+      {message && <p className="teachermocktest-success">{message}</p>}
 
-      <button className="manmocktest-submit" type="submit">Create Mock Test</button>
+      <button className="teachermocktest-submit" type="submit">Create Mock Test</button>
     </form>
+    </div>
   );
 };
 

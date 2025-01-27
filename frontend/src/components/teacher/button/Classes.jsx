@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 
-function TeachMockButton() {
+function TeachCousreButton() {
   const [showDropdown, setShowDropdown] = useState(false);
 
   const navigate = useNavigate();
@@ -13,33 +13,34 @@ function TeachMockButton() {
         className="managerservicebtnnn-button"
         onClick={() => setShowDropdown(!showDropdown)}
       >
-        Mocktest
+        Courses
       </button>
 
       {showDropdown && (
         <div className="managerservicebtnnn-dropdown">
           <button
             className="managerservicebtnnn-dropdown-item"
-            onClick={() => navigate('/teacher/addmocktest')}
+            onClick={() => navigate('/teacher/addcourses')}
           >
-            Add
+            Add Courses
           </button>
           <button
             className="managerservicebtnnn-dropdown-item"
-            onClick={() => navigate('/teacher/mocktestlist')}
+            onClick={() => navigate('/teacher/managecourses')}
           >
-            Manage
+            Manage Courses
           </button>
           <button
             className="managerservicebtnnn-dropdown-item"
-            onClick={() => navigate('/teacher/deletedmocktest')}
+            onClick={() => navigate('/teacher/deletedcourses')}
           >
-            Deleted
+            Deleted Courses
           </button>
+          
         </div>
       )}
     </div>
   );
 }
 
-export default TeachMockButton;
+export default TeachCousreButton;

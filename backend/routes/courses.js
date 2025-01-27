@@ -1,0 +1,109 @@
+const express = require("express");
+const router = express.Router();
+const upload = require("../config/multerStorage"); // Your multer middleware
+const Class = require("../model/courses"); // Import the Class model
+const Teacher = require("../model/Teacher");
+
+// Route to handle class upload
+
+router.post("/upload-class", upload.fields([
+  { name: "notes", maxCount: 1 },
+  { name: "video", maxCount: 1 },
+]), async (req, res) => {
+  try {
+    // Check if files are uploaded
+    if (!req.files || !req.files.notes || !req.files.video) {
+      return res.status(400).json({ message: "Please upload both notes and video." });
+    }
+
+    const { topic, subTopic, teacherEmail } = req.body;
+    
+    // Validate required fields
+    if (!topic || !subTopic || !teacherEmail) {
+      return res.status(400).json({ message: "Topic, subTopic, and teacher email are required." });
+    }
+
+    // Retrieve teacher's name based on teacherEmail
+    const teacher = await Teacher.findOne({ email: teacherEmail });
+    if (!teacher) {
+      return res.status(404).json({ message: "Teacher not found." });
+    }
+
+    const teacherName = teacher.firstname + " " + teacher.lastname; // Construct full name
+
+    const notesFileUrl = req.files.notes[0].path; // Path of the uploaded PDF file
+    const videoFileUrl = req.files.video[0].path; // Path of the uploaded video file
+
+    // Create a new class entry
+    const newClass = new Class({
+      topic,
+      subTopic,
+      notes: notesFileUrl,
+      video: videoFileUrl,
+      teacherEmail,  // Store teacher email
+      teacherName,   // Store teacher name
+    });
+
+    // Save to the database
+    await newClass.save();
+
+    res.status(201).json({ message: "Class uploaded successfully!", class: newClass });
+  } catch (error) {
+    console.error("Upload error:", error);
+    res.status(500).json({ message: error.message || "An error occurred while uploading the class." });
+  }
+});
+
+// Get all unique topics
+router.get("/topics", async (req, res) => {
+  try {
+    const topics = await Class.distinct("topic"); // Fetch unique topics from the 'Class' collection
+    res.status(200).json(topics);
+  } catch (error) {
+    console.error("Error fetching topics:", error);
+    res.status(500).json({ message: "Failed to fetch topics" });
+  }
+});
+
+
+// Get classes by teacher email
+router.get("/classes", async (req, res) => {
+  const { email } = req.query; // Email sent as a query parameter
+
+  if (!email) {
+    return res.status(400).json({ message: "Email is required" });
+  }
+
+  try {
+    const classes = await Class.find({ teacherEmail: email });
+    res.status(200).json(classes);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching classes", error });
+  }
+});
+
+// Route to get unique topics
+router.get("/topics", async (req, res) => {
+  try {
+    const topics = await Class.distinct("topic");
+    res.status(200).json(topics);
+  } catch (error) {
+    console.error("Error fetching topics:", error);
+    res.status(500).json({ message: "Failed to fetch topics." });
+  }
+});
+
+
+router.get("/subtopics", async (req, res) => {
+  const { email, topic } = req.query;
+
+  try {
+    const classes = await Class.find({ teacherEmail: email, topic });
+    res.json(classes);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch subtopics" });
+  }
+});
+
+
+module.exports = router;

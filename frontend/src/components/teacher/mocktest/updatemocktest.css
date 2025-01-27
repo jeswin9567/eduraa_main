@@ -1,0 +1,194 @@
+/* General styling for the form container */
+.updatemockteacher {
+    background-color: #f9f9f9;
+    padding: 20px;
+    width: 70%;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Header styling */
+  .updatemockteacher h2 {
+    font-size: 2rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  /* Form section */
+  .updatemockteacher form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  /* Input and textarea fields */
+  .updatemockteacher .updatemockteacher-form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .updatemockteacher label {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 8px;
+  }
+  
+  .updatemockteacher input,
+  .updatemockteacher textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #333;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  .updatemockteacher input:focus,
+  .updatemockteacher textarea:focus {
+    border-color: #007bff;
+  }
+  
+  .updatemockteacher input[type="number"] {
+    -moz-appearance: textfield; /* For Firefox */
+  }
+  
+  .updatemockteacher .updatemockteacher-error-message {
+    color: red;
+    font-size: 0.9rem;
+  }
+  
+  /* Validation error message */
+  .updatemockteacher .updatemockteacher-validation-error {
+    color: #e74c3c;
+    font-size: 0.9rem;
+    margin-top: 10px;
+  }
+  
+  /* Button styling */
+  .updatemockteacher button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .updatemockteacher button:hover {
+    background-color: #0056b3;
+  }
+  
+  .updatemockteacher .updatemockteacher-submit-button {
+    align-self: flex-start;
+    margin-top: 20px;
+  }
+  
+  .updatemockteacher .updatemockteacher-add-question,
+  .updatemockteacher .updatemockteacher-add-step,
+  .updatemockteacher .updatemockteacher-add-option {
+    margin-top: 10px;
+    background-color: #28a745;
+  }
+  
+  .updatemockteacher .updatemockteacher-add-question:hover,
+  .updatemockteacher .updatemockteacher-add-step:hover,
+  .updatemockteacher .updatemockteacher-add-option:hover {
+    background-color: #218838;
+  }
+  
+  .updatemockteacher .updatemockteacher-remove-question,
+  .updatemockteacher .updatemockteacher-remove-step,
+  .updatemockteacher .updatemockteacher-remove-option {
+    margin-top: 10px;
+    background-color: #dc3545;
+  }
+  
+  .updatemockteacher .updatemockteacher-remove-question:hover,
+  .updatemockteacher .updatemockteacher-remove-step:hover,
+  .updatemockteacher .updatemockteacher-remove-option:hover {
+    background-color: #c82333;
+  }
+  
+  /* Responsive design for smaller screens */
+  @media (max-width: 768px) {
+    .updatemockteacher {
+      padding: 15px;
+    }
+  
+    .updatemockteacher form {
+      gap: 15px;
+    }
+  
+    .updatemockteacher h2 {
+      font-size: 1.5rem;
+    }
+  
+    .updatemockteacher input,
+    .updatemockteacher textarea {
+      font-size: 0.9rem;
+    }
+  
+    .updatemockteacher button {
+      padding: 10px 16px;
+      font-size: 0.9rem;
+    }
+  }
+  
+  /* Styling for the question, options, and steps */
+  .updatemockteacher-question {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .updatemockteacher-question h4 {
+    font-size: 1.2rem;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .updatemockteacher-option,
+  .updatemockteacher-step {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+  }
+  
+  .updatemockteacher-option input,
+  .updatemockteacher-step input {
+    margin-bottom: 5px;
+  }
+  
+  .updatemockteacher-remove-option,
+  .updatemockteacher-remove-step,
+  .updatemockteacher-remove-question {
+    background-color: #e0e0e0;
+    font-size: 0.9rem;
+  }
+  
+  .updatemockteacher-remove-option:hover,
+  .updatemockteacher-remove-step:hover,
+  .updatemockteacher-remove-question:hover {
+    background-color: #ccc;
+  }
+  
+  .updatemockteacher-add-option,
+  .updatemockteacher-add-step,
+  .updatemockteacher-add-question {
+    background-color: #17a2b8;
+    font-size: 1rem;
+    padding: 8px 16px;
+  }
+  
+  .updatemockteacher-add-option:hover,
+  .updatemockteacher-add-step:hover,
+  .updatemockteacher-add-question:hover {
+    background-color: #138496;
+  }
+  

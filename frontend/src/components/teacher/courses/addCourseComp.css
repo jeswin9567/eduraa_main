@@ -1,0 +1,116 @@
+/* General Container Styles */
+.teachupldclzcom-container {
+    width:80%;
+    padding: 2rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    font-family: 'Arial', sans-serif;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .teachupldclzcom-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Heading Styles */
+  .teachupldclzcom-heading {
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    font-weight: 600;
+    text-align: center;
+    color: #333;
+    border-bottom: 2px solid #007bff;
+    display: inline-block;
+    padding-bottom: 0.5rem;
+  }
+  
+  /* Form Styles */
+  .teachupldclzcom-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  /* Form Group */
+  .teachupldclzcom-form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Labels */
+  .teachupldclzcom-label {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #555;
+  }
+  
+  /* Inputs */
+  .teachupldclzcom-input,
+  .teachupldclzcom-input-file {
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: #f9f9f9;
+  }
+  
+  .teachupldclzcom-input:focus,
+  .teachupldclzcom-input-file:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+  }
+  
+  /* Error Messages */
+  .teachupldclzcom-error {
+    color: #d9534f;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    font-weight: 500;
+  }
+  
+  /* Button Styles */
+  .teachupldclzcom-submit-button {
+    padding: 0.9rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .teachupldclzcom-submit-button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .teachupldclzcom-container {
+      padding: 1.5rem;
+    }
+  
+    .teachupldclzcom-heading {
+      font-size: 1.5rem;
+    }
+  
+    .teachupldclzcom-input,
+    .teachupldclzcom-input-file {
+      font-size: 0.9rem;
+      padding: 0.7rem;
+    }
+  
+    .teachupldclzcom-submit-button {
+      font-size: 0.9rem;
+      padding: 0.8rem 1.2rem;
+    }
+  }
+  

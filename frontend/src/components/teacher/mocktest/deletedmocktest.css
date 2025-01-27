@@ -1,0 +1,89 @@
+/* Main container for deleted mock tests */
+.teacher-deletedmocktest-container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Header styling */
+  .teacher-deletedmocktest-header {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Message when no mock tests are found */
+  .teacher-deletedmocktest-message {
+    text-align: center;
+    font-size: 18px;
+    color: #888;
+    margin-top: 20px;
+  }
+  
+  /* List styling */
+  .teacher-deletedmocktest-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  /* Each mock test item */
+  .teacher-deletedmocktest-item {
+    background-color: #ffffff;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Mock test title */
+  .teacher-deletedmocktest-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  /* Mock test details (duration, total marks) */
+  .teacher-deletedmocktest-duration,
+  .teacher-deletedmocktest-totalMarks {
+    font-size: 16px;
+    color: #555;
+    margin: 2px 0;
+  }
+  
+  /* Enable button */
+  .teacher-deletedmocktest-enableButton {
+    background-color: #28a745;
+    color: #fff;
+    font-size: 14px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .teacher-deletedmocktest-enableButton:hover {
+    background-color: #218838;
+  }
+  
+  /* Responsive styling for smaller screens */
+  @media (max-width: 768px) {
+    .teacher-deletedmocktest-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .teacher-deletedmocktest-enableButton {
+      width: 100%;
+      margin-top: 10px;
+    }
+  }

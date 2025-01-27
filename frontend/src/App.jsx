@@ -71,6 +71,11 @@ import TeacherAddMock from './pages/Teacher/addmocktest';
 import TeacherMocktestList from './pages/Teacher/mocktestlist';
 import TeacherViewMock from './pages/Teacher/viewmocktests';
 import TeacherViewMockDetails from './pages/Teacher/viewmocktestdetails';
+import TeacherUpdateMockTest from './pages/Teacher/updatemocktest';
+import TeacherDeletedMock from './pages/Teacher/deletedmocktest';
+import TeachAddCourse from './pages/Teacher/addcoursesteacher';
+import TeachUploadedClasses from './pages/Teacher/uploadedClasses';
+import TeachUploadedClassesLists from './pages/Teacher/uploadedClasseslistsTopic';
 
 
 function App() {
@@ -150,6 +155,11 @@ function App() {
         <Route path = "/teacher/mocktestlist" element = {<TeacherMocktestList />} />
         <Route path = "/teacher/viewmocktest/:examId" element = {<TeacherViewMock />} />
         <Route path = "/teacher/viewmocktestdetails/:mockTestId" element = {<TeacherViewMockDetails />} />
+        <Route path = "/teacher/updatemocktest/:mockTestId" element= {<TeacherUpdateMockTest />} />
+        <Route path = "/teacher/deletedmocktest" element= {<TeacherDeletedMock />} />
+        <Route path = "/teacher/addcourses" element={<TeachAddCourse/>} />
+        <Route path ="/teacher/managecourses" element ={<TeachUploadedClasses />} />
+        <Route path = "/subtopics/:topic" element = {<TeachUploadedClassesLists />} />
 
       </Routes>
     </Router>

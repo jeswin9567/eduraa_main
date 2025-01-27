@@ -45,7 +45,7 @@ const TeachMockTestList = () => {
 
   // Handle navigation to the update form
   const handleUpdate = (mockTestId) => {
-    navigate(`/manager/updatemocktest/${mockTestId}`); // Adjust route as needed
+    navigate(`/teacher/updatemocktest/${mockTestId}`); // Adjust route as needed
   };
 
   // Handle navigation to the mock test details page

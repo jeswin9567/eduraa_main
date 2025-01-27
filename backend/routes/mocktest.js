@@ -206,6 +206,32 @@ router.get('/deletedmocktests', async (req, res) => {
   }
 });
 
+// get teacher deleted mocktest
+
+router.get('/teacherdeletedmocktests', async (req, res) => {
+  try {
+    const email = req.headers.email; // Extract email from headers
+
+    if (!email) {
+      return res.status(400).json({ message: 'Email is required' });
+    }
+
+    // Find deleted mock tests where the email matches and status is false
+    const mockTests = await MockTest.find({ status: false, email: email })
+      .populate('examId', 'name'); // Populate only the 'name' field of Entrance exam
+
+    if (mockTests.length === 0) {
+      return res.status(404).json({ message: 'No deleted mock tests found for this teacher' });
+    }
+
+    res.json(mockTests); // Return the filtered mock tests
+  } catch (error) {
+    console.error('Error fetching deleted mock tests:', error);
+    res.status(500).json({ message: 'Error fetching deleted mock tests' });
+  }
+});
+
+
 
 // get a mocktest for user
 

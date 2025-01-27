@@ -1,0 +1,150 @@
+.teachermocktest-container {
+    display: flex;
+    width: 70%;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    min-height: 100vh; /* Full viewport height */
+  }
+  
+  .teachermocktest-form {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    box-sizing: border-box;
+  }
+  
+  
+  .teachermocktest-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .teachermocktest-field {
+    margin-bottom: 20px;
+  }
+  
+  .teachermocktest-label {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: block;
+    color: #333;
+  }
+  
+  .teachermocktest-input,
+  .teachermocktest-textarea,
+  .teachermocktest-select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-top: 8px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .teachermocktest-input:focus,
+  .teachermocktest-textarea:focus,
+  .teachermocktest-select:focus {
+    outline: none;
+    border-color: #3498db;
+  }
+  
+  .teachermocktest-textarea {
+    resize: vertical;
+    height: 100px;
+  }
+  
+  .teachermocktest-error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+  
+  .teachermocktest-success {
+    color: green;
+    font-size: 16px;
+    margin-top: 20px;
+  }
+  
+  .teachermocktest-subtitle {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 20px 0;
+    color: #333;
+  }
+  
+  .teachermocktest-question,
+  .teachermocktest-step,
+  .teachermocktest-option {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+  }
+  
+  .teachermocktest-add-question,
+  .teachermocktest-add-option,
+  .teachermocktest-add-step {
+    background-color: #3498db;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+  }
+  
+  .teachermocktest-add-question:hover,
+  .teachermocktest-add-option:hover,
+  .teachermocktest-add-step:hover {
+    background-color: #2980b9;
+  }
+  
+  .teachermocktest-submit {
+    background-color: #2ecc71;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+  }
+  
+  .teachermocktest-submit:hover {
+    background-color: #27ae60;
+  }
+  
+  /* Styles for the entrance exam select */
+  .teachermocktest-select {
+    background-color: #fafafa;
+    font-size: 16px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .teachermocktest-form {
+      padding: 20px;
+    }
+  
+    .teachermocktest-title {
+      font-size: 20px;
+    }
+  
+    .teachermocktest-label,
+    .teachermocktest-input,
+    .teachermocktest-textarea {
+      font-size: 14px;
+    }
+  }
+  

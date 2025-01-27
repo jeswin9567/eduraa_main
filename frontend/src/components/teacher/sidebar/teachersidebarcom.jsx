@@ -2,6 +2,7 @@ import React from "react";
 import './teachersidebarcom.css'
 import { useNavigate } from "react-router-dom";
 import TeachMockButton from "../button/mocktest";
+import TeachCousreButton from "../button/Classes";
 
 const Teachersidebrcom = () => {
     const navigate = useNavigate();
@@ -12,7 +13,7 @@ const Teachersidebrcom = () => {
             <button onClick={() => navigate('/teacherhome')}>Home</button>
             <button>Courses</button>
             <TeachMockButton />
-            <button>Classes</button>
+            <TeachCousreButton />
             <button>Students</button>
             <button>Announcements</button>
             </div>

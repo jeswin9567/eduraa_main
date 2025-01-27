@@ -28,7 +28,7 @@ const TeachViewMockTestDetails = () => {
   };
 
   const handleUpdate = () => {
-    navigate(`/manager/updatemocktest/${mockTestId}`); // Navigate to the update page
+    navigate(`/teacher/updatemocktest/${mockTestId}`); // Navigate to the update page
   };
 
   const handleDelete = async () => {
