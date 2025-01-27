@@ -98,12 +98,57 @@ router.get("/subtopics", async (req, res) => {
   const { email, topic } = req.query;
 
   try {
-    const classes = await Class.find({ teacherEmail: email, topic });
+    const classes = await Class.find({ teacherEmail: email, topic, });
     res.json(classes);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch subtopics" });
   }
 });
+
+
+
+//disable classes
+
+router.patch("/disable-subtopic/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedSubtopic = await Class.findByIdAndUpdate(
+      id,
+      { activeStatus: false },
+      { new: true }
+    );
+    if (!updatedSubtopic) {
+      return res.status(404).json({ message: "Subtopic not found" });
+    }
+    res.json({ message: "Subtopic disabled successfully", updatedSubtopic });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// enablesubtopic
+
+router.patch("/toggle-subtopic/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { activeStatus } = req.body; // Get the new status from the request body
+
+    const updatedSubtopic = await Class.findByIdAndUpdate(
+      id,
+      { activeStatus },
+      { new: true }
+    );
+
+    if (!updatedSubtopic) {
+      return res.status(404).json({ message: "Subtopic not found" });
+    }
+
+    res.json({ message: "Subtopic status updated successfully", updatedSubtopic });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 
 
 module.exports = router;

@@ -30,12 +30,6 @@ function TeachCousreButton() {
           >
             Manage Courses
           </button>
-          <button
-            className="managerservicebtnnn-dropdown-item"
-            onClick={() => navigate('/teacher/deletedcourses')}
-          >
-            Deleted Courses
-          </button>
           
         </div>
       )}

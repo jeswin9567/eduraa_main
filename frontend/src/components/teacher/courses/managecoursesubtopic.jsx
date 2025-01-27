@@ -36,12 +36,39 @@ const SubtopicsPageCom = () => {
     fetchSubtopics();
   }, [topic]);
 
+  const handleToggleStatus = async (id, currentStatus) => {
+    const newStatus = !currentStatus; // Toggle the activeStatus
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/course/toggle-subtopic/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ activeStatus: newStatus }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update subtopic status");
+      }
+
+      // Update UI after successful toggle
+      setSubtopics((prevSubtopics) =>
+        prevSubtopics.map((subtopic) =>
+          subtopic._id === id ? { ...subtopic, activeStatus: newStatus } : subtopic
+        )
+      );
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
   if (loading) return <div className="sublistcour-loading">Loading...</div>;
   if (error) return <div className="sublistcour-error">Error: {error}</div>;
 
   return (
     <div className="sublistcour-container">
-      <h2 className="sublistcour-title">Subtopics for {topic}</h2>
+      <h2 className="sublistcour-title">{topic}</h2>
       {subtopics.length === 0 ? (
         <p className="sublistcour-empty">No subtopics found</p>
       ) : (
@@ -72,6 +99,17 @@ const SubtopicsPageCom = () => {
               <p className="sublistcour-uploaded">
                 Uploaded At: {new Date(subtopicItem.uploadedAt).toLocaleString()}
               </p>
+              {/* New Active Status Field */}
+              <p className="sublistcour-active-status">
+                Status: {subtopicItem.activeStatus ? "Active" : "Not Active"}
+              </p>
+              <button
+                className="sublistcour-disable-btn"
+                onClick={() => handleToggleStatus(subtopicItem._id, subtopicItem.activeStatus)}
+                disabled={subtopicItem.activeStatus === null}
+              >
+                {subtopicItem.activeStatus ? "Disable" : "Enable"}
+              </button>
             </li>
           ))}
         </ul>
@@ -81,3 +119,4 @@ const SubtopicsPageCom = () => {
 };
 
 export default SubtopicsPageCom;
+  
