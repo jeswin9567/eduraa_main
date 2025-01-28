@@ -40,6 +40,7 @@ const TeacherRegistraionRoute = require('./routes/teacherRegistration');
 const ViewTeacherRoute = require('./routes/viewteachers');
 const ViewTeacherProfileRoute = require('./routes/viewteacherprofile');
 const UploadCourseRoute = require('./routes/courses');
+const LiveCLassScheduleRoute = require('./routes/liveclass');
 
 
 
@@ -109,7 +110,8 @@ app.use('/feed',FeedBackRoute);
 app.use('/api/teachers',TeacherRegistraionRoute);
 app.use('/api/viewteachers', ViewTeacherRoute);
 app.use('/api/profile', ViewTeacherProfileRoute);
-app.use('/api/course', UploadCourseRoute)
+app.use('/api/course', UploadCourseRoute);
+app.use('/api/liveclass',LiveCLassScheduleRoute);
 
 
 
