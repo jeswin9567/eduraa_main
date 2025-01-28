@@ -69,6 +69,24 @@ router.post('/teacheraddMockTest', async (req, res) => {
   }
 });
 
+// get number of mocktest
+router.get('/mocktest-status', async (req, res) => {
+  try {
+      const { email } = req.query;
+      if (!email) {
+          return res.status(400).json({ message: 'Email is required' });
+      }
+
+      const activeMockTests = await MockTest.countDocuments({ email, status: true });
+      const nonActiveMockTests = await MockTest.countDocuments({ email, status: false });
+
+      res.status(200).json({ activeMockTests, nonActiveMockTests });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server error' });
+  }
+});
+
 
 // Create a new mock test
 router.post('/addMockTest', async (req, res) => {

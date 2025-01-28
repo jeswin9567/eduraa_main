@@ -71,6 +71,7 @@ router.get("/viewteacherdet/:id", async (req, res) => {
     try {
       const { active, subjectassigned } = req.body; // Get active and subjectassigned from request body
   
+      // Find and update the teacher's active status and assigned subject
       const teacher = await Teacher.findByIdAndUpdate(
         req.params.id,
         { active, subjectassigned },
@@ -89,31 +90,48 @@ router.get("/viewteacherdet/:id", async (req, res) => {
         email: teacher.email,
         password: randomPassword,
         role: "teacher",
+        status: true, // Ensure the status is set to active
       });
   
       await login.save();
   
-      // Send email notification to the teacher
+      // Email notification to the teacher
       const mailOptions = {
-        from: "your-email@gmail.com",
+        from: process.env.EMAIL_USER,
         to: teacher.email,
-        subject: "Congratulations! You have been selected as a teacher.",
-        text: `Dear ${teacher.firstname} ${teacher.lastname},\n\nYou have been selected as a teacher. Your assigned subject is: ${subjectassigned}.\n\nYour login details are as follows:\n\nEmail: ${teacher.email}\nPassword: ${randomPassword}\n\nPlease use these details to log in to your account.\n\nBest regards,\nYour Team`,
+        subject: "Congratulations! You've been selected as a teacher",
+        text: `
+          Dear ${teacher.firstname} ${teacher.lastname},
+  
+          You have been selected as a teacher. Here are your login credentials:
+  
+          Email: ${teacher.email}
+          Password: ${randomPassword}
+  
+          Assigned Subject: ${subjectassigned}
+  
+          Please log in to your account and start managing your responsibilities.
+  
+          Regards,
+          Eduraa Team
+        `,
       };
   
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
           console.error("Error sending email:", error);
         } else {
-          console.log("Email sent: " + info.response);
+          console.log("Email sent successfully: " + info.response);
         }
       });
   
-      res.status(200).json(teacher);
+      res.status(200).json({ message: "Teacher accepted and email sent!", teacher });
     } catch (error) {
-      res.status(500).json({ error: "Error updating teacher status" });
+      console.error("Error updating teacher status:", error);
+      res.status(500).json({ error: "Failed to accept teacher" });
     }
   });
+  
 
   // Delete a teacher
   router.delete("/teacherreject/:id", async (req, res) => {

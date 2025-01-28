@@ -22,15 +22,22 @@ const ViewReqTeacherDetails = () => {
       alert("Please select a subject before accepting.");
       return;
     }
-
+  
     axios
-      .patch(`http://localhost:5000/api/viewteachers/teacheraccept/${id}`, { active: true, subjectassigned: subject })
-      .then(() => {
-        alert("Teacher accepted!");
+      .patch(`http://localhost:5000/api/viewteachers/teacheraccept/${id}`, {
+        active: true,
+        subjectassigned: subject,
+      })
+      .then((response) => {
+        alert("Teacher accepted successfully! Email sent.");
         navigate("/mhome");
       })
-      .catch((error) => console.error("Error updating teacher status:", error));
+      .catch((error) => {
+        console.error("Error updating teacher status:", error);
+        alert("Failed to accept the teacher. Please try again.");
+      });
   };
+  
 
   const handleDelete = () => {
     axios

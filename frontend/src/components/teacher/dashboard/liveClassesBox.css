@@ -1,0 +1,67 @@
+.liveclazbxs {
+    padding: 20px; /* Increased padding for better spacing */
+    margin-left: 5%; /* Adjust to align on the dashboard */
+    margin-top: 3%; /* Adjust to align on the dashboard */
+    border-radius: 12px; /* Softer, modern border radius */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Enhanced shadow for better depth */
+    background-color: #f9f9f9; /* Subtle off-white background for modern look */
+    width: 280px; /* Slightly increased width */
+    font-family: 'Arial', sans-serif;
+    height: 220px; /* Proportional height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #e0e0e0; /* Light border for structure */
+  }
+  
+  .liveclazbxs h3 {
+    font-size: 20px; /* Larger, bold title for prominence */
+    font-weight: bold;
+    margin-bottom: 16px;
+    color: #222; /* Slightly darker for better readability */
+    text-align: center; /* Center title for balance */
+    border-bottom: 1px solid #ddd; /* Divider for visual separation */
+    padding-bottom: 8px; /* Padding for spacing */
+  }
+  
+  .liveclazbxs p {
+    font-size: 16px; /* Font size for paragraph */
+    color: #444; /* Darker text for clarity */
+    margin-bottom: 8px; /* Space between the paragraphs */
+  }
+  
+  .liveclazbxs .buttons {
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  button {
+    padding: 10px 15px;
+    margin: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  .remind-button {
+    background-color: #4CAF50; /* Green for Remind button */
+    color: white;
+  }
+  
+  .schedule-button {
+    background-color: #008CBA; /* Blue for List Schedules button */
+    color: white;
+  }
+  
+  .liveclazbxs.loading {
+    text-align: center;
+    font-size: 18px; /* Slightly larger text for focus */
+    color: #888; /* Neutral color for loading state */
+    height: 100%; /* Center aligns the text vertically */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  

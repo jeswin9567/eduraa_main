@@ -149,6 +149,22 @@ router.patch("/toggle-subtopic/:id", async (req, res) => {
   }
 });
 
+// to get number of classes uploaded
+
+router.get("/classes/teacher-count", async (req, res) => {
+    const { email } = req.query;
+
+    if (!email) {
+        return res.status(400).json({ message: "Email is required" });
+    }
+
+    try {
+        const count = await Class.countDocuments({ teacherEmail: email });
+        res.status(200).json({ count });
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching class count", error });
+    }
+});
 
 
 module.exports = router;

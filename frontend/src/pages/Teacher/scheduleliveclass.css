@@ -1,8 +1,4 @@
-.teachersidbarmain{
-    height: 100%;
-}
-
-.teacherdashbod-container{
+.schedllivclz-container {
     display: flex;
     flex-direction: row;
     width: 100%;

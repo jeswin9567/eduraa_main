@@ -1,0 +1,58 @@
+.mktbxcon {
+    padding: 20px; /* Increased padding for better spacing */
+    margin-left: 5%; /* Adjust to align on the dashboard */
+    margin-top: 3%; /* Adjust to align on the dashboard */
+    border-radius: 12px; /* Softer, modern border radius */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Enhanced shadow for better depth */
+    background-color: #f9f9f9; /* Subtle off-white background for modern look */
+    width: 280px; /* Slightly increased width */
+    font-family: 'Arial', sans-serif;
+    height: 220px; /* Proportional height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #e0e0e0; /* Light border for structure */
+}
+
+.mktbxcon h2 {
+    font-size: 20px; /* Larger, bold title for prominence */
+    font-weight: bold;
+    margin-bottom: 16px;
+    color: #222; /* Slightly darker for better readability */
+    text-align: center; /* Center title for balance */
+    border-bottom: 1px solid #ddd; /* Divider for visual separation */
+    padding-bottom: 8px; /* Padding for spacing */
+}
+
+.mktbxcon__statusItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px; /* More spacing between items */
+    font-size: 16px;
+    color: #444; /* Darker text for clarity */
+    font-weight: 500;
+}
+
+.mktbxcon__statusItem span {
+    font-size: 18px; /* More emphasis on the numbers */
+    font-weight: bold;
+}
+
+.mktbxcon__active {
+    color: #28a745; /* Consistent green for active */
+}
+
+.mktbxcon__nonActive {
+    color: #dc3545; /* Consistent red for non-active */
+}
+
+.mktbxcon.loading {
+    text-align: center;
+    font-size: 18px; /* Slightly larger text for focus */
+    color: #888; /* Neutral color for loading state */
+    height: 100%; /* Center aligns the text vertically */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

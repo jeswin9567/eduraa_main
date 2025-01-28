@@ -1,0 +1,102 @@
+.liveclasseslistssched-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    max-width: 100%;
+    margin: 20px auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow-x: auto; /* Enable horizontal scrolling for smaller screens */
+  }
+  
+  .liveclasseslistssched-heading {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .liveclasseslistssched-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    min-width: 600px; /* Ensures table doesn't shrink too small */
+  }
+  
+  .liveclasseslistssched-table th,
+  .liveclasseslistssched-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border: 1px solid #ddd;
+    color: #555;
+    white-space: nowrap; /* Prevent text wrapping in cells */
+  }
+  
+  .liveclasseslistssched-table th {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    text-align: left;
+  }
+  
+  .liveclasseslistssched-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .liveclasseslistssched-table tr:hover {
+    background-color: #eaf1f8;
+  }
+  
+  .liveclasseslistssched-loading {
+    text-align: center;
+    font-size: 18px;
+    color: #555;
+    margin-top: 20px;
+  }
+  
+  .liveclasseslistssched-table td {
+    font-size: 14px;
+  }
+  
+  .liveclasseslistssched-table td[colspan] {
+    text-align: center;
+    font-style: italic;
+    color: #999;
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 768px) {
+    .liveclasseslistssched-container {
+      padding: 15px;
+    }
+  
+    .liveclasseslistssched-heading {
+      font-size: 20px;
+    }
+  
+    .liveclasseslistssched-table th,
+    .liveclasseslistssched-table td {
+      font-size: 12px;
+      padding: 8px 10px;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .liveclasseslistssched-heading {
+      font-size: 18px;
+    }
+  
+    .liveclasseslistssched-table {
+      font-size: 10px;
+    }
+  
+    .liveclasseslistssched-table th,
+    .liveclasseslistssched-table td {
+      padding: 5px;
+    }
+  
+    .liveclasseslistssched-container {
+      padding: 10px;
+    }
+  }
+  

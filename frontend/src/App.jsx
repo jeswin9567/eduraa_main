@@ -76,6 +76,8 @@ import TeacherDeletedMock from './pages/Teacher/deletedmocktest';
 import TeachAddCourse from './pages/Teacher/addcoursesteacher';
 import TeachUploadedClasses from './pages/Teacher/uploadedClasses';
 import TeachUploadedClassesLists from './pages/Teacher/uploadedClasseslistsTopic';
+import ScheduleLiveClass from './pages/Teacher/scheduleliveclass';
+import ViewAllSchedLiveClz from './pages/Teacher/viewscheduledliveclassAll';
 
 
 function App() {
@@ -160,7 +162,8 @@ function App() {
         <Route path = "/teacher/addcourses" element={<TeachAddCourse/>} />
         <Route path ="/teacher/managecourses" element ={<TeachUploadedClasses />} />
         <Route path = "/subtopics/:topic" element = {<TeachUploadedClassesLists />} />
-
+        <Route path = "/teacher/scheduleclass" element = {<ScheduleLiveClass />} />
+        <Route path = "/teacher/viewscheduleclasses" element = {<ViewAllSchedLiveClz />} />
       </Routes>
     </Router>
   );
