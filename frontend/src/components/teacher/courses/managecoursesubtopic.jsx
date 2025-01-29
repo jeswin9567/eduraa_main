@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import "./managecoursesubtopics.css"; // Updated CSS file
+import { useParams, useNavigate } from "react-router-dom";
+import "./managecoursesubtopics.css";
 
 const SubtopicsPageCom = () => {
-  const { topic } = useParams(); // Get the topic from the URL
+  const { topic } = useParams();
   const [subtopics, setSubtopics] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
   useEffect(() => {
     const fetchSubtopics = async () => {
@@ -37,7 +38,7 @@ const SubtopicsPageCom = () => {
   }, [topic]);
 
   const handleToggleStatus = async (id, currentStatus) => {
-    const newStatus = !currentStatus; // Toggle the activeStatus
+    const newStatus = !currentStatus;
 
     try {
       const response = await fetch(`http://localhost:5000/api/course/toggle-subtopic/${id}`, {
@@ -52,7 +53,6 @@ const SubtopicsPageCom = () => {
         throw new Error("Failed to update subtopic status");
       }
 
-      // Update UI after successful toggle
       setSubtopics((prevSubtopics) =>
         prevSubtopics.map((subtopic) =>
           subtopic._id === id ? { ...subtopic, activeStatus: newStatus } : subtopic
@@ -61,6 +61,10 @@ const SubtopicsPageCom = () => {
     } catch (err) {
       setError(err.message);
     }
+  };
+
+  const handleVideoClick = (videoUrl) => {
+    navigate("/video-player", { state: { videoUrl } }); // Navigate to VideoPlayerPage with the video URL as state
   };
 
   if (loading) return <div className="sublistcour-loading">Loading...</div>;
@@ -87,19 +91,16 @@ const SubtopicsPageCom = () => {
                 </a>
               </p>
               <p>
-                <a
-                  href={subtopicItem.video}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={() => handleVideoClick(subtopicItem.video)} // Navigate to video player page
                   className="sublistcour-link"
                 >
                   Watch Video
-                </a>
+                </button>
               </p>
               <p className="sublistcour-uploaded">
                 Uploaded At: {new Date(subtopicItem.uploadedAt).toLocaleString()}
               </p>
-              {/* New Active Status Field */}
               <p className="sublistcour-active-status">
                 Status: {subtopicItem.activeStatus ? "Active" : "Not Active"}
               </p>
@@ -119,4 +120,3 @@ const SubtopicsPageCom = () => {
 };
 
 export default SubtopicsPageCom;
-  

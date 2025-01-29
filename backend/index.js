@@ -4,6 +4,11 @@ const cors = require('cors');
 const session=require('express-session')
 const app = express();
 
+// time scheduler
+const updateClassStatus = require("../backend/config/scheduler");
+updateClassStatus(); // Start the cron job when the server starts
+
+
 
 // Import routes
 const loginRoute = require('./routes/log');

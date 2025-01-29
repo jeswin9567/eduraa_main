@@ -24,6 +24,10 @@ const liveClassSchema = new mongoose.Schema({
   endtime: {
     type: String,
     required: true,
+  },
+  status: {
+    type: Boolean,
+    default: false, // Initially false; will be updated when the class starts
   }
 });
 

@@ -3,21 +3,34 @@ const router = express.Router();
 const PaymentOption = require('../model/price');
 
 router.post('/add-payment-option', async (req, res) => {
-  const { amount, frequency } = req.body;
+  const { amount, frequency, planType } = req.body;
 
   try {
+    // Validate planType based on frequency
+    const planMapping = {
+      weekly: 'mocktest',
+      monthly: 'normal',
+      yearly: 'premium'
+    };
+
+    if (planMapping[frequency] !== planType) {
+      return res.status(400).json({
+        message: `Invalid plan type '${planType}' for ${frequency} subscription.`
+      });
+    }
+
     // Check if a payment option with the given frequency already exists
     const existingOption = await PaymentOption.findOne({ frequency });
 
     if (existingOption) {
       return res.status(400).json({
         message: `A payment option for '${frequency}' already exists.`,
-        existingOption,
+        existingOption
       });
     }
 
-    // If no existing option is found, create a new payment option
-    const paymentOption = new PaymentOption({ amount, frequency });
+    // Create new payment option
+    const paymentOption = new PaymentOption({ amount, frequency, planType });
     await paymentOption.save();
 
     res.status(201).json({ 
@@ -38,13 +51,14 @@ router.post('/add-payment-option', async (req, res) => {
 // Payment options retrieval route
 router.get('/view/payment-options', async (req, res) => {
   try {
-    const paymentOptions = await PaymentOption.find({}, 'amount frequency'); // Select only amount and frequency
+    const paymentOptions = await PaymentOption.find({}, 'amount frequency planType'); // Include planType
     res.json(paymentOptions);
   } catch (error) {
     console.error('Error fetching payment options:', error);
     res.status(500).json({ message: 'Server error. Failed to fetch payment options.' });
   }
 });
+
 
 // to see the prices
 
@@ -78,19 +92,35 @@ router.put('/prices/:id', async (req, res) => {
   const { amount, frequency } = req.body;
 
   try {
-    // Check for duplicate price with the same frequency
+    // Validate the plan type for the given frequency
+    const planMapping = {
+      weekly: 'mocktest',
+      monthly: 'normal',
+      yearly: 'premium'
+    };
+
+    const validPlanType = planMapping[frequency];
+
+    if (!validPlanType) {
+      return res.status(400).json({ message: `Invalid frequency: '${frequency}'.` });
+    }
+
+    // Ensure the correct planType is set
+    req.body.planType = validPlanType;
+
+    // Check if a payment option with the same frequency already exists (excluding the current one)
     const existingPrice = await PaymentOption.findOne({
-      _id: { $ne: req.params.id }, // Exclude the current document from the check
-      amount,
-      frequency,
+      _id: { $ne: req.params.id },
+      frequency
     });
 
     if (existingPrice) {
-      return res.status(400).json({ message: 'A price with the same amount and frequency already exists.' });
+      return res.status(400).json({ message: `A payment option for '${frequency}' already exists.` });
     }
 
     // Proceed with the update if no duplicate found
     const updatedPrice = await PaymentOption.findByIdAndUpdate(req.params.id, req.body, { new: true });
+
     if (!updatedPrice) {
       return res.status(404).json({ message: 'Payment option not found.' });
     }
@@ -101,6 +131,7 @@ router.put('/prices/:id', async (req, res) => {
     res.status(500).json({ error: 'Failed to update price' });
   }
 });
+
 
 
 

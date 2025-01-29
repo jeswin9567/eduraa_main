@@ -1,4 +1,3 @@
-// models/Payment.js
 const mongoose = require('mongoose');
 
 const PaymentSchema = new mongoose.Schema({
@@ -12,13 +11,18 @@ const PaymentSchema = new mongoose.Schema({
     required: true,
     min: 0,
   },
-  email:{
+  email: {
     type: String,
-    required:true,
+    required: true,
   },
   frequency: {
     type: String,
-    enum: ['monthly', 'yearly'],
+    enum: ['weekly', 'monthly', 'yearly'],
+    required: true,
+  },
+  planType: {  // Ensure planType is stored
+    type: String,
+    enum: ['mocktest', 'normal', 'premium'],  
     required: true,
   },
   expirationDate: {

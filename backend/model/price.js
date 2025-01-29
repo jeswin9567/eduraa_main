@@ -4,16 +4,21 @@ const PaymentOptionSchema = new mongoose.Schema({
   amount: {
     type: Number,
     required: true,
-    min: 0  // Ensures the amount is positive
+    min: 0
   },
   frequency: {
     type: String,
-    enum: ['weekly','monthly', 'yearly'],  // Only allows "monthly" or "yearly"
+    enum: ['weekly', 'monthly', 'yearly'],
+    required: true
+  },
+  planType: {
+    type: String,
+    enum: ['mocktest', 'normal', 'premium'],  // Defines service level
     required: true
   },
   createdAt: {
     type: Date,
-    default: Date.now  // Automatically sets the creation date
+    default: Date.now
   }
 });
 

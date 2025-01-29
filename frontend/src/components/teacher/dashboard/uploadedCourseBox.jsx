@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import './uploadedCourseBox.css';
 
 const ClassCountBox = () => {
     const [classCount, setClassCount] = useState(0);
     const [loading, setLoading] = useState(true);
     const teacherEmail = localStorage.getItem('userEmail'); // Get the teacher's email from localStorage
+    const navigate = useNavigate(); // Initialize useNavigate hook
 
     useEffect(() => {
         const fetchTeacherClassCount = async () => {
@@ -32,8 +34,13 @@ const ClassCountBox = () => {
         return <div className="class-box loading">Loading...</div>;
     }
 
+    // Handle button click to navigate to the manage courses page
+    const handleButtonClick = () => {
+        navigate('/teacher/managecourses');
+    };
+
     return (
-        <div className="class-box">
+        <div className="class-box" onClick={handleButtonClick} style={{ cursor: 'pointer' }}>
             <h2>Your Uploaded Classes</h2>
             <span className="class-box__count">{classCount}</span>
         </div>

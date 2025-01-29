@@ -1,0 +1,14 @@
+/* videoPlayerPage.css */
+.video-player-container {
+    text-align: center;
+    height: 90%;
+    width: 100%;
+  }
+  
+  .video-player {
+    width: 100%;           /* Let the width adjust automatically */
+    height: 100%;         /* Set a fixed height (adjust as needed) */
+    border: 2px solid #ddd;
+    margin-top: 20px;
+  }
+  

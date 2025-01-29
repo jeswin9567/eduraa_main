@@ -31,7 +31,6 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-  // New fields
   education: {
     type: String,
     enum: ['10', '+2', 'Undergraduate', 'PostGraduate'], // Dropdown options
@@ -63,7 +62,15 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-
+  premiumExpiresAt: {
+    type: Date, // Store expiration date
+    default: null,
+  },
+  subscriptionPlan: {
+    type: String,
+    enum: ['weekly','monthly', 'yearly', null], // Store the plan type
+    default: null,
+  },
   participate: {
     type: Number,
     default: 0,

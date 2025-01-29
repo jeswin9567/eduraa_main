@@ -6,8 +6,24 @@ import './addprice.css';
 const AddPaymentOption = () => {
   const navigate = useNavigate();
   const [amount, setAmount] = useState('');
-  const [frequency, setFrequency] = useState('monthly');
+  const [frequency, setFrequency] = useState('weekly');
+  const [planType, setPlanType] = useState('mocktest');
   const [message, setMessage] = useState('');
+
+  // Handle frequency change and update planType accordingly
+  const handleFrequencyChange = (e) => {
+    const selectedFrequency = e.target.value;
+    setFrequency(selectedFrequency);
+
+    // Auto-set planType based on frequency
+    const planMapping = {
+      weekly: 'mocktest',
+      monthly: 'normal',
+      yearly: 'premium'
+    };
+
+    setPlanType(planMapping[selectedFrequency]);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,7 +31,9 @@ const AddPaymentOption = () => {
       const response = await axios.post('http://localhost:5000/price/add-payment-option', {
         amount,
         frequency,
+        planType
       });
+
       setMessage('Payment option added successfully!');
       setAmount('');
     } catch (error) {
@@ -27,7 +45,6 @@ const AddPaymentOption = () => {
       console.error('Error adding payment option:', error);
     }
   };
-  
 
   return (
     <div className="adp-payment-option-container">
@@ -45,14 +62,15 @@ const AddPaymentOption = () => {
         </label>
         <label>
           Subscription Type:
-          <select
-            value={frequency}
-            onChange={(e) => setFrequency(e.target.value)}
-          >
-            <option value="weekly">Weekly</option>
-            <option value="monthly">Monthly</option>
-            <option value="yearly">Yearly</option>
+          <select value={frequency} onChange={handleFrequencyChange}>
+            <option value="weekly">Weekly (Mock Test Only)</option>
+            <option value="monthly">Monthly (All Services)</option>
+            <option value="yearly">Yearly (Premium Services)</option>
           </select>
+        </label>
+        <label>
+          Plan Type:
+          <input type="text" value={planType} disabled />
         </label>
         <button type="submit">Add Payment Option</button>
       </form>

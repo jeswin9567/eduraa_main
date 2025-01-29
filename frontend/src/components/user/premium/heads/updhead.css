@@ -1,0 +1,44 @@
+.uprmdhead-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    background-color: white; /* White background */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.uprmdheadlogo img {
+    height: 100px; /* Adjust logo size */
+    width: auto;
+    margin-left: 40%;
+}
+
+.uprmdhead-buttons {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.uprmdheadprobtn, .uprmdheadlogbtn {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333; /* Dark text color for contrast */
+    background: transparent;
+    border: 2px solid #333; /* Dark border for buttons */
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.uprmdheadprobtn:hover, .uprmdheadlogbtn:hover {
+    background-color: #333;
+    color: white;
+    border-color: transparent;
+}

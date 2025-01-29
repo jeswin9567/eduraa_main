@@ -55,7 +55,8 @@ const LiveClassesBox = () => {
           <div>
             <h3>Next Live Class</h3>
             <p><strong>Topic:</strong> {liveClass.topic}</p>
-            <p><strong>Date:</strong> {new Date(liveClass.date).toLocaleString()}</p>
+            <p><strong>Date:</strong> {new Date(liveClass.date).toISOString().split('T')[0]}</p>
+
             <p><strong>Time:</strong> {liveClass.time} - {liveClass.endtime}</p>
 
             {/* Buttons without functionality */}

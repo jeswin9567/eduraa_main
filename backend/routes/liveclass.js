@@ -34,6 +34,7 @@ router.post("/schedule-live-class", async (req, res) => {
       date,
       time,
       endtime,
+      status: false, // Default to false
     });
 
     await newLiveClass.save();
@@ -60,25 +61,41 @@ router.get("/get-all", async (req, res) => {
 router.get("/next-live-class/:teacherEmail", async (req, res) => {
   try {
     const { teacherEmail } = req.params;
-    const now = new Date();
+    const now = new Date(); // Current date and time
     
-    // Find the next live class for the teacher where the date is greater than or equal to the current time
-    const nextLiveClass = await LiveClass.findOne({
-      teacherEmail: teacherEmail, // Filter by teacher email
-      date: { $gte: now }, // Ensure the class is in the future
-    }).sort({ date: 1 }); // Sort by date in ascending order
-    
+    // Get start and end of today
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+
+    const endOfToday = new Date();
+    endOfToday.setHours(23, 59, 59, 999);
+
+    // First, find the next live class scheduled for today that hasn't started yet
+    let nextLiveClass = await LiveClass.findOne({
+      teacherEmail: teacherEmail,
+      date: { $gte: startOfToday, $lte: endOfToday }, // Matches only today's classes
+      time: { $gte: now.toTimeString().slice(0, 5) } // Ensure the class hasn't started yet
+    }).sort({ date: 1, time: 1 });
+
+    // If no upcoming class is found for today, then check for future classes
     if (!nextLiveClass) {
-      // Return an empty response with a message
+      nextLiveClass = await LiveClass.findOne({
+        teacherEmail: teacherEmail,
+        date: { $gt: endOfToday }, // Only future classes
+      }).sort({ date: 1, time: 1 });
+    }
+
+    if (!nextLiveClass) {
       return res.status(200).json({ message: "No upcoming live classes scheduled." });
     }
-    
+
     res.status(200).json(nextLiveClass);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error." });
   }
 });
+
 
 
 module.exports = router;

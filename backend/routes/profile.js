@@ -84,10 +84,14 @@ router.get('/payment/latest', verifyToken, async (req, res) => {
 // Route to cancel premium subscription
 router.post('/payment/cancel', verifyToken, async (req, res) => {
   try {
-    // Update the user's premium status to false
+    // Update the user's premium status and reset related fields
     await UserModel.findOneAndUpdate(
       { email: req.email },
-      { premium: false }
+      {
+        premium: false,  // Set premium to false
+        premiumExpiresAt: null,  // Reset expiration date
+        subscriptionPlan: null,  // Reset subscription plan
+      }
     );
 
     res.json({ message: "Subscription canceled successfully" });
@@ -95,5 +99,6 @@ router.post('/payment/cancel', verifyToken, async (req, res) => {
     res.status(500).json({ message: "Error: " + error.message });
   }
 });
+
 
 module.exports = router;

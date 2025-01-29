@@ -1,42 +1,56 @@
 .class-box {
-    padding: 20px; /* Comfortable padding for better spacing */
-    margin-top: 3%; /* Adjust to align on the dashboard */
-    margin-left: 5%; /* Adjust to align on the dashboard */
-    border-radius: 12px; /* Softer edges for modern look */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    background-color: #f9f9f9; /* Light background for contrast */
-    width: 280px; /* Consistent width for dashboard alignment */
+    padding: 20px;
+    margin-top: 3%;
+    margin-left: 5%;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    width: 280px;
     font-family: 'Arial', sans-serif;
-    height: 220px; /* Height proportional to content */
+    height: 220px;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Center-align content vertically */
-    align-items: center; /* Center-align content horizontally */
-    border: 1px solid #e0e0e0; /* Light border for definition */
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s ease-in-out; /* Smooth transition for the hover effect */
 }
 
 .class-box h2 {
-    font-size: 20px; /* Bold and noticeable title */
+    font-size: 20px;
     font-weight: bold;
-    margin-bottom: 16px; /* Space below the title */
-    color: #222; /* Darker shade for readability */
-    text-align: center; /* Centered title */
-    border-bottom: 1px solid #ddd; /* Divider for structure */
-    padding-bottom: 8px; /* Extra spacing for balance */
+    margin-bottom: 16px;
+    color: #222;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
 }
 
 .class-box__count {
-    font-size: 48px; /* Larger font for emphasis on the count */
+    font-size: 48px;
     font-weight: bold;
-    color: #28a745; /* Green for a positive feel */
+    color: #28a745;
 }
 
 .class-box.loading {
-    font-size: 18px; /* Noticeable loading text */
-    color: #888; /* Neutral loading color */
+    font-size: 18px;
+    color: #888;
     text-align: center;
-    height: 100%; /* Full height for centering */
+    height: 100%;
     display: flex;
-    align-items: center; /* Vertical centering */
-    justify-content: center; /* Horizontal centering */
+    align-items: center;
+    justify-content: center;
+}
+
+.class-box:hover {
+    transform: scale(1.05); /* Slight zoom effect */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
+}
+
+.class-box:hover .class-box__count {
+    color: #2b4561; /* Change count color on hover */
+}
+
+.class-box:hover h2 {
+    color: #28a745; /* Change title color on hover */
 }

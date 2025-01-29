@@ -78,6 +78,8 @@ import TeachUploadedClasses from './pages/Teacher/uploadedClasses';
 import TeachUploadedClassesLists from './pages/Teacher/uploadedClasseslistsTopic';
 import ScheduleLiveClass from './pages/Teacher/scheduleliveclass';
 import ViewAllSchedLiveClz from './pages/Teacher/viewscheduledliveclassAll';
+import VideoPlayerPage from './components/teacher/videopla/videoPlayer';
+import UserPrmDashBrd from './pages/user/premium/dashbd';
 
 
 function App() {
@@ -164,6 +166,8 @@ function App() {
         <Route path = "/subtopics/:topic" element = {<TeachUploadedClassesLists />} />
         <Route path = "/teacher/scheduleclass" element = {<ScheduleLiveClass />} />
         <Route path = "/teacher/viewscheduleclasses" element = {<ViewAllSchedLiveClz />} />
+        <Route path = "/video-player" element = {<VideoPlayerPage />} />
+        <Route path = "/user/premium" element = {<UserPrmDashBrd />} />
       </Routes>
     </Router>
   );

@@ -15,70 +15,110 @@
 
 /* Modal Content */
 .pr-modal-content {
-    background-color: #f9f9f9;
-    padding: 30px;
-    border-radius: 12px;
-    width: 400px;
+    background: linear-gradient(135deg, #f37254, #ff6f61);
+    color: #fff;
+    padding: 40px;
+    border-radius: 15px;
+    width: 800px;
     max-width: 90%;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     text-align: center;
     animation: fadeIn 0.4s ease;
 }
 
+/* Header */
 .pr-modal-content h3 {
-    font-size: 1.8rem;
-    margin-bottom: 15px;
-    color: #222;
-    font-weight: 600;
-    border-bottom: 2px solid #ddd;
+    font-size: 2rem;
+    margin-bottom: 25px;
+    font-weight: 700;
+    color: #fff;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
     padding-bottom: 10px;
 }
 
-.pr-modal-content ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 15px 0;
-}
-
-.pr-modal-content li {
+/* Horizontal Plan Cards */
+.plan-cards-container {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin: 10px 0;
-    font-size: 1rem;
-    color: #555;
-    padding: 8px 0;
-    border-bottom: 1px solid #eee;
+    gap: 20px;
+    overflow-x: auto; /* Allows horizontal scrolling for smaller screens */
+    margin-top: 20px;
 }
 
-/* Buy Now Button Styling */
-.pr-modal-content li button {
-    padding: 8px 18px;
-    font-size: 0.95rem;
-    border-radius: 6px;
+.plan-card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    width: 250px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+.plan-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.plan-card h4 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.plan-card p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+/* Access Message */
+.plan-card .access-info {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/* Price */
+.plan-card .price {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #f37254;
+    margin: 20px 0;
+}
+
+/* Button Styles */
+.plan-card .buy-btn {
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    border-radius: 8px;
     background-color: #007BFF;
     color: #fff;
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 4px 6px rgba(0, 123, 255, 0.3);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
 }
 
-.pr-modal-content li button:hover {
+.plan-card .buy-btn:hover {
     background-color: #0056b3;
     transform: scale(1.05);
 }
 
-.pr-modal-content li button:active {
+.plan-card .buy-btn:active {
     transform: scale(0.98);
 }
 
 /* Close Button Styling */
 .pr-modal-content .close-btn {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 0.9rem;
-    border-radius: 6px;
+    margin-top: 30px;
+    padding: 12px 25px;
+    font-size: 1rem;
+    border-radius: 8px;
     background-color: #666;
     color: #fff;
     border: none;
@@ -95,7 +135,7 @@
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(-10px);
+        transform: translateY(-15px);
     }
     to {
         opacity: 1;

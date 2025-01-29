@@ -161,6 +161,16 @@ const ScheduleLiveClassCom = () => {
           />
           {errors.time && <p className="scheduleclasscomp-error">{errors.time}</p>}
         </div>
+        <div className="scheduleclasscomp-field">
+  <label>Status</label>
+  <input
+    type="text"
+    value={formData.status ? "Ongoing" : "Completed"}
+    disabled
+    className="scheduleclasscomp-input disabled"
+  />
+</div>
+
         <button type="submit" className="scheduleclasscomp-button">
           Schedule
         </button>

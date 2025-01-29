@@ -55,5 +55,22 @@ router.get("/users/count", async (req, res) => {
   }
 });
 
+// user premium
+
+router.get('/users/:email', async (req, res) => {
+  try {
+    const user = await UserModel.findOne({ email: req.params.email });
+    
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json(user); // Send user data including subscriptionPlan
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 module.exports = router;
 
