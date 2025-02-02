@@ -1,0 +1,35 @@
+.uusersidebar {
+    width: 22%;
+    min-height: 80.5vh;
+    background-color: #2D3436; /* Dark Indigo for a premium look */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.uusersidebarbtns {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.uusersidebarbtns button {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 18px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #FFFFFF;
+    text-align: left;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.uusersidebarbtns button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #F5F7FA;
+    border-radius: 8px;
+}
