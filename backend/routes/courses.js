@@ -166,5 +166,53 @@ router.get("/classes/teacher-count", async (req, res) => {
     }
 });
 
+// to get all courses for the students
+
+
+router.get("/student/course", async (req, res) => {
+  try {
+    const courses = await Class.find(); // Fetch all courses
+    res.json(courses);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// to get subtopic
+
+router.get("/student/course/:topic", async (req, res) => {
+  try {
+    const topicName = req.params.topic;
+
+    // Find all classes under the given topic
+    const classes = await Class.find({ topic: topicName });
+
+    // Extract unique subtopics
+    const subtopics = [...new Set(classes.map((item) => item.subTopic))];
+
+    res.json(subtopics);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch subtopics" });
+  }
+});
+
+// to get class detials like notes
+
+router.get("/student/course/:topic/:subTopic", async (req, res) => {
+  try {
+    const { topic, subTopic } = req.params;
+
+    // Find all classes matching the topic and subtopic
+    const classes = await Class.find({ topic, subTopic });
+
+    if (!classes || classes.length === 0) {
+      return res.status(404).json({ error: "No classes found for this subtopic" });
+    }
+
+    res.json(classes);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch class details" });
+  }
+});
 
 module.exports = router;

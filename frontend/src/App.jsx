@@ -80,6 +80,9 @@ import ScheduleLiveClass from './pages/Teacher/scheduleliveclass';
 import ViewAllSchedLiveClz from './pages/Teacher/viewscheduledliveclassAll';
 import VideoPlayerPage from './components/teacher/videopla/videoPlayer';
 import UserPrmDashBrd from './pages/user/premium/dashbd';
+import UserPrmCousrBx from './pages/user/premium/userboxcrs';
+import CourseBoxDet from './pages/user/premium/userboxcrsdet';
+import UserClasPartic from './pages/user/premium/userclassdet';
 
 
 function App() {
@@ -168,6 +171,9 @@ function App() {
         <Route path = "/teacher/viewscheduleclasses" element = {<ViewAllSchedLiveClz />} />
         <Route path = "/video-player" element = {<VideoPlayerPage />} />
         <Route path = "/user/premium" element = {<UserPrmDashBrd />} />
+        <Route path = "/user/premium/courses" element = {<UserPrmCousrBx />} />
+        <Route path = "/tsubtopics/:topic" element = {<CourseBoxDet />} />
+        <Route path = "/classes/:topic/:subTopic" element ={<UserClasPartic />} />
       </Routes>
     </Router>
   );

@@ -8,9 +8,13 @@ const Usersidebrcom = () => {
   return (
     <div className="uusersidebar">
       <div className="uusersidebarbtns">
-        <button onClick={() => navigate("/teacherhome")}>Home</button>
-        <button>Students</button>
-        <button>Announcements</button>
+        <button onClick={() => navigate("/userhome")}>Home</button>
+        <button onClick={() => navigate('/user/premium/courses')}>Courses</button>
+        <button>Mocktest</button>
+        <button>Class Schedules</button>
+        <button>Live Classes</button>
+        <button>Teachers</button>
+        <button>Announcement</button>
       </div>
     </div>
   );
