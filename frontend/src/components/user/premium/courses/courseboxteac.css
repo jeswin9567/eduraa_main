@@ -1,0 +1,71 @@
+/* General Container */
+.classheaduserprm-container {
+    width: 75%;
+    margin: 20px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Title */
+.classheaduserprm-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #690e0e;
+}
+
+/* Loading & Error Styles */
+.classheaduserprm-loading,
+.classheaduserprm-error {
+    font-size: 18px;
+    color: #ff4444;
+    margin-top: 20px;
+}
+
+/* Empty State */
+.classheaduserprm-empty {
+    font-size: 18px;
+    color: #666;
+    margin-top: 20px;
+}
+
+/* Grid Layout */
+.classheaduserprm-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Individual Cards */
+.classheaduserprm-card {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    cursor: pointer;
+    height: 180px; /* Increased height for a more premium look */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centers content properly */
+}
+
+/* Hover Effect */
+.classheaduserprm-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Topic Name */
+.classheaduserprm-topic {
+    font-size: 20px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 10px;
+}
+
+/* Number of Classes */
+.classheaduserprm-count {   
+    font-size: 16px;
+    color: #555;
+}

@@ -40,39 +40,59 @@ const ScheduleLiveClassCom = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-
-    // Validation logic
+  
     if (name === "topic") {
-      const topicRegex = /^(?=.*[A-Za-z])[A-Za-z0-9\s]*$/; 
-      if (!topicRegex.test(value)) {
-        setErrors((prev) => ({ ...prev, topic: "Topic must contain letters and can include numbers, but no special characters." }));
-      } else {
-        setErrors((prev) => ({ ...prev, topic: "" }));
-      }
+      const topicRegex = /^(?=.*[A-Za-z])[A-Za-z0-9\s]*$/;
+      setErrors((prev) => ({
+        ...prev,
+        topic: topicRegex.test(value) ? "" : "Topic must contain letters and can include numbers, but no special characters.",
+      }));
     }
-    
-
+  
     if (name === "date") {
       const today = new Date().toISOString().split("T")[0];
-      if (value < today) {
-        setErrors((prev) => ({ ...prev, date: "Date must be today or in the future." }));
-      } else {
-        setErrors((prev) => ({ ...prev, date: "" }));
-      }
+      setErrors((prev) => ({
+        ...prev,
+        date: value < today ? "Date must be today or in the future." : "",
+      }));
     }
-
+  
     if (name === "time" || name === "endtime") {
       const { time, endtime } = { ...formData, [name]: value };
-      if (time && endtime && time >= endtime) {
-        setErrors((prev) => ({
-          ...prev,
-          time: "End-Time must be after Start-Time.",
-        }));
-      } else {
-        setErrors((prev) => ({ ...prev, time: "" }));
+  
+      if (time && endtime) {
+        const startTime = new Date(`1970-01-01T${time}:00`);
+        const endTime = new Date(`1970-01-01T${endtime}:00`);
+  
+        const minStartTime = new Date(`1970-01-01T08:00:00`);
+        const maxEndTime = new Date(`1970-01-01T22:00:00`);
+  
+        if (startTime < minStartTime || endTime > maxEndTime) {
+          setErrors((prev) => ({
+            ...prev,
+            time: "Classes can only be scheduled between 8 AM and 10 PM.",
+          }));
+        } 
+        // Ensure class duration is between 1 hour and 2 hours
+        else if (endTime - startTime < 60 * 60 * 1000) {
+          setErrors((prev) => ({
+            ...prev,
+            time: "Class duration must be at least 1 hour.",
+          }));
+        } 
+        else if (endTime - startTime > 2 * 60 * 60 * 1000) {
+          setErrors((prev) => ({
+            ...prev,
+            time: "Class duration cannot exceed 2 hours.",
+          }));
+        } 
+        else {
+          setErrors((prev) => ({ ...prev, time: "" }));
+        }
       }
     }
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -82,7 +102,7 @@ const ScheduleLiveClassCom = () => {
       return;
     }
 
-    const email = localStorage.getItem("userEmail"); // Get email from localStorage
+    const email = localStorage.getItem("userEmail");
     if (!email) {
       alert("Email not found in localStorage.");
       return;
@@ -91,7 +111,7 @@ const ScheduleLiveClassCom = () => {
     try {
       const response = await axios.post("http://localhost:5000/api/liveclass/schedule-live-class", {
         ...formData,
-        teacherEmail: email, // Add email from localStorage
+        teacherEmail: email,
       });
       alert(response.data.message);
       setFormData({ ...formData, topic: "", date: "", time: "", endtime: "" }); // Clear form except teacherName
@@ -106,74 +126,33 @@ const ScheduleLiveClassCom = () => {
       <form onSubmit={handleSubmit}>
         <div className="scheduleclasscomp-field">
           <label>Teacher Name</label>
-          <input
-            type="text"
-            name="teacherName"
-            value={formData.teacherName}
-            disabled
-            className="scheduleclasscomp-input disabled"
-          />
+          <input type="text" name="teacherName" value={formData.teacherName} disabled className="scheduleclasscomp-input disabled" />
         </div>
         <div className="scheduleclasscomp-field">
           <label>Topic</label>
-          <input
-            type="text"
-            name="topic"
-            value={formData.topic}
-            onChange={handleChange}
-            className={`scheduleclasscomp-input ${errors.topic ? "error" : ""}`}
-            required
-          />
+          <input type="text" name="topic" value={formData.topic} onChange={handleChange} className={`scheduleclasscomp-input ${errors.topic ? "error" : ""}`} required />
           {errors.topic && <p className="scheduleclasscomp-error">{errors.topic}</p>}
         </div>
         <div className="scheduleclasscomp-field">
           <label>Date</label>
-          <input
-            type="date"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            className={`scheduleclasscomp-input ${errors.date ? "error" : ""}`}
-            required
-          />
+          <input type="date" name="date" value={formData.date} onChange={handleChange} className={`scheduleclasscomp-input ${errors.date ? "error" : ""}`} required />
           {errors.date && <p className="scheduleclasscomp-error">{errors.date}</p>}
         </div>
         <div className="scheduleclasscomp-field">
           <label>Start-Time</label>
-          <input
-            type="time"
-            name="time"
-            value={formData.time}
-            onChange={handleChange}
-            className="scheduleclasscomp-input"
-            required
-          />
+          <input type="time" name="time" value={formData.time} onChange={handleChange} className="scheduleclasscomp-input" required />
         </div>
         <div className="scheduleclasscomp-field">
           <label>End-Time</label>
-          <input
-            type="time"
-            name="endtime"
-            value={formData.endtime}
-            onChange={handleChange}
-            className={`scheduleclasscomp-input ${errors.time ? "error" : ""}`}
-            required
-          />
+          <input type="time" name="endtime" value={formData.endtime} onChange={handleChange} className={`scheduleclasscomp-input ${errors.time ? "error" : ""}`} required />
           {errors.time && <p className="scheduleclasscomp-error">{errors.time}</p>}
         </div>
         <div className="scheduleclasscomp-field">
-  <label>Status</label>
-  <input
-    type="text"
-    value={formData.status ? "Ongoing" : "Completed"}
-    disabled
-    className="scheduleclasscomp-input disabled"
-  />
-</div>
+          <label>Status</label>
+          <input type="text" value={formData.status ? "Ongoing" : "Completed"} disabled className="scheduleclasscomp-input disabled" />
+        </div>
 
-        <button type="submit" className="scheduleclasscomp-button">
-          Schedule
-        </button>
+        <button type="submit" className="scheduleclasscomp-button">Schedule</button>
       </form>
     </div>
   );

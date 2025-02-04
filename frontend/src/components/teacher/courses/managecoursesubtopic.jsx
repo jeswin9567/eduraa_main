@@ -111,6 +111,12 @@ const SubtopicsPageCom = () => {
               >
                 {subtopicItem.activeStatus ? "Disable" : "Enable"}
               </button>
+              <button
+  className="sublistcour-update-btn"
+  onClick={() => navigate(`/update-subtopic/${subtopicItem._id}`)}
+>
+  Update
+</button>
             </li>
           ))}
         </ul>

@@ -30,6 +30,7 @@ router.post("/upload-class", upload.fields([
     }
 
     const teacherName = teacher.firstname + " " + teacher.lastname; // Construct full name
+    const teacherAssignedSub = teacher.subjectassigned;
 
     const notesFileUrl = req.files.notes[0].path; // Path of the uploaded PDF file
     const videoFileUrl = req.files.video[0].path; // Path of the uploaded video file
@@ -42,6 +43,7 @@ router.post("/upload-class", upload.fields([
       video: videoFileUrl,
       teacherEmail,  // Store teacher email
       teacherName,   // Store teacher name
+      teacherAssignedSub,
     });
 
     // Save to the database
@@ -212,6 +214,70 @@ router.get("/student/course/:topic/:subTopic", async (req, res) => {
     res.json(classes);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch class details" });
+  }
+});
+
+// view boxes
+
+router.get("/teachers/subjects", async (req, res) => {
+  try {
+    const teachers = await Teacher.find({}, "subjectassigned");
+    res.json(teachers);
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error });
+  }
+});
+
+// update class
+
+router.get("/subtopic/:id", async (req, res) => {
+  try {
+    const subtopic = await Class.findById(req.params.id);
+    if (!subtopic) {
+      return res.status(404).send({ message: "Subtopic not found" });
+    }
+    res.status(200).json(subtopic);
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+});
+
+// udpdate by id
+router.patch("/update-subtopic/:id", upload.fields([
+  { name: "notes", maxCount: 1 },
+  { name: "video", maxCount: 1 }
+]), async (req, res) => {
+  try {
+    const { subTopic } = req.body;
+    let updateData = { subTopic };
+
+    // Handle notes file update
+    if (req.files && req.files.notes) {
+      updateData.notes = req.files.notes[0].path;
+    } else if (req.body.notes) {
+      updateData.notes = req.body.notes; // Keep existing URL
+    }
+
+    // Handle video file update
+    if (req.files && req.files.video) {
+      updateData.video = req.files.video[0].path;
+    } else if (req.body.video) {
+      updateData.video = req.body.video; // Keep existing URL
+    }
+
+    const updatedSubtopic = await Class.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    );
+    
+    if (!updatedSubtopic) {
+      return res.status(404).send({ message: "Subtopic not found" });
+    }
+
+    res.status(200).json(updatedSubtopic);
+  } catch (err) {
+    res.status(500).send({ message: err.message });
   }
 });
 

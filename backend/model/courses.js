@@ -32,6 +32,10 @@ const classSchema = new mongoose.Schema({
   teacherName: {
     type: String,
     required: true,
+  },
+  teacherAssignedSub:{
+    type:String,
+    required:true,
   }
 });
 

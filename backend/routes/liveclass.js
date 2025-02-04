@@ -27,6 +27,21 @@ router.post("/schedule-live-class", async (req, res) => {
   }
 
   try {
+    // Check for overlapping classes on the same date
+    const overlappingClass = await LiveClass.findOne({
+      date,
+      $and: [
+        { time: { $lt: endtime } }, // Existing class starts before new class ends
+        { endtime: { $gt: time } }  // Existing class ends after new class starts
+      ]
+    });
+
+    if (overlappingClass) {
+      return res.status(400).json({ 
+        error: "Another class is already scheduled during this time. Please choose a different time." 
+      });
+    }
+
     const newLiveClass = new LiveClass({
       teacherName,
       teacherEmail,
@@ -34,7 +49,7 @@ router.post("/schedule-live-class", async (req, res) => {
       date,
       time,
       endtime,
-      status: false, // Default to false
+      status: false,
     });
 
     await newLiveClass.save();
@@ -49,12 +64,13 @@ router.post("/schedule-live-class", async (req, res) => {
 // Get all live classes
 router.get("/get-all", async (req, res) => {
   try {
-    const liveClasses = await LiveClass.find(); // Fetch all live classes
+    const liveClasses = await LiveClass.find().sort({ date: -1 }); // Sort by date in descending order
     res.json(liveClasses);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch live classes" });
   }
 });
+
 
 // nearest live class
 
