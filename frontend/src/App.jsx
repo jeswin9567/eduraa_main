@@ -87,6 +87,7 @@ import Course from './pages/user/premium/Course';
 import UpdCoursePage from './pages/Teacher/updatecourspage';
 import EntrFieldPage from './pages/Manager/addfield';
 import UpdFieldPg from './pages/Manager/updfildpage';
+import ViewAssignStudentPg from './pages/Teacher/assignedstudent';
 
 
 function App() {
@@ -182,6 +183,7 @@ function App() {
         <Route path = "/tsubtopics/:topic" element = {<CourseBoxDet />} />
         <Route path = "/classes/:topic/:subTopic" element ={<UserClasPartic />} />
         <Route path = "/update-subtopic/:subtopicId" element= {<UpdCoursePage />} />
+        <Route path = "/teacher/assignedstudents" element = {<ViewAssignStudentPg />} />
       </Routes>
     </Router>
   );

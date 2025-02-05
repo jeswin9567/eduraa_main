@@ -86,10 +86,10 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  assignedTeacher: [{ 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: "Teacher"
-  }], // List of assigned teachers for multiple subjects
+  assignedTeacher: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Teacher'
+  }]
   
 
 }, { timestamps: true });

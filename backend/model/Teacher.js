@@ -21,10 +21,11 @@ const teacherSchema = new mongoose.Schema({
   subjects: {type : String, required: true},
   active: {type:Boolean, default:false},
   subjectassigned: {type:String, required:false},
-  assignedStudents: [{ 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: "User"
-  }], // List of assigned students
+
+  assignedStudents: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }]
 });
 
 module.exports = mongoose.model("Teacher", teacherSchema);

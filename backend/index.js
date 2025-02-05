@@ -47,6 +47,7 @@ const ViewTeacherProfileRoute = require('./routes/viewteacherprofile');
 const UploadCourseRoute = require('./routes/courses');
 const LiveCLassScheduleRoute = require('./routes/liveclass');
 const EntranceFiledRoute = require('./routes/entrancecoursef');
+const AssignStudentRoute = require('./routes/teacherassign')
 
 
 
@@ -119,6 +120,7 @@ app.use('/api/profile', ViewTeacherProfileRoute);
 app.use('/api/course', UploadCourseRoute);
 app.use('/api/liveclass',LiveCLassScheduleRoute);
 app.use('/api/entrancefield',EntranceFiledRoute);
+app.use('/api/viewassign',AssignStudentRoute)
 
 
 

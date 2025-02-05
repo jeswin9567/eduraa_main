@@ -15,7 +15,7 @@ const Teachersidebrcom = () => {
             <LiveClassBtn />
             <TeachMockButton />
             <TeachCousreButton />
-            <button>Students</button>
+            <button onClick={ () => navigate('/teacher/assignedstudents')}>Students</button>
             <button>Announcements</button>
             </div>
         </div>

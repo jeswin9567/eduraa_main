@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const PaymentModel = require('../model/payment');
 const UserModel = require('../model/User');
+const TeacherModel = require('../model/Teacher');
+const FieldCourses = require('../model/entrancefieldcour');
 const Razorpay = require('razorpay');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -49,8 +51,6 @@ router.post('/process', async (req, res) => {
 });
 
 // Payment success confirmation endpoint
-// Payment success confirmation endpoint
-// Payment success confirmation endpoint
 router.post('/success', async (req, res) => {
   const { userId, email, amount, frequency, paymentId, planType } = req.body;
 
@@ -73,22 +73,89 @@ router.post('/success', async (req, res) => {
       frequency,
       expirationDate,
       razorpayPaymentId: paymentId,
-      planType, // Ensure planType is included
+      planType,
     });
 
     await payment.save();
 
-    // Update user premium status and subscription details
-    await UserModel.findByIdAndUpdate(userId, {
-      premium: true,
-      premiumExpiresAt: expirationDate, // Set premium expiration date
-      subscriptionPlan: frequency, // Update subscription plan type
-    });
+    // Only proceed with teacher assignment for monthly and yearly plans
+    if (frequency === 'monthly' || frequency === 'yearly') {
+      // Get user's entrance field
+      const user = await UserModel.findById(userId);
+      if (!user.entranceField) {
+        throw new Error('User entrance field not found');
+      }
+
+      // Get courses for the entrance field
+      const fieldCourses = await FieldCourses.findOne({ field: user.entranceField });
+      if (!fieldCourses) {
+        throw new Error('Courses not found for the entrance field');
+      }
+
+      // Get all active teachers
+      const allEligibleTeachers = await TeacherModel.find({
+        subjectassigned: { $in: fieldCourses.courses },
+        active: true
+      });
+
+      if (allEligibleTeachers.length === 0) {
+        throw new Error('No eligible teachers found');
+      }
+
+      // Create a map to store one teacher per course
+      const courseTeacherMap = new Map();
+
+      // For each course, select one teacher with load balancing
+      for (const course of fieldCourses.courses) {
+        const teachersForCourse = allEligibleTeachers.filter(
+          teacher => teacher.subjectassigned === course
+        );
+        
+        if (teachersForCourse.length > 0) {
+          // Sort teachers by number of assigned students (ascending)
+          const sortedTeachers = teachersForCourse.sort((a, b) => 
+            (a.assignedStudents?.length || 0) - (b.assignedStudents?.length || 0)
+          );
+          
+          // Select the teacher with the least number of students
+          courseTeacherMap.set(course, sortedTeachers[0]);
+        }
+      }
+
+      // Get unique teacher IDs from the map
+      const selectedTeachers = Array.from(courseTeacherMap.values());
+      const teacherIds = selectedTeachers.map(teacher => teacher._id);
+
+      if (teacherIds.length === 0) {
+        throw new Error('No teachers could be assigned to courses');
+      }
+
+      // Update user with selected teachers
+      await UserModel.findByIdAndUpdate(userId, {
+        premium: true,
+        premiumExpiresAt: expirationDate,
+        subscriptionPlan: frequency,
+        assignedTeacher: teacherIds
+      });
+
+      // Update all selected teachers with this student
+      await TeacherModel.updateMany(
+        { _id: { $in: teacherIds } },
+        { $addToSet: { assignedStudents: userId } }
+      );
+    } else {
+      // For weekly plans, just update premium status
+      await UserModel.findByIdAndUpdate(userId, {
+        premium: true,
+        premiumExpiresAt: expirationDate,
+        subscriptionPlan: frequency
+      });
+    }
 
     res.status(200).json({ message: 'Payment recorded successfully' });
   } catch (error) {
     console.error('Error recording payment:', error);
-    res.status(500).json({ error: 'Payment confirmation failed' });
+    res.status(500).json({ error: 'Payment confirmation failed: ' + error.message });
   }
 });
 

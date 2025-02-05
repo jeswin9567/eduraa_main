@@ -1,0 +1,77 @@
+.teacherviewstudnt {
+    padding: 24px;
+    background-color: #f9fafb;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 80%;
+  }
+  
+  .teacherviewstudnt h2 {
+    font-size: 1.875rem;
+    font-weight: 600;
+    margin-bottom: 24px;
+    text-align: center;
+    color: #3b82f6;
+  }
+  
+  .teacherviewstudnt .loading,
+  .teacherviewstudnt .error,
+  .teacherviewstudnt .no-students {
+    text-align: center;
+    color: #6b7280;
+  }
+  
+  .teacherviewstudnt .loading {
+    font-size: 1.125rem;
+  }
+  
+  .teacherviewstudnt .error {
+    color: #ef4444;
+    font-size: 1.125rem;
+  }
+  
+  .teacherviewstudnt .no-students {
+    font-size: 1.125rem;
+  }
+  
+  .teacherviewstudnt table {
+    min-width: 100%;
+    background-color: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+  }
+  
+  .teacherviewstudnt table thead {
+    background-color: #e0f2fe;
+  }
+  
+  .teacherviewstudnt table th,
+  .teacherviewstudnt table td {
+    padding: 16px;
+    text-align: left;
+    color: #374151;
+  }
+  
+  .teacherviewstudnt table th {
+    font-size: 1.125rem;
+    font-weight: 500;
+  }
+  
+  .teacherviewstudnt table td {
+    font-size: 1rem;
+  }
+  
+  .teacherviewstudnt table tbody tr {
+    border-top: 1px solid #e5e7eb;
+  }
+  
+  .teacherviewstudnt table tbody tr:hover {
+    background-color: #f3f4f6;
+  }
+  
+  .teacherviewstudnt table tbody tr td {
+    color: #374151;
+  }
+  
