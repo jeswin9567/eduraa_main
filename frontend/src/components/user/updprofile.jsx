@@ -9,6 +9,7 @@ function EditProfile() {
     name: '',
     phone: '',
     education: '',
+    
     courses: [],
     marks: {
       tenthMark: 0,
@@ -17,11 +18,19 @@ function EditProfile() {
       pgMark: 0
     }
   });
+
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const ugCourses = ['B.Tech', 'B.Sc', 'B.Com', 'BA','BCA','Other'];
   const pgCourses = ['M.Tech', 'M.Sc', 'MBA', 'MA','MCA','Other'];
+  const entranceFields = [
+    "Engineering",
+    "Medical & Healthcare",
+    "Management",
+    "Law",
+    "Arts & Humanities"
+  ];
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -175,6 +184,22 @@ function EditProfile() {
             required
           />
         </label>
+<label>
+  Entrance Field:
+  <select
+    name="entranceField"
+    value={user.entranceField || ""}
+    onChange={handleChange}
+    required
+  >
+    <option value="">Select Entrance Field</option>
+    {entranceFields.map((field) => (
+      <option key={field} value={field}>
+        {field}
+      </option>
+    ))}
+  </select>
+</label>
 
         <label>
           Education:

@@ -85,6 +85,8 @@ import CourseBoxDet from './pages/user/premium/userboxcrsdet';
 import UserClasPartic from './pages/user/premium/userclassdet';
 import Course from './pages/user/premium/Course';
 import UpdCoursePage from './pages/Teacher/updatecourspage';
+import EntrFieldPage from './pages/Manager/addfield';
+import UpdFieldPg from './pages/Manager/updfildpage';
 
 
 function App() {
@@ -116,6 +118,8 @@ function App() {
         <Route path = "/addscholar" element={<ScholarshipForm />} />
         <Route path = "/addLoan" element = {<StudentLoanForm />} />
         <Route path ="/addEntrance" element= {<EntranceForm />} />
+        <Route path = "/manager/addfields" element={<EntrFieldPage />} />
+        <Route path = "/manager/updatefields" element={<UpdFieldPg />} />
         <Route path='/maddLoan' element={<MStudentLoanForm />} />
         <Route path='/maddEntrance' element={<MEntranceForm />} />
         <Route path='/maddScholarship' element={<MScholarshipForm />} />

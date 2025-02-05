@@ -95,6 +95,7 @@ function Profile() {
       <p><strong>Name:</strong> {user.name}</p>
       <p><strong>Email:</strong> {user.email}</p>
       <p><strong>Phone:</strong> {user.phone}</p>
+      <p><strong>Entrance:</strong>{user.entranceField}</p>
 
       {/* Premium Section */}
       {user.education && (
@@ -121,10 +122,10 @@ function Profile() {
         <>
           <p className="premium-message">You have access to Eduraa Premium!</p>
           <p><strong>Subscription Expiry Date:</strong> {new Date(expirationDate).toLocaleDateString()}</p>
-          <button id = "cancel" className="cancel-button" onClick={confirmCancelPremium}>Cancel Subscription</button>
+          <button id="cancel" className="cancel-button" onClick={confirmCancelPremium}>Cancel Subscription</button>
         </>
       ) : (
-        <BuyPremiumButton />
+        <BuyPremiumButton entranceField={user.entranceField} />
       )}
       <button className="uprofilebutton" onClick={() => navigate('/upro')}>Edit Profile</button>
 

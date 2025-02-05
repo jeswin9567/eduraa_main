@@ -62,6 +62,17 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  entranceField: {
+    type: String,
+    enum: [
+      'Engineering', 
+      'Medical & Healthcare', 
+      'Management', 
+      'Law', 
+      'Arts & Humanities'
+    ],
+    required: false // Entrance field selection is mandatory
+  },
   premiumExpiresAt: {
     type: Date, // Store expiration date
     default: null,
@@ -74,7 +85,13 @@ const UserSchema = new mongoose.Schema({
   participate: {
     type: Number,
     default: 0,
-  }
+  },
+  assignedTeacher: [{ 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: "Teacher"
+  }], // List of assigned teachers for multiple subjects
+  
+
 }, { timestamps: true });
 
 // Password hashing middleware

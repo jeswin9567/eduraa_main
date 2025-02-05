@@ -5,12 +5,13 @@ import "./viewliveClassAllComp.css"; // Import the CSS file
 const LiveClassListCom = () => {
   const [liveClasses, setLiveClasses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const email = localStorage.getItem("userEmail"); // Get logged-in teacher's email
 
   useEffect(() => {
     const fetchLiveClasses = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/liveclass/get-all");
-        setLiveClasses(response.data); // Assuming the response returns an array of live classes
+        const response = await axios.get(`http://localhost:5000/api/liveclass/get-teacher-classes?email=${email}`);
+        setLiveClasses(response.data); // Set the filtered live classes
       } catch (error) {
         alert("Failed to fetch live classes.");
       } finally {
@@ -19,7 +20,7 @@ const LiveClassListCom = () => {
     };
 
     fetchLiveClasses();
-  }, []);
+  }, [email]);
 
   if (loading) {
     return <div className="liveclasseslistssched-loading">Loading...</div>;
@@ -27,7 +28,7 @@ const LiveClassListCom = () => {
 
   return (
     <div className="liveclasseslistssched-container">
-      <h2 className="liveclasseslistssched-heading">Scheduled Live Classes</h2>
+      <h2 className="liveclasseslistssched-heading">Your Scheduled Live Classes</h2>
       <table className="liveclasseslistssched-table">
         <thead>
           <tr>

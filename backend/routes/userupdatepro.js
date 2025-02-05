@@ -21,19 +21,19 @@ const verifyToken = (req, res, next) => {
 
 // Route to update profile details
 router.put('/', verifyToken, (req, res) => {
-  const { name, phone, education, courses, marks } = req.body;
+  const { name, phone, education, courses, marks, entranceField } = req.body;
 
-  // Find the user by email and update the profile details
   UserModel.findOneAndUpdate(
     { email: req.email },
     {
-      name: name,
-      phone: phone,
-      education: education,
-      courses: courses,
-      marks: marks
+      name,
+      phone,
+      education,
+      courses,
+      marks,
+      entranceField // Add this field
     },
-    { new: true, runValidators: true } // Return the updated user document
+    { new: true, runValidators: true }
   )
     .then(user => {
       if (!user) {
@@ -48,7 +48,8 @@ router.put('/', verifyToken, (req, res) => {
           role: user.role,
           education: user.education,
           courses: user.courses,
-          marks: user.marks
+          marks: user.marks,
+          entranceField: user.entranceField // Send updated field
         }
       });
     })

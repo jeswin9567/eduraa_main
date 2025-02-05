@@ -37,6 +37,7 @@ router.get('/', verifyToken, async (req, res) => {
       marks: user.marks,
       premium: user.premium,
       participate: user.participate,
+      entranceField: user.entranceField, // Include entranceField here
     });
   } catch (error) {
     res.status(500).json({ message: "Error: " + error.message });
@@ -63,6 +64,7 @@ router.put('/', verifyToken, async (req, res) => {
     res.status(500).json({ message: "Error: " + error.message });
   }
 });
+
 
 // Route to get the latest payment details (e.g., expiration date)
 router.get('/payment/latest', verifyToken, async (req, res) => {

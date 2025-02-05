@@ -1,11 +1,21 @@
 import React, { useState } from 'react';
 import PaymentOptionsModal from '../paymentop';
 import './BuyPremiumButton.css'; // Import custom styles
+import Swal from 'sweetalert2';
 
-const BuyPremiumButton = () => {
+const BuyPremiumButton = ({ entranceField }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleShowModal = () => {
+    if (!entranceField) {
+      Swal.fire({
+        title: 'Error!',
+        text: 'Please select your entrance field before purchasing premium.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
     setShowModal(true);
   };
 

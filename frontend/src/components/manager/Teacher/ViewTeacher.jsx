@@ -74,7 +74,7 @@ const ViewTeacherCom = () => {
         <strong>Phone:</strong> {teacher.phone}
       </p>
       <p>
-        <strong>Subjects:</strong> {teacher.subjects}
+        <strong>Subjects:</strong> {teacher.subjectassigned}
       </p>
       <button
         className="manteachervie-toggle-details"

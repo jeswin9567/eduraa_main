@@ -3,6 +3,7 @@ import './managersidebarcom.css'
 import MServiceButton from "../button/mservice";
 import MTeacherButton from "../button/teachers";
 import MPriceButton from "../button/pricebtn";
+import UpdateFlBtn from "../button/updfieldbtn";
 import { useNavigate } from "react-router-dom";
 
 const Managersidebrcom = () => {
@@ -14,7 +15,8 @@ const Managersidebrcom = () => {
             <button onClick={() =>navigate('/mhome')}>Home</button>
             <MServiceButton/>
             <MTeacherButton />
-            <button>Agents</button>
+            <UpdateFlBtn />
+            
             <button>Students</button>
             <button>Announcements</button>
             <button>Feedback</button>

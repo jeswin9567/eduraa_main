@@ -1,0 +1,6 @@
+.entrfieldpg-container {
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    height: 80%;
+}

@@ -61,6 +61,21 @@ router.post("/schedule-live-class", async (req, res) => {
 
 // get all teachers live classes scheduled
 
+router.get("/get-teacher-classes", async (req, res) => {
+  const { email } = req.query; // Get the email from the query parameter
+
+  if (!email) {
+    return res.status(400).json({ message: "Teacher email is required" });
+  }
+
+  try {
+    const liveClasses = await LiveClass.find({ teacherEmail: email });
+    res.json(liveClasses);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching live classes" });
+  }
+});
+
 // Get all live classes
 router.get("/get-all", async (req, res) => {
   try {
