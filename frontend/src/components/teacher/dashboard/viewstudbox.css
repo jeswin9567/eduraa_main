@@ -1,0 +1,54 @@
+.assigned-students-box {
+    padding: 20px;
+    margin-left: 5%;
+    margin-top: 3%;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    width: 250px;
+    height: 220px;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    border: 1px solid #e0e0e0;
+    text-align: center;
+    cursor: pointer; /* Make it clickable */
+    transition: transform 0.2s ease-in-out;
+}
+
+.assigned-students-box:hover {
+    transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+.assigned-students-box h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    color: #222;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+    width: 100%;
+}
+
+.assigned-students-box .student-count {
+    font-size: 36px;
+    font-weight: bold;
+    color: #28a745; /* Green color for highlighting count */
+    margin-top: 20px;
+}
+
+.assigned-students-box .loading-text,
+.assigned-students-box .error-text {
+    text-align: center;
+    font-size: 18px;
+    color: #888;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.assigned-students-box .error-text {
+    color: #dc3545; /* Red color for errors */
+}

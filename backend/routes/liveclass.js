@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Teacher = require("../model/Teacher");
 const LiveClass = require("../model/liveClass");
+const User = require("../model/User")
 
 // Get teacher by email
 router.get("/teacher/:email", async (req, res) => {
@@ -126,6 +127,69 @@ router.get("/next-live-class/:teacherEmail", async (req, res) => {
     res.status(500).json({ message: "Server error." });
   }
 });
+
+// view scheduled classes for student
+
+
+router.get("/user/scheduled-classes", async (req, res) => {
+  try {
+    const { email } = req.query;
+
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+
+    // Find user by email and populate assigned teachers
+    const user = await User.findOne({ email }).populate("assignedTeacher");
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Extract teacher details from assigned teachers
+    const teacherDetails = user.assignedTeacher.map((teacher) => ({
+      teacherEmail: teacher.email,
+      teacherName: teacher.firstname,
+      subject: teacher.subject, // Assuming the subject is stored in the Teacher model
+    }));
+
+    // Get the current date and time
+    const now = new Date();
+    const currentDate = now.toISOString().split("T")[0];
+    const currentTime = now.toTimeString().slice(0, 5);
+
+    // Fetch only upcoming classes
+    const scheduledClasses = await LiveClass.find({
+      teacherEmail: { $in: teacherDetails.map((t) => t.teacherEmail) },
+      $or: [
+        { date: { $gt: now } }, // Future dates
+        { date: currentDate, time: { $gte: currentTime } }, // Same date but future time
+      ],
+    });
+
+    // Map classes to include teacher details
+    const responseClasses = scheduledClasses.map((liveClass) => {
+      const teacherInfo = teacherDetails.find((t) => t.teacherEmail === liveClass.teacherEmail);
+      return {
+        _id: liveClass._id,
+        topic: liveClass.topic,
+        date: liveClass.date,
+        time: liveClass.time,
+        teacherName: teacherInfo ? teacherInfo.teacherName : "Unknown",
+        teacherEmail: teacherInfo ? teacherInfo.teacherEmail : "Unknown",
+
+      };
+    });
+
+    res.json(responseClasses);
+  } catch (error) {
+    console.error("Error fetching scheduled classes:", error);
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
+
+
 
 
 

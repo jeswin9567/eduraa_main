@@ -88,6 +88,8 @@ import UpdCoursePage from './pages/Teacher/updatecourspage';
 import EntrFieldPage from './pages/Manager/addfield';
 import UpdFieldPg from './pages/Manager/updfildpage';
 import ViewAssignStudentPg from './pages/Teacher/assignedstudent';
+import ViewAssignTeah from './pages/user/premium/viewteacherspag';
+import UserViewLiveTime from './pages/user/premium/viewscheduleclass';
 
 
 function App() {
@@ -184,6 +186,8 @@ function App() {
         <Route path = "/classes/:topic/:subTopic" element ={<UserClasPartic />} />
         <Route path = "/update-subtopic/:subtopicId" element= {<UpdCoursePage />} />
         <Route path = "/teacher/assignedstudents" element = {<ViewAssignStudentPg />} />
+        <Route path = "/student/assignedteachers" element = {<ViewAssignTeah />} />
+        <Route path = "/student/classschedule" element = {<UserViewLiveTime />} />
       </Routes>
     </Router>
   );

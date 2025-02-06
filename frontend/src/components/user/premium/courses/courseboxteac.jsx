@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; // Import navigation hook
-import "./courseboxteac.css"; // Import the CSS file
+import { useNavigate } from "react-router-dom";
+import "./courseboxteac.css";
 
 const SubjectBoxom = () => {
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); // Initialize navigation
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
       .get("http://localhost:5000/api/course/teachers/subjects")
       .then((response) => {
-        const subjectList = response.data
-          .map((teacher) => teacher.subjectassigned)
-          .filter((subject) => subject); // Remove empty values
-        setSubjects(subjectList);
+        setSubjects(response.data); // Now directly setting unique subjects
         setLoading(false);
       })
       .catch((error) => {
@@ -42,7 +39,7 @@ const SubjectBoxom = () => {
             <div
               key={index}
               className="classheaduserprm-card"
-              onClick={() => navigate(`/available-courses/${encodeURIComponent(subject)}`)} // Pass subject in URL
+              onClick={() => navigate(`/available-courses/${encodeURIComponent(subject)}`)}
             >
               <h3 className="classheaduserprm-topic">{subject}</h3>
               <p className="classheaduserprm-count">Click to view available courses</p>

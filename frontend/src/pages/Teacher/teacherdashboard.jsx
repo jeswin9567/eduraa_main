@@ -4,6 +4,7 @@ import Teachersidebrcom from "../../components/teacher/sidebar/teachersidebarcom
 import MockTestStatusBox from "../../components/teacher/dashboard/mocktestbox";
 import ClassCountBox from "../../components/teacher/dashboard/uploadedCourseBox";
 import LiveClassesBox from "../../components/teacher/dashboard/liveClass";
+import TeacherAssignedStudentsCount from "../../components/teacher/dashboard/viewstudbox";
 import './teacherdashboard.css'
 
 
@@ -14,9 +15,14 @@ const TeacherDash = () => {
             <TeacherDashHead />
             <div className="teacherdashbod-container">
             <Teachersidebrcom />
+            <div className="teachermian-container">
             <MockTestStatusBox />
             <ClassCountBox />
             <LiveClassesBox />
+
+            <TeacherAssignedStudentsCount />
+            </div>
+            
             
             </div>
             

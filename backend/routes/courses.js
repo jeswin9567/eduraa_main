@@ -222,7 +222,11 @@ router.get("/student/course/:topic/:subTopic", async (req, res) => {
 router.get("/teachers/subjects", async (req, res) => {
   try {
     const teachers = await Teacher.find({}, "subjectassigned");
-    res.json(teachers);
+    
+    // Extract unique subjects
+    const uniqueSubjects = [...new Set(teachers.map(teacher => teacher.subjectassigned).filter(Boolean))];
+
+    res.json(uniqueSubjects);
   } catch (error) {
     res.status(500).json({ message: "Server Error", error });
   }

@@ -1,6 +1,6 @@
 .mhomevisible-container {
     display: flex;
     flex-direction: row;
-    width: 100%;
+    max-width: 100%;
     min-height: 80.4vh;
 }

@@ -11,9 +11,9 @@ const Usersidebrcom = () => {
         <button onClick={() => navigate("/userhome")}>Home</button>
         <button onClick={() => navigate('/user/premium/classes')}>Courses</button>
         <button>Mocktest</button>
-        <button>Class Schedules</button>
+        <button onClick={() => navigate('/student/classschedule')}>Class Schedules</button>
         <button>Live Classes</button>
-        <button>Teachers</button>
+        <button onClick={() => navigate('/student/assignedteachers')}>Teachers</button>
         <button>Announcement</button>
       </div>
     </div>

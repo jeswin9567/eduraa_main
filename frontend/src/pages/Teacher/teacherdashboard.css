@@ -1,10 +1,22 @@
-.teachersidbarmain{
-    height: 100%;
-}
-
-.teacherdashbod-container{
+.teacherdashbod-container {
     display: flex;
     flex-direction: row;
-    width: 100%;
+    width: 100%; /* Use full width */
     min-height: 80.4vh;
+}
+
+.teachermian-container {
+    flex: 1; /* Take remaining space */
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap */
+    gap: 16px; /* Add spacing between items */
+    padding: 16px; /* Add internal spacing */
+    align-content: flex-start; /* Align wrapped rows to top */
+}
+
+/* Optional: Add responsive base width for children */
+.teachermian-container > * {
+    flex: 1 1 300px; /* Grow, shrink, base width of 300px */
+    min-width: 280px; /* Minimum width before wrapping */
+    max-width: 200px
 }
