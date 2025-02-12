@@ -90,6 +90,11 @@ import UpdFieldPg from './pages/Manager/updfildpage';
 import ViewAssignStudentPg from './pages/Teacher/assignedstudent';
 import ViewAssignTeah from './pages/user/premium/viewteacherspag';
 import UserViewLiveTime from './pages/user/premium/viewscheduleclass';
+import VideoCall from './components/VideoCall';
+import { TeacherProtectedRoute, StudentProtectedRoute } from './components/ProtectedRoutes';
+import PremiumViewMocktest from './pages/user/premium/ViewMocktest';
+import ViewMockTestdetPage from './pages/user/premium/viewmocktestlist';
+import ViewStudentPr from './pages/Teacher/ViewStudentPro';
 
 
 function App() {
@@ -188,6 +193,21 @@ function App() {
         <Route path = "/teacher/assignedstudents" element = {<ViewAssignStudentPg />} />
         <Route path = "/student/assignedteachers" element = {<ViewAssignTeah />} />
         <Route path = "/student/classschedule" element = {<UserViewLiveTime />} />
+        <Route path="/video-call/:classId" element={<VideoCall />} />
+        <Route path="/teacher/video-call/:classId" element={
+          <TeacherProtectedRoute>
+            <VideoCall />
+          </TeacherProtectedRoute>
+        } />
+        
+        <Route path="/student/video-call/:classId" element={
+          <StudentProtectedRoute>
+            <VideoCall />
+          </StudentProtectedRoute>
+        } />
+        <Route path="/user/premium/mocktest" element={<PremiumViewMocktest />} />
+        <Route path="/mocktest-list/:subject" element={<ViewMockTestdetPage />} />
+        <Route path ="/teacher/student-progress/:studentEmail" element ={<ViewStudentPr/>} />
       </Routes>
     </Router>
   );

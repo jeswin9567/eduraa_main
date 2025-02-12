@@ -66,6 +66,15 @@ const TeachViewMockTestDetails = () => {
         {mockTest.questions.map((question, index) => (
           <li key={index}>
             <h4>Question {index + 1}: {question.questionText}</h4>
+            {question.questionImage && (
+              <div className="teachviewmocktestdetails-question-image">
+                <img 
+                  src={question.questionImage} 
+                  alt={`Question ${index + 1}`}
+                  style={{ maxWidth: '300px', margin: '10px 0' }}
+                />
+              </div>
+            )}
             <p>Marks: {question.marks}</p>
             <p>Steps to Solve:</p>
             <ul>

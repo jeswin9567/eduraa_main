@@ -97,11 +97,15 @@ const UQuizPage = () => {
       return;
     }
 
+    // Get the course from the mock test data
+    const course = mockTest.examId?.name || 'Unknown Course'; // Assuming examId contains the entrance exam details
+
     const answersToSave = {
-      email: userEmail, // Include email here
+      email: userEmail,
       mockTestId,
       answers: userAnswers,
       score: calculatedScore,
+      course: course, // Add the course information
     };
 
     try {
@@ -176,6 +180,18 @@ const UQuizPage = () => {
           <div key={questionIndex} className="quizattmpt-question-section">
             <h3 className="quizattmpt-question-number">Question {questionIndex + 1}</h3>
             <p className="quizattmpt-question-text">{question.questionText}</p>
+            
+            {/* Add the image display here */}
+            {question.questionImage && (
+              <div className="quizattmpt-question-image">
+                <img 
+                  src={question.questionImage} 
+                  alt={`Question ${questionIndex + 1}`}
+                  className="quizattmpt-image"
+                />
+              </div>
+            )}
+
             <div className="quizattmpt-options-section">
               {question.options.map((option, optionIndex) => (
                 <button

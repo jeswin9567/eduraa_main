@@ -3,6 +3,8 @@ const router = express.Router();
 const Teacher = require("../model/Teacher");
 const LiveClass = require("../model/liveClass");
 const User = require("../model/User")
+const dotenv = require("dotenv");
+dotenv.config();  
 
 // Get teacher by email
 router.get("/teacher/:email", async (req, res) => {
@@ -175,9 +177,9 @@ router.get("/user/scheduled-classes", async (req, res) => {
         topic: liveClass.topic,
         date: liveClass.date,
         time: liveClass.time,
+        status: liveClass.status,
         teacherName: teacherInfo ? teacherInfo.teacherName : "Unknown",
         teacherEmail: teacherInfo ? teacherInfo.teacherEmail : "Unknown",
-
       };
     });
 
@@ -188,9 +190,121 @@ router.get("/user/scheduled-classes", async (req, res) => {
   }
 });
 
+// Start live class
+router.put("/start/:id", async (req, res) => {
+  try {
+    const liveClass = await LiveClass.findById(req.params.id);
+    
+    if (!liveClass) {
+      return res.status(404).json({ message: "Live class not found" });
+    }
 
+    liveClass.status = true;
+    await liveClass.save();
 
+    res.status(200).json({ message: "Live class started successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
+// Get live class details
+router.get("/:id", async (req, res) => {
+  try {
+    const liveClass = await LiveClass.findById(req.params.id);
+    
+    if (!liveClass) {
+      return res.status(404).json({ message: "Live class not found" });
+    }
+
+    res.status(200).json(liveClass);
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// End live class
+router.put("/end/:id", async (req, res) => {
+  try {
+    const liveClass = await LiveClass.findById(req.params.id);
+    
+    if (!liveClass) {
+      return res.status(404).json({ message: "Live class not found" });
+    }
+
+    liveClass.status = false;
+    await liveClass.save();
+
+    res.status(200).json({ message: "Live class ended successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// Add this route to handle class ending
+router.put('/end/:classId', async (req, res) => {
+  try {
+    const { classId } = req.params;
+    await LiveClass.findByIdAndUpdate(classId, { status: false });
+    res.status(200).json({ message: 'Class ended successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error ending class', error: error.message });
+  }
+});
+
+const nodemailer = require("nodemailer");
+
+// Reminder route to send emails to assigned students
+router.post("/remind/:classId", async (req, res) => {
+  try {
+    const { classId } = req.params;
+
+    // Find the live class
+    const liveClass = await LiveClass.findById(classId);
+    if (!liveClass) {
+      return res.status(404).json({ message: "Live class not found" });
+    }
+
+    // Find the teacher
+    const teacher = await Teacher.findOne({ email: liveClass.teacherEmail }).populate("assignedStudents");
+
+    if (!teacher) {
+      return res.status(404).json({ message: "Teacher not found" });
+    }
+
+    if (!teacher.assignedStudents || teacher.assignedStudents.length === 0) {
+      return res.status(400).json({ message: "No students assigned to this teacher." });
+    }
+
+    // Extract student emails
+    const studentEmails = teacher.assignedStudents.map(student => student.email);
+
+    // Setup Nodemailer transporter (using Gmail as an example)
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER, // Replace with your email
+        pass: process.env.EMAIL_PASS, // Replace with an App Password for security
+      },
+    });
+
+    // Email options
+    const mailOptions = {
+      from: "your-email@gmail.com",
+      to: studentEmails.join(","),
+      subject: `Reminder: Upcoming Live Class - ${liveClass.topic}`,
+      text: `Dear Student,\n\nThis is a reminder that your upcoming live class on "${liveClass.topic}" is scheduled for ${liveClass.date} at ${liveClass.time}.\n\nPlease be on time.\n\nBest regards,\nEduraa Team`,
+    };
+
+    // Send the email
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json({ message: "Reminder emails sent successfully" });
+  } catch (error) {
+    console.error("Error sending reminder emails:", error);
+    res.status(500).json({ message: "Error sending reminder emails" });
+  }
+});
 
 
 module.exports = router;

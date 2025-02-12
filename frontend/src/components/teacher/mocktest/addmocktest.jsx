@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios'; // For making API requests
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import './addmocktest.css';
 
-const TeacherMocktest = () => {
+const TeacherMocktest = () => { 
   const navigate = useNavigate();
 
   const [title, setTitle] = useState('');
@@ -28,6 +28,8 @@ const TeacherMocktest = () => {
   const [passingMarksError, setPassingMarksError] = useState('');
   const [questionsError, setQuestionsError] = useState('');
   const [entranceExamError, setEntranceExamError] = useState('');
+
+  const [questionImages, setQuestionImages] = useState({});
 
   useEffect(() => {
     const fetchEntranceExams = async () => {
@@ -121,6 +123,16 @@ const TeacherMocktest = () => {
     return uniqueQuestions.size !== questionTexts.length;
   };
 
+  const handleImageUpload = (e, questionIndex) => {
+    const file = e.target.files[0];
+    if (file) {
+      setQuestionImages(prev => ({
+        ...prev,
+        [questionIndex]: file
+      }));
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -142,20 +154,33 @@ const TeacherMocktest = () => {
       return;
     }
 
-    const mockTest = {
-      title,
-      description,
-      duration,
-      totalMarks,
-      passingMarks,
-      numberOfQuestions,
-      questions,
-      entranceExam: selectedEntranceExam,
-      email
-    };
-
     try {
-      const response = await axios.post('http://localhost:5000/mocktest/teacheraddMockTest', mockTest);
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('description', description);
+      formData.append('duration', duration);
+      formData.append('totalMarks', totalMarks);
+      formData.append('passingMarks', passingMarks);
+      formData.append('numberOfQuestions', numberOfQuestions);
+      formData.append('entranceExam', selectedEntranceExam);
+      formData.append('email', email);
+      formData.append('questions', JSON.stringify(questions));
+
+      // Append any question images
+      Object.entries(questionImages).forEach(([index, file]) => {
+        formData.append('questionImages', file, `${index}-questionimage`);
+      });
+
+      const response = await axios.post(
+        'http://localhost:5000/mocktest/teacheraddMockTest', 
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+
       setMessage('Mock test created successfully!');
       setError('');
 
@@ -422,6 +447,24 @@ const TeacherMocktest = () => {
             <button type="button" className="teachermocktest-add-option" onClick={() => addOption(index)}>
               Add Option
             </button>
+
+            {/* Add image upload input */}
+            <div className="teachermocktest-field">
+              <label className="teachermocktest-label">Question Image (Optional):</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleImageUpload(e, index)}
+                className="teachermocktest-input"
+              />
+              {questionImages[index] && (
+                <img 
+                  src={URL.createObjectURL(questionImages[index])} 
+                  alt="Question preview" 
+                  style={{ maxWidth: '200px', marginTop: '10px' }}
+                />
+              )}
+            </div>
           </div>
         ))}
 

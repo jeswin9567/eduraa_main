@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Teacher = require("../model/Teacher");
 const User = require('../model/User')
+const QuizAnswer = require("../model/quiz");
 
 // Fetch assigned students for a teacher using their email
 router.get("/assigned-students", async (req, res) => {
@@ -69,6 +70,71 @@ router.get("/assigned-teachers", async (req, res) => {
     }
 
     res.json({  assignedTeacher: user.assignedTeacher });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// Add this new route
+router.get("/student-progress/:studentEmail", async (req, res) => {
+  try {
+    const { studentEmail } = req.params;
+    const { teacherEmail } = req.query;
+
+    // Find teacher to get their mock tests
+    const teacher = await Teacher.findOne({ email: teacherEmail });
+    if (!teacher) {
+      return res.status(404).json({ message: "Teacher not found" });
+    }
+
+    // Get all quiz answers for this student
+    const quizAnswers = await QuizAnswer.aggregate([
+      {
+        $match: { email: studentEmail }
+      },
+      {
+        $lookup: {
+          from: 'mocktests', // The collection name for mock tests
+          localField: 'mockTestId',
+          foreignField: '_id',
+          as: 'mockTest'
+        }
+      },
+      {
+        $unwind: '$mockTest'
+      },
+      {
+        $match: {
+          'mockTest.email': teacherEmail // Only get results for this teacher's mock tests
+        }
+      },
+      {
+        $lookup: {
+          from: 'users', // The collection name for users
+          localField: 'email',
+          foreignField: 'email',
+          as: 'userDetails'
+        }
+      },
+      {
+        $unwind: '$userDetails' // Unwind to get user details
+      },
+      {
+        $project: {
+          mockTestTitle: '$mockTest.title',
+          score: 1,
+          totalMarks: '$mockTest.totalMarks',
+          createdAt: 1,
+          studentName: '$userDetails.name' // Include the student's name
+        }
+      },
+      {
+        $sort: { createdAt: -1 } // Sort by newest first
+      }
+    ]);
+
+    res.json({ progress: quizAnswers });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });

@@ -42,6 +42,26 @@ const LiveClassesBox = () => {
     fetchNextLiveClass();
   }, []);
 
+  const remindStudents = async () => {
+    try {
+      await axios.post(`http://localhost:5000/api/liveclass/remind/${liveClass._id}`);
+      alert("Reminder email sent to students!");
+    } catch (err) {
+      setError("Could not send reminder email.");
+    }
+  };
+  
+  
+
+  const startLiveClass = async () => {
+    try {
+      await axios.put(`http://localhost:5000/api/liveclass/start/${liveClass._id}`);
+      navigate(`/teacher/video-call/${liveClass._id}`);
+    } catch (err) {
+      setError("Could not start the live class.");
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -49,24 +69,28 @@ const LiveClassesBox = () => {
   return (
     <div className="liveclazbxs">
       {error ? (
-        <p>{error}</p>  // Display error or no live class message
+        <p>{error}</p>
       ) : (
         liveClass ? (
           <div>
             <h3>Next Live Class</h3>
             <p><strong>Topic:</strong> {liveClass.topic}</p>
-            <p><strong>Date:</strong> {new Date(liveClass.date).toISOString().split('T')[0]}</p>
-
+            <p><strong>Date:</strong> {new Date(liveClass.date).toLocaleDateString()}</p>
             <p><strong>Time:</strong> {liveClass.time} - {liveClass.endtime}</p>
 
-            {/* Buttons without functionality */}
             <div className="buttons">
-              <button className="remind-button">Remind</button>
-              <button className="schedule-button" onClick={() => navigate('/teacher/viewscheduleclasses')}>List Schedules</button>
+              <button 
+                className="schedule-button"
+                onClick={startLiveClass}
+              >
+                Start Class
+              </button>
+              <button className="remind-button" onClick={remindStudents}>Remind</button>
+
             </div>
           </div>
         ) : (
-          <p>No upcoming live classes available at the moment.</p>  // Display when no live class is found
+          <p>No upcoming live classes available at the moment.</p>
         )
       )}
     </div>

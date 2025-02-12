@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./viewscheduleclscom.css"; // Import CSS file
+import { useNavigate } from "react-router-dom";
 
 const UserViewScheduledClassesCom = () => {
   const [classes, setClasses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const userEmail = localStorage.getItem("userEmail"); // Get email from localStorage
 
@@ -28,6 +30,10 @@ const UserViewScheduledClassesCom = () => {
       });
   }, [userEmail]);
 
+  const joinClass = (classId) => {
+    navigate(`/video-call/${classId}`);
+  };
+
   return (
     <div className="viewusersheduleclz">
       <h2>Scheduled Classes</h2>
@@ -44,6 +50,7 @@ const UserViewScheduledClassesCom = () => {
               <th>Time</th>
               <th>Teacher</th>
               <th>Email</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -54,6 +61,16 @@ const UserViewScheduledClassesCom = () => {
                 <td>{liveClass.time}</td>
                 <td>{liveClass.teacherName}</td>
                 <td>{liveClass.teacherEmail}</td>
+                <td>
+                  {liveClass.status && (
+                    <button 
+                      className="join-button"
+                      onClick={() => joinClass(liveClass._id)}
+                    >
+                      Join
+                    </button>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>

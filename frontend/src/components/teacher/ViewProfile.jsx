@@ -6,6 +6,11 @@ import './viewprofile.css';
 const ViewTeachProf = () => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [showCurrentPassModal, setShowCurrentPassModal] = useState(false);
+    const [showNewPassModal, setShowNewPassModal] = useState(false);
+    const [currentPassword, setCurrentPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -33,6 +38,51 @@ const ViewTeachProf = () => {
 
         fetchTeacherProfile();
     }, [navigate]);
+
+    const handleChangePassword = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await axios.post("http://localhost:5000/api/profile/verify-password", {
+                email: user.email,
+                currentPassword
+            }, {
+                headers: { Authorization: token }
+            });
+
+            if (response.data.success) {
+                setShowCurrentPassModal(false);
+                setShowNewPassModal(true);
+            } else {
+                alert("Incorrect current password!");
+            }
+        } catch (error) {
+            console.error("Error verifying password:", error);
+            alert("Error verifying password.");
+        }
+    };
+
+    const handleUpdatePassword = async () => {
+        if (newPassword !== confirmPassword) {
+            alert("Passwords do not match!");
+            return;
+        }
+
+        try {
+            const token = localStorage.getItem("token");
+            await axios.post("http://localhost:5000/api/profile/update-password", {
+                email: user.email,
+                newPassword
+            }, {
+                headers: { Authorization: token }
+            });
+
+            alert("Password updated successfully!");
+            setShowNewPassModal(false);
+        } catch (error) {
+            console.error("Error updating password:", error);
+            alert("Error updating password.");
+        }
+    };
 
     if (loading) {
         return <div>Loading...</div>;
@@ -68,6 +118,27 @@ const ViewTeachProf = () => {
                 <p><strong>Experience Certificate:</strong> <a href={user.experienceCertificate} target="_blank" rel="noreferrer">View</a></p>
                 <p><strong>Resume:</strong> <a href={user.resume} target="_blank" rel="noreferrer">View</a></p>
             </div>
+
+            <button onClick={() => setShowCurrentPassModal(true)}>Change Password</button>
+
+            {showCurrentPassModal && (
+                <div className="modal">
+                    <h3>Enter Current Password</h3>
+                    <input type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
+                    <button onClick={handleChangePassword}>Verify</button>
+                    <button onClick={() => setShowCurrentPassModal(false)}>Cancel</button>
+                </div>
+            )}
+
+            {showNewPassModal && (
+                <div className="modal">
+                    <h3>Enter New Password</h3>
+                    <input type="password" placeholder="New Password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+                    <input type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                    <button onClick={handleUpdatePassword}>Update Password</button>
+                    <button onClick={() => setShowNewPassModal(false)}>Cancel</button>
+                </div>
+            )}
         </div>
     );
 };

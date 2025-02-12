@@ -3,6 +3,16 @@ const express = require('express');
 const cors = require('cors');
 const session=require('express-session')
 const app = express();
+const http = require('http');
+const server = http.createServer(app);
+const { PeerServer } = require('peer');
+const io = require('socket.io')(server, {
+  cors: {
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+    credentials: true
+  }
+});
 
 // time scheduler
 const updateClassStatus = require("../backend/config/scheduler");
@@ -48,6 +58,7 @@ const UploadCourseRoute = require('./routes/courses');
 const LiveCLassScheduleRoute = require('./routes/liveclass');
 const EntranceFiledRoute = require('./routes/entrancecoursef');
 const AssignStudentRoute = require('./routes/teacherassign')
+const mocktestRoutes = require('./routes/mocktest');
 
 
 
@@ -121,14 +132,45 @@ app.use('/api/course', UploadCourseRoute);
 app.use('/api/liveclass',LiveCLassScheduleRoute);
 app.use('/api/entrancefield',EntranceFiledRoute);
 app.use('/api/viewassign',AssignStudentRoute)
+app.use('/api/mocktest', mocktestRoutes);
 
+// Create PeerJS server
+const peerServer = PeerServer({
+  port: 3001,
+  path: '/',
+  allow_discovery: true
+});
 
+peerServer.on('connection', (client) => {
+  console.log('Client connected to PeerJS server:', client.getId());
+});
 
+// Socket.io connection handling
+io.on('connection', socket => {
+  console.log('User connected to socket');
 
+  socket.on('join-room', (roomId, userId, userEmail, role) => {
+    console.log(`${userEmail} joining room ${roomId} as ${role}`);
+    socket.join(roomId);
+    socket.to(roomId).emit('user-connected', userId, userEmail, role);
 
+    socket.on('disconnect', () => {
+      console.log(`${userEmail} disconnected from ${roomId}`);
+      socket.to(roomId).emit('user-disconnected', userId, userEmail);
+    });
+  });
 
+  socket.on('student-joined', (roomId, studentEmail) => {
+    io.in(roomId).emit('student-joined', studentEmail);
+  });
 
-// Server listen
-app.listen(5000, () => {
-  console.log("Server is running on port 5000");
+  socket.on('end-class', (roomId) => {
+    io.to(roomId).emit('class-ended');
+  });
+});
+
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  console.log(`PeerJS server running on port 3001`);
 });

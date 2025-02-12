@@ -3,9 +3,12 @@ const router = express.Router();
 const MockTest = require('../model/Mocktest'); // Assuming the MockTest model is in the 'models' folder
 const Entrance = require('../model/Entrance');
 const Teacher = require('../model/Teacher')
+const User = require('../model/User');
+const upload = require('../config/multerStorage');
+const QuizAnswer = require('../model/quiz');
 
 //teacher add mocktest
-router.post('/teacheraddMockTest', async (req, res) => {
+router.post('/teacheraddMockTest', upload.array('questionImages', 10), async (req, res) => {
   try {
     const {
       title,
@@ -14,10 +17,22 @@ router.post('/teacheraddMockTest', async (req, res) => {
       totalMarks,
       numberOfQuestions,
       passingMarks,
-      questions,
-      entranceExam, // Entrance exam's ID
-      email // Teacher ID passed from the frontend
+      entranceExam,
+      email
     } = req.body;
+
+    // Parse the questions from the request body
+    const questions = JSON.parse(req.body.questions);
+
+    // If images were uploaded, assign them to their respective questions
+    if (req.files && req.files.length > 0) {
+      req.files.forEach(file => {
+        const questionIndex = file.originalname.split('-')[0]; // Assuming format: "index-questionimage"
+        if (questions[questionIndex]) {
+          questions[questionIndex].questionImage = file.path;
+        }
+      });
+    }
 
     // Check if the entrance exam exists
     const exam = await Entrance.findById(entranceExam);
@@ -41,7 +56,7 @@ router.post('/teacheraddMockTest', async (req, res) => {
       return res.status(400).json({ message: 'A mock test with this title already exists for the selected entrance exam.' });
     }
 
-    // Create the mock test with teacher's full name
+    // Create the mock test with the updated questions array
     const mockTest = new MockTest({
       examId: entranceExam,
       title,
@@ -52,7 +67,7 @@ router.post('/teacheraddMockTest', async (req, res) => {
       passingMarks,
       questions,
       email,
-      teacherName: teacherFullName // Store the teacher's full name here
+      teacherName: teacherFullName
     });
 
     // Save the mock test and link it to the entrance exam
@@ -275,24 +290,42 @@ router.get('/mockTest/:id', async (req, res) => {
 });
 
 // Update a mock test by ID
-router.put('/upmockTest/:id', async (req, res) => {
+router.put('/upmockTest/:id', upload.array('questionImages', 10), async (req, res) => {
   try {
-    const { title, examId } = req.body; // Extract title and examId from the request body
+    const { title, examId } = req.body;
+    const questions = JSON.parse(req.body.questions);
 
-    // Check if another mock test with the same title exists for the same exam (excluding the current one)
+    // Handle new image uploads
+    if (req.files && req.files.length > 0) {
+      req.files.forEach(file => {
+        const questionIndex = file.originalname.split('-')[0];
+        if (questions[questionIndex]) {
+          questions[questionIndex].questionImage = file.path;
+        }
+      });
+    }
+
+    // Check for duplicate title
     const existingMockTest = await MockTest.findOne({
       title,
-      examId, // Ensure it matches the same exam ID
-      _id: { $ne: req.params.id }, // Exclude the current mock test by its ID
+      examId,
+      _id: { $ne: req.params.id },
     });
 
     if (existingMockTest) {
       return res.status(400).json({ message: 'A mock test with the same title already exists for this exam.' });
     }
 
-    // Proceed with the update if no conflict
-    const updatedMockTest = await MockTest.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!updatedMockTest) return res.status(404).json({ message: 'Mock test not found' });
+    // Update the mock test with the new data including questions with updated images
+    const updatedMockTest = await MockTest.findByIdAndUpdate(
+      req.params.id,
+      { ...req.body, questions },
+      { new: true }
+    );
+
+    if (!updatedMockTest) {
+      return res.status(404).json({ message: 'Mock test not found' });
+    }
 
     res.json(updatedMockTest);
   } catch (error) {
@@ -327,6 +360,73 @@ router.put('/enablemocktest/:id', async (req, res) => {
   }
 });
 
+// Get mocktests by subject for a specific user
+router.get('/user-mocktests/:subject', async (req, res) => {
+  try {
+    const { subject } = req.params;
+    const userEmail = req.headers.useremail;
 
+    console.log('Subject:', subject);
+    console.log('UserEmail:', userEmail);
+
+    // Get the user with populated assigned teachers
+    const user = await User.findOne({ email: userEmail }).populate({
+      path: 'assignedTeacher',
+      match: { subjectassigned: subject }
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    console.log('Assigned Teachers:', user.assignedTeacher);
+
+    // Get the assigned teacher emails who teach this subject
+    const relevantTeacherEmails = user.assignedTeacher.map(teacher => teacher.email);
+
+    console.log('Relevant Teacher Emails:', relevantTeacherEmails);
+
+    if (relevantTeacherEmails.length === 0) {
+      return res.json([]); // Return empty array if no relevant teachers
+    }
+
+    // Find all mocktests created by these teachers
+    const mocktests = await MockTest.find({
+      email: { $in: relevantTeacherEmails },
+      status: true // Only active mocktests
+    }).populate('examId', 'name');
+
+    console.log('Found Mocktests:', mocktests);
+
+    res.json(mocktests);
+  } catch (error) {
+    console.error('Error in user-mocktests route:', error);
+    res.status(500).json({ 
+      message: 'Error fetching mocktests',
+      error: error.message 
+    });
+  }
+});
+
+// In your quiz save answers route
+router.post('/saveAnswers', async (req, res) => {
+  try {
+    const { email, mockTestId, answers, score, course } = req.body;
+
+    const quizAnswer = new QuizAnswer({
+      email,
+      mockTestId,
+      answers,
+      score,
+      course, // Save the course field
+    });
+
+    await quizAnswer.save();
+    res.status(201).json({ message: 'Quiz answers saved successfully' });
+  } catch (error) {
+    console.error('Error saving quiz answers:', error);
+    res.status(500).json({ message: 'Error saving quiz answers' });
+  }
+});
 
 module.exports = router;

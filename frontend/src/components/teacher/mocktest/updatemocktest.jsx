@@ -10,6 +10,7 @@ const TeacherMockTestUpdateCom = () => {
   const [loading, setLoading] = useState(true);
   const [validationError, setValidationError] = useState(''); // State for validation error
   const navigate = useNavigate();
+  const [questionImages, setQuestionImages] = useState({});
 
   // Fetch the mock test details
   useEffect(() => {
@@ -131,15 +132,50 @@ const TeacherMockTestUpdateCom = () => {
     setMockTest({ ...mockTest, questions: updatedQuestions });
   };
 
+  // Handle image upload
+  const handleImageUpload = (e, questionIndex) => {
+    const file = e.target.files[0];
+    if (file) {
+      setQuestionImages(prev => ({
+        ...prev,
+        [questionIndex]: file
+      }));
+    }
+  };
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validationError) {
-      alert(validationError); // Prevent submission if validation fails
+      alert(validationError);
       return;
     }
+
     try {
-      const response = await axios.put(`http://localhost:5000/mocktest/upmockTest/${mockTestId}`, mockTest);
+      const formData = new FormData();
+      formData.append('title', mockTest.title);
+      formData.append('description', mockTest.description);
+      formData.append('duration', mockTest.duration);
+      formData.append('totalMarks', mockTest.totalMarks);
+      formData.append('numberOfQuestions', mockTest.numberOfQuestions);
+      formData.append('passingMarks', mockTest.passingMarks);
+      formData.append('questions', JSON.stringify(mockTest.questions));
+
+      // Append any new question images
+      Object.entries(questionImages).forEach(([index, file]) => {
+        formData.append('questionImages', file, `${index}-questionimage`);
+      });
+
+      const response = await axios.put(
+        `http://localhost:5000/mocktest/upmockTest/${mockTestId}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      
       const examId = response.data.examId;
       navigate(`/teacher/viewmocktest/${examId}`);
     } catch (error) {
@@ -256,6 +292,47 @@ const TeacherMockTestUpdateCom = () => {
                 required
                 min="0"
               />
+            </div>
+
+            {/* Add image section */}
+            <div className="updatemockteacher-form-group">
+              <label>Question Image (Optional)</label>
+              {question.questionImage && (
+                <div className="updatemockteacher-current-image">
+                  <img 
+                    src={question.questionImage} 
+                    alt={`Question ${questionIndex + 1}`} 
+                    style={{ maxWidth: '200px', margin: '10px 0' }}
+                  />
+                  <button
+                    type="button"
+                    className="updatemockteacher-remove-image"
+                    onClick={() => {
+                      const updatedQuestions = [...mockTest.questions];
+                      delete updatedQuestions[questionIndex].questionImage;
+                      setMockTest({ ...mockTest, questions: updatedQuestions });
+                    }}
+                  >
+                    Remove Image
+                  </button>
+                </div>
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleImageUpload(e, questionIndex)}
+                className="updatemockteacher-file-input"
+              />
+              {questionImages[questionIndex] && (
+                <div className="updatemockteacher-new-image">
+                  <p>New image selected:</p>
+                  <img 
+                    src={URL.createObjectURL(questionImages[questionIndex])} 
+                    alt="New question image preview" 
+                    style={{ maxWidth: '200px', margin: '10px 0' }}
+                  />
+                </div>
+              )}
             </div>
 
             {/* Options Section */}

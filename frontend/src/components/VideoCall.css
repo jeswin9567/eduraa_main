@@ -1,0 +1,399 @@
+.video-call-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #1a1a1a;
+  color: white;
+  overflow: hidden;
+}
+
+.class-info {
+  padding: 1rem;
+  background: #2a2a2a;
+  z-index: 2;
+}
+
+.class-info h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.class-info p {
+  margin: 0.5rem 0 0;
+  color: #ccc;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  gap: 2rem;
+  padding: 1.5rem;
+  min-height: 0;
+  position: relative;
+  align-items: flex-start;
+  height: calc(100vh - 100px);
+}
+
+.video-grid {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: #000;
+  border-radius: 8px;
+  min-height: 600px;
+  width: 100%;
+  position: relative;
+}
+
+.video-element {
+  width: 100%;
+  max-width: 1000px;
+  height: 600px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #000;
+}
+
+.video-element.teacher-video {
+  width: 100% !important;
+  height: 600px !important;
+  max-width: 1000px !important;
+  display: block !important;
+  margin: 0 auto;
+  border: 2px solid #4CAF50;
+}
+
+/* Remove the muted video styles that might be hiding the video */
+video[muted] {
+  height: 700px !important;
+  width: 100% !important;
+  max-width: 1000px !important;
+  position: relative !important;
+  bottom: auto !important;
+  right: auto !important;
+}
+
+.participants-list {
+  flex: 0 0 220px;
+  background: #2a2a2a;
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-y: auto;
+  height: calc(100vh - 100px);
+  margin-right: 0.5rem;
+}
+
+.participants-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.participants-list li {
+  padding: 0.5rem;
+  border-bottom: 1px solid #3a3a3a;
+}
+
+.participants-list .teacher {
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+.controls {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  gap: 1rem;
+}
+
+.end-button, .leave-button {
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.end-button {
+  background: #dc3545;
+}
+
+.end-button:hover {
+  background: #c82333;
+}
+
+.leave-button {
+  background: #ffc107;
+  color: #000;
+}
+
+.leave-button:hover {
+  background: #e0a800;
+}
+
+/* Fullscreen styles */
+.video-grid:fullscreen {
+  padding: 0;
+}
+
+.video-grid:fullscreen video {
+  border-radius: 0;
+}
+
+.class-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.participant-count {
+  background: #4CAF50;
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.9rem;
+}
+
+.participants-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.participants-header span {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.participant-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.participant-email {
+  max-width: 70%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.you-indicator {
+  font-size: 0.8rem;
+  color: #4CAF50;
+  margin-left: 0.5rem;
+}
+
+.participant-info {
+  background: #2a2a2a;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+/* Update existing controls styles */
+.controls button {
+  flex-shrink: 0;
+}
+
+.participant-info {
+  flex-grow: 0;
+  white-space: nowrap;
+}
+
+/* Add padding to main content to prevent controls overlap */
+.main-content {
+  padding-bottom: 80px;
+}
+
+/* Make sure video container doesn't overflow */
+.video-grid {
+  max-height: calc(100vh - 180px);
+}
+
+/* Adjust participant list height */
+.participants-list {
+  max-height: calc(100vh - 180px);
+}
+
+.error-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 0, 0, 0.1);
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 0, 0, 0.2);
+  max-width: 80%;
+  z-index: 1000;
+}
+
+.error-message p {
+  color: #fff;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.error-message button {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.error-message button:hover {
+  background: #c82333;
+}
+
+.error-message .join-view-only {
+  background: #28a745;
+  margin-bottom: 0.5rem;
+}
+
+.error-message .join-view-only:hover {
+  background: #218838;
+}
+
+.button-separator {
+  color: #fff;
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+.view-only-banner {
+  background: #ffc107;
+  color: #000;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  display: inline-block;
+}
+
+.participant-item.view-only {
+  color: #ffc107;
+}
+
+.participant-item .mode-indicator {
+  font-size: 0.8rem;
+  color: #ffc107;
+  margin-left: 0.5rem;
+}
+
+.error-message .retry-button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+
+.error-message .retry-button:hover {
+  background: #0056b3;
+}
+
+/* Add a message when video is not available */
+.video-element:not([srcObject])::after {
+  content: 'Camera access required';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 1.2rem;
+}
+
+/* Ensure video elements are always visible */
+video {
+  display: block !important;
+  min-height: 400px;
+  background: #000;
+}
+
+.video-element.local-video {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 200px !important;
+  height: 150px !important;
+  z-index: 10;
+  border: 2px solid #fff;
+  border-radius: 8px;
+}
+
+.video-element.teacher-video {
+  width: 100% !important;
+  height: 600px !important;
+  max-width: 1000px !important;
+  margin: 0 auto;
+}
+
+.control-button {
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  border: none;
+  background: #333;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.control-button:hover {
+  background: #444;
+}
+
+.control-button.off {
+  background: #dc3545;
+}
+
+.control-button.off:hover {
+  background: #c82333;
+}
+
+/* Loading state */
+.video-call-container > div:first-child:not(.class-info) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: 1.2rem;
+  color: #ccc;
+}
+
+.waiting-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  color: white;
+  gap: 1rem;
+}
+
+.waiting-message h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.waiting-message p {
+  margin: 0.5rem 0;
+  color: #ccc;
+} 

@@ -9,7 +9,7 @@ const MockTestSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
-    },
+    },  
     description: {
         type: String,
         required:true,
@@ -30,6 +30,10 @@ const MockTestSchema = new mongoose.Schema({
         questionText: { 
             type: String,
             required: true,
+        },
+        questionImage: {  // Add this field
+            type: String,
+            required: false,
         },
         options: [{
             optionText: { 
