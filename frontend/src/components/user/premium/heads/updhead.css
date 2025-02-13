@@ -3,41 +3,72 @@
     justify-content: space-between;
     align-items: center;
     padding: 20px 30px;
-    background-color: white; /* White background */
-    /* position: fixed; */
+    background-color: white;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
     width: 100%;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .uprmdheadlogo img {
-    height: 100px; /* Adjust logo size */
+    height: 100px;
     width: auto;
     margin-left: 40%;
 }
 
-.uprmdhead-buttons {
+.uprmdhead-userinfo {
     display: flex;
-    gap: 20px;
     align-items: center;
+    gap: 10px;
 }
 
-.uprmdheadprobtn, .uprmdheadlogbtn {
+/* Create a circular avatar using CSS */
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #3498db; /* Blue background */
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.user-avatar:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+}
+
+.user-name {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.user-name:hover {
+    color: #2980b9;
+}
+
+.uprmdheadlogbtn {
     padding: 8px 16px;
     font-size: 14px;
     font-weight: 500;
-    color: #333; /* Dark text color for contrast */
+    color: #333;
     background: transparent;
-    border: 2px solid #333; /* Dark border for buttons */
+    border: 2px solid #333;
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
-.uprmdheadprobtn:hover, .uprmdheadlogbtn:hover {
+.uprmdheadlogbtn:hover {
     background-color: #333;
     color: white;
     border-color: transparent;

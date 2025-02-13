@@ -1,90 +1,78 @@
-/* Main container for deleted mock tests */
-.deletedmocktest-container {
-    width: 80%;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Header styling */
-  .deletedmocktest-header {
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  /* Message when no mock tests are found */
-  .deletedmocktest-message {
-    text-align: center;
-    font-size: 18px;
-    color: #888;
-    margin-top: 20px;
-  }
-  
-  /* List styling */
-  .deletedmocktest-list {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  /* Each mock test item */
-  .deletedmocktest-item {
-    background-color: #ffffff;
-    padding: 15px;
-    margin: 10px 0;
-    border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  /* Mock test title */
-  .deletedmocktest-title {
-    font-size: 20px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 5px;
-  }
-  
-  /* Mock test details (duration, total marks) */
-  .deletedmocktest-duration,
-  .deletedmocktest-totalMarks {
-    font-size: 16px;
-    color: #555;
-    margin: 2px 0;
-  }
-  
-  /* Enable button */
-  .deletedmocktest-enableButton {
-    background-color: #28a745;
-    color: #fff;
-    font-size: 14px;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .deletedmocktest-enableButton:hover {
-    background-color: #218838;
-  }
-  
-  /* Responsive styling for smaller screens */
-  @media (max-width: 768px) {
-    .deletedmocktest-item {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .deletedmocktest-enableButton {
-      width: 100%;
-      margin-top: 10px;
-    }
-  }
-  
+.mananouncementcontainer {
+  width:70%;
+  margin: 20px auto;
+  padding: 20px;
+  background: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  font-family: Arial, sans-serif;
+}
+
+.mananouncementcontainer h2, 
+.mananouncementcontainer h3 {
+  text-align: center;
+  color: #333;
+}
+
+.mananouncementcontainer form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mananouncementcontainer input, 
+.mananouncementcontainer textarea, 
+.mananouncementcontainer select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.mananouncementcontainer textarea {
+  resize: vertical;
+  height: 100px;
+}
+
+.mananouncementcontainer button {
+  background: #007bff;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.mananouncementcontainer button:hover {
+  background: #0056b3;
+}
+
+.mananouncementcontainer ul {
+  list-style: none;
+  padding: 0;
+}
+
+.mananouncementcontainer li {
+  background: #f8f9fa;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mananouncementcontainer h4 {
+  margin: 0;
+  color: #007bff;
+}
+
+.mananouncementcontainer p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.mananouncementcontainer small {
+  color: #888;
+}

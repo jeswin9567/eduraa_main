@@ -16,7 +16,7 @@ const Teachersidebrcom = () => {
             <TeachMockButton />
             <TeachCousreButton />
             <button onClick={ () => navigate('/teacher/assignedstudents')}>Students</button>
-            <button>Announcements</button>
+            <button onClick={() => navigate('/teacher/viewAnnouncement')}>Announcements</button>
             </div>
         </div>
         

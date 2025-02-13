@@ -31,15 +31,16 @@ const UploadClass = () => {
   }, []);
 
   const validateText = (value) => {
-    const regex = /^(?!\d+$)[a-zA-Z0-9 ]+$/; // Ensures not only numbers
-    return regex.test(value);
+    const hasLetter = /[a-zA-Z]/.test(value);  // Check if contains at least one letter
+    const validChars = /^[a-zA-Z0-9\- ]+$/;    // Allow letters, numbers, hyphens, spaces
+    return hasLetter && validChars.test(value); // Must contain letter and only valid chars
   };
 
   const handleTopicChange = (e) => {
     const value = e.target.value;
     setTopic(value);
     if (!validateText(value)) {
-      setErrors((prev) => ({ ...prev, topic: "Topic can only contain letters, numbers, and spaces." }));
+      setErrors((prev) => ({ ...prev, topic: "Topic must contain at least one letter and can only include letters, numbers, hyphens, and spaces." }));
     } else {
       setErrors((prev) => ({ ...prev, topic: "" }));
     }
@@ -49,7 +50,7 @@ const UploadClass = () => {
     const value = e.target.value;
     setSubTopic(value);
     if (!validateText(value)) {
-      setErrors((prev) => ({ ...prev, subTopic: "Sub-topic can only contain letters, numbers, and spaces." }));
+      setErrors((prev) => ({ ...prev, subTopic: "Sub-topic must contain at least one letter and can only include letters, numbers, hyphens, and spaces." }));
     } else {
       setErrors((prev) => ({ ...prev, subTopic: "" }));
     }

@@ -17,11 +17,15 @@ const UserViewScheduledClassesCom = () => {
       setLoading(false);
       return;
     }
-
+  
     axios
       .get(`http://localhost:5000/api/liveclass/user/scheduled-classes?email=${userEmail}`)
       .then((response) => {
-        setClasses(response.data);
+        if (response.data.message === "No scheduled classes available") {
+          setClasses([]);
+        } else {
+          setClasses(response.data);
+        }
         setLoading(false);
       })
       .catch((error) => {

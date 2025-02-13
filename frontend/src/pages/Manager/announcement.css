@@ -1,0 +1,6 @@
+.announcemntpg-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    min-height: 80.4vh;
+}

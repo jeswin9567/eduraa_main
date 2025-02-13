@@ -18,7 +18,7 @@ const Managersidebrcom = () => {
             <UpdateFlBtn />
             
             <button>Students</button>
-            <button>Announcements</button>
+            <button onClick={() => navigate('/manager/makeannouncement')}>Announcements</button>
             <button>Feedback</button>
             <MPriceButton />
             </div>

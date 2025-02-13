@@ -152,7 +152,7 @@ router.get("/user/scheduled-classes", async (req, res) => {
     const teacherDetails = user.assignedTeacher.map((teacher) => ({
       teacherEmail: teacher.email,
       teacherName: teacher.firstname,
-      subject: teacher.subject, // Assuming the subject is stored in the Teacher model
+      subject: teacher.subject,
     }));
 
     // Get the current date and time
@@ -165,9 +165,13 @@ router.get("/user/scheduled-classes", async (req, res) => {
       teacherEmail: { $in: teacherDetails.map((t) => t.teacherEmail) },
       $or: [
         { date: { $gt: now } }, // Future dates
-        { date: currentDate, time: { $gte: currentTime } }, // Same date but future time
+        { date: currentDate, endtime: { $gte: currentTime } }, // Ongoing classes
       ],
     });
+
+    if (scheduledClasses.length === 0) {
+      return res.json({ message: "No scheduled classes available" });
+    }
 
     // Map classes to include teacher details
     const responseClasses = scheduledClasses.map((liveClass) => {
@@ -177,6 +181,7 @@ router.get("/user/scheduled-classes", async (req, res) => {
         topic: liveClass.topic,
         date: liveClass.date,
         time: liveClass.time,
+        endtime: liveClass.endtime,
         status: liveClass.status,
         teacherName: teacherInfo ? teacherInfo.teacherName : "Unknown",
         teacherEmail: teacherInfo ? teacherInfo.teacherEmail : "Unknown",
@@ -189,6 +194,7 @@ router.get("/user/scheduled-classes", async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 });
+
 
 // Start live class
 router.put("/start/:id", async (req, res) => {

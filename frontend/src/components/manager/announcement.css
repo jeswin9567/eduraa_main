@@ -1,0 +1,79 @@
+.mananouncementcontainer {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .mananouncementcontainer h2, 
+  .mananouncementcontainer h3 {
+    text-align: center;
+    color: #333;
+  }
+  
+  .mananouncementcontainer form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .mananouncementcontainer input, 
+  .mananouncementcontainer textarea, 
+  .mananouncementcontainer select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .mananouncementcontainer textarea {
+    resize: vertical;
+    height: 100px;
+  }
+  
+  .mananouncementcontainer button {
+    background: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .mananouncementcontainer button:hover {
+    background: #0056b3;
+  }
+  
+  .mananouncementcontainer ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .mananouncementcontainer li {
+    background: #f8f9fa;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .mananouncementcontainer h4 {
+    margin: 0;
+    color: #007bff;
+  }
+  
+  .mananouncementcontainer p {
+    margin: 5px 0;
+    color: #555;
+  }
+  
+  .mananouncementcontainer small {
+    color: #888;
+  }
+  

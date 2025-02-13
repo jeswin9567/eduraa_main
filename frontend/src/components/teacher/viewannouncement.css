@@ -1,0 +1,52 @@
+.teachervannounce-container {
+    width: 75%;
+    /* margin: 20px auto; */
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .teachervannounce-container h2 {
+    text-align: center;
+    color: #333;
+  }
+  
+  .teachervannounce-message {
+    text-align: center;
+    font-size: 1.2rem;
+    color: red;
+    margin-top: 20px;
+  }
+  
+  .teachervannounce-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .teachervannounce-item {
+    background: white;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .teachervannounce-item h4 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #007bff;
+  }
+  
+  .teachervannounce-item p {
+    font-size: 1rem;
+    color: #555;
+    margin: 5px 0;
+  }
+  
+  .teachervannounce-item small {
+    display: block;
+    font-size: 0.85rem;
+    color: #777;
+  }
+  

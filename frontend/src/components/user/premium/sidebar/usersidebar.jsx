@@ -14,7 +14,7 @@ const Usersidebrcom = () => {
         <button onClick={() => navigate('/user/premium/mocktest')}>Mocktest</button>
         <button onClick={() => navigate('/student/classschedule')}>Class Schedules</button>
         <button onClick={() => navigate('/student/assignedteachers')}>Teachers</button>
-        <button>Announcement</button>
+        <button onClick={() => navigate('/user/announcent')}>Announcement</button>
       </div>
     </div>
   );

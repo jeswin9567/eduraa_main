@@ -1,0 +1,52 @@
+.studentvannounce-container {
+    width: 80%;
+  
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .studentvannounce-container h2 {
+    text-align: center;
+    color: #333;
+  }
+  
+  .studentvannounce-message {
+    text-align: center;
+    font-size: 1.2rem;
+    color: red;
+    margin-top: 20px;
+  }
+  
+  .studentvannounce-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .studentvannounce-item {
+    background: white;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .studentvannounce-item h4 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #28a745;
+  }
+  
+  .studentvannounce-item p {
+    font-size: 1rem;
+    color: #555;
+    margin: 5px 0;
+  }
+  
+  .studentvannounce-item small {
+    display: block;
+    font-size: 0.85rem;
+    color: #777;
+  }
+  

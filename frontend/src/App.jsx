@@ -95,6 +95,9 @@ import { TeacherProtectedRoute, StudentProtectedRoute } from './components/Prote
 import PremiumViewMocktest from './pages/user/premium/ViewMocktest';
 import ViewMockTestdetPage from './pages/user/premium/viewmocktestlist';
 import ViewStudentPr from './pages/Teacher/ViewStudentPro';
+import ManagerAnnouncementMake from './pages/Manager/announcement';
+import ViewTeachAnnouncement from './pages/Teacher/ViewAnnouncement';
+import ViewUsrAnnouncement from './pages/user/premium/viewannouncement';
 
 
 function App() {
@@ -208,6 +211,9 @@ function App() {
         <Route path="/user/premium/mocktest" element={<PremiumViewMocktest />} />
         <Route path="/mocktest-list/:subject" element={<ViewMockTestdetPage />} />
         <Route path ="/teacher/student-progress/:studentEmail" element ={<ViewStudentPr/>} />
+        <Route path = "/manager/makeannouncement" element = {<ManagerAnnouncementMake />} />
+        <Route path = "/teacher/viewAnnouncement" element = {<ViewTeachAnnouncement />} />
+        <Route path='/user/announcent' element = {<ViewUsrAnnouncement />} />
       </Routes>
     </Router>
   );
