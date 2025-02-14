@@ -36,7 +36,17 @@ const classSchema = new mongoose.Schema({
   teacherAssignedSub:{
     type:String,
     required:true,
-  }
+  },
+  captions: {
+    type: String,
+    required: false
+  },
+  chapters: [{
+    start: Number,
+    end: Number,
+    summary: String,
+    headline: String
+  }]
 });
 
 const Class = mongoose.model("Class", classSchema);

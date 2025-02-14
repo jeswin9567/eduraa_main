@@ -3,6 +3,46 @@ const router = express.Router();
 const upload = require("../config/multerStorage"); // Your multer middleware
 const Class = require("../model/courses"); // Import the Class model
 const Teacher = require("../model/Teacher");
+const axios = require('axios'); // Add this import
+const fs = require('fs');
+const path = require('path'); // Add this import
+
+// Update the AssemblyAI configuration near the top of the file
+const ASSEMBLY_AI_API_KEY = process.env.ASSEMBLY_AI_API_KEY;
+
+// Create two separate axios instances - one for upload and one for other operations
+const assemblyApi = axios.create({
+  baseURL: 'https://api.assemblyai.com/v2',
+  headers: {
+    authorization: ASSEMBLY_AI_API_KEY,
+    'content-type': 'application/json',
+  },
+});
+
+const assemblyUploadApi = axios.create({
+  baseURL: 'https://api.assemblyai.com/v2',
+  headers: {
+    authorization: ASSEMBLY_AI_API_KEY,
+    'content-type': 'application/octet-stream',
+  },
+});
+
+// Add this helper function to download the file
+async function downloadFile(url, outputPath) {
+  const response = await axios({
+    method: 'GET',
+    url: url,
+    responseType: 'stream'
+  });
+
+  const writer = fs.createWriteStream(outputPath);
+  response.data.pipe(writer);
+
+  return new Promise((resolve, reject) => {
+    writer.on('finish', resolve);
+    writer.on('error', reject);
+  });
+}
 
 // Route to handle class upload
 
@@ -32,27 +72,89 @@ router.post("/upload-class", upload.fields([
     const teacherName = teacher.firstname + " " + teacher.lastname; // Construct full name
     const teacherAssignedSub = teacher.subjectassigned;
 
-    const notesFileUrl = req.files.notes[0].path; // Path of the uploaded PDF file
-    const videoFileUrl = req.files.video[0].path; // Path of the uploaded video file
+    const videoFile = req.files.video[0];
+    const tempVideoPath = path.join(__dirname, '..', 'temp', `temp_${Date.now()}.mp4`);
 
-    // Create a new class entry
-    const newClass = new Class({
-      topic,
-      subTopic,
-      notes: notesFileUrl,
-      video: videoFileUrl,
-      teacherEmail,  // Store teacher email
-      teacherName,   // Store teacher name
-      teacherAssignedSub,
+    // Ensure temp directory exists
+    const tempDir = path.join(__dirname, '..', 'temp');
+    if (!fs.existsSync(tempDir)) {
+      fs.mkdirSync(tempDir, { recursive: true });
+    }
+
+    // If video is already uploaded to Cloudinary, download it first
+    if (videoFile.path.startsWith('http')) {
+      await downloadFile(videoFile.path, tempVideoPath);
+    } else {
+      // If it's a local file, just copy it to temp location
+      fs.copyFileSync(videoFile.path, tempVideoPath);
+    }
+    
+    // Upload video to AssemblyAI using the upload-specific instance
+    const audioData = fs.readFileSync(tempVideoPath);
+    const uploadResponse = await assemblyUploadApi.post('/upload', audioData);
+
+    console.log('Upload response:', uploadResponse.data); // Add this for debugging
+
+    // Start transcription with the regular instance
+    const transcriptResponse = await assemblyApi.post('/transcript', {
+      audio_url: uploadResponse.data.upload_url,
+      auto_chapters: true,
     });
 
-    // Save to the database
-    await newClass.save();
+    console.log('Transcript initiated:', transcriptResponse.data); // Add this for debugging
 
-    res.status(201).json({ message: "Class uploaded successfully!", class: newClass });
+    // Poll for completion
+    const checkCompletionInterval = setInterval(async () => {
+      try {
+        const transcript = await assemblyApi.get(`/transcript/${transcriptResponse.data.id}`);
+        console.log('Transcript status:', transcript.data.status); // Add this for debugging
+        
+        if (transcript.data.status === 'completed') {
+          clearInterval(checkCompletionInterval);
+          
+          // Create new class with captions
+          const newClass = new Class({
+            topic,
+            subTopic,
+            notes: req.files.notes[0].path,
+            video: videoFile.path,
+            teacherEmail,
+            teacherName,
+            teacherAssignedSub,
+            captions: transcript.data.text,
+            chapters: transcript.data.chapters
+          });
+
+          await newClass.save();
+
+          // Clean up temp file
+          fs.unlinkSync(tempVideoPath);
+
+          res.status(201).json({ message: "Class uploaded successfully!", class: newClass });
+        } else if (transcript.data.status === 'error') {
+          clearInterval(checkCompletionInterval);
+          // Clean up temp file
+          fs.unlinkSync(tempVideoPath);
+          throw new Error('Transcription failed');
+        }
+      } catch (error) {
+        clearInterval(checkCompletionInterval);
+        console.error('Error in transcription polling:', error);
+        throw error;
+      }
+    }, 3000);
+
   } catch (error) {
-    console.error("Upload error:", error);
-    res.status(500).json({ message: error.message || "An error occurred while uploading the class." });
+    console.error("Upload error:", error.response?.data || error.message);
+    // Clean up temp file if it exists
+    const tempVideoPath = path.join(__dirname, '..', 'temp', `temp_${Date.now()}.mp4`);
+    if (fs.existsSync(tempVideoPath)) {
+      fs.unlinkSync(tempVideoPath);
+    }
+    res.status(500).json({ 
+      message: "An error occurred while uploading the class.",
+      error: error.response?.data || error.message 
+    });
   }
 });
 
@@ -185,15 +287,23 @@ router.get("/student/course", async (req, res) => {
 router.get("/student/course/:topic", async (req, res) => {
   try {
     const topicName = req.params.topic;
+    console.log("Fetching subtopics for topic:", topicName); // Debug log
 
-    // Find all classes under the given topic
-    const classes = await Class.find({ topic: topicName });
+    // Find all active classes under the given topic
+    const classes = await Class.find({ 
+      topic: topicName,
+      activeStatus: true // Only get active classes
+    });
+
+    console.log("Found classes:", classes); // Debug log
 
     // Extract unique subtopics
     const subtopics = [...new Set(classes.map((item) => item.subTopic))];
+    console.log("Extracted subtopics:", subtopics); // Debug log
 
     res.json(subtopics);
   } catch (error) {
+    console.error("Error fetching subtopics:", error);
     res.status(500).json({ error: "Failed to fetch subtopics" });
   }
 });
@@ -282,6 +392,37 @@ router.patch("/update-subtopic/:id", upload.fields([
     res.status(200).json(updatedSubtopic);
   } catch (err) {
     res.status(500).send({ message: err.message });
+  }
+});
+
+// Temporary debug route to check all classes
+router.get("/debug/all-classes", async (req, res) => {
+  try {
+    const classes = await Class.find({});
+    res.json({
+      total: classes.length,
+      classes: classes.map(c => ({
+        topic: c.topic,
+        subTopic: c.subTopic,
+        activeStatus: c.activeStatus
+      }))
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Temporary debug route to check classes by topic
+router.get("/debug/classes-by-topic/:topic", async (req, res) => {
+  try {
+    const classes = await Class.find({ topic: req.params.topic });
+    res.json({
+      topic: req.params.topic,
+      total: classes.length,
+      classes: classes
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 

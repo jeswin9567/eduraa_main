@@ -14,6 +14,8 @@ const UploadClass = () => {
     notes: "",
     video: "",
   });
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState('');
 
   useEffect(() => {
     // Fetch topics from the database
@@ -87,6 +89,9 @@ const UploadClass = () => {
       return;
     }
 
+    setIsUploading(true);
+    setUploadProgress('Uploading files and generating captions...');
+
     const teacherEmail = localStorage.getItem("userEmail");
 
     const formData = new FormData();
@@ -105,7 +110,7 @@ const UploadClass = () => {
       const data = await response.json();
 
       if (response.ok) {
-        alert("Class uploaded successfully!");
+        alert("Class uploaded successfully with captions!");
         setTopic("");
         setSubTopic("");
         setNotesFile(null);
@@ -118,6 +123,9 @@ const UploadClass = () => {
     } catch (error) {
       console.error("Error uploading class:", error);
       alert("An error occurred while uploading. Please try again.");
+    } finally {
+      setIsUploading(false);
+      setUploadProgress('');
     }
   };
 
@@ -216,8 +224,17 @@ const UploadClass = () => {
           />
           {errors.video && <p className="teachupldclzcom-error">{errors.video}</p>}
         </div>
-        <button type="submit" className="teachupldclzcom-submit-button">
-          Upload Class
+        {isUploading && (
+          <div className="upload-progress">
+            <p>{uploadProgress}</p>
+          </div>
+        )}
+        <button 
+          type="submit" 
+          className="teachupldclzcom-submit-button"
+          disabled={isUploading}
+        >
+          {isUploading ? 'Uploading...' : 'Upload Class'}
         </button>
       </form>
     </div>

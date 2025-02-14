@@ -63,4 +63,50 @@
     box-shadow: 0 6px 12px rgba(255, 204, 0, 0.5);
   }
 
-  
+  .video-player {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .classdetail-chapters {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: #f5f5f5;
+    border-radius: 8px;
+  }
+
+  .chapters-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .chapter-item {
+    padding: 1rem;
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .chapter-item h4 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+  }
+
+  .chapter-item p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+  }
+
+  /* Style for captions */
+  ::cue {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-family: Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    padding: 0.2em 0.5em;
+  }
