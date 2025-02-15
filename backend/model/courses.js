@@ -41,6 +41,12 @@ const classSchema = new mongoose.Schema({
     type: String,
     required: false
   },
+  words: [{
+    text: String,
+    start: Number,
+    end: Number,
+    confidence: Number
+  }],
   chapters: [{
     start: Number,
     end: Number,

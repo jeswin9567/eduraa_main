@@ -15,7 +15,10 @@ const UploadClass = () => {
     video: "",
   });
   const [isUploading, setIsUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState('');
+  const [uploadProgress, setUploadProgress] = useState({
+    notes: 0,
+    video: 0
+  });
 
   useEffect(() => {
     // Fetch topics from the database
@@ -115,6 +118,7 @@ const UploadClass = () => {
         setSubTopic("");
         setNotesFile(null);
         setVideoFile(null);
+        setUploadProgress({ notes: 0, video: 0 });
         document.getElementById("notes").value = "";
         document.getElementById("video").value = "";
       } else {

@@ -30,28 +30,33 @@ const UserClassDetail = () => {
     fetchClassDetails();
   }, [topic, subTopic]);
 
-  // Function to convert captions text to WebVTT format
-  const createVTTContent = (captions) => {
-    if (!captions) return null;
-    
-    // Split captions into sentences
-    const sentences = captions.split(/[.!?]+/).filter(Boolean);
+  // Updated function to convert captions text to WebVTT format
+  const createVTTContent = (captions, words) => {
+    if (!words || !Array.isArray(words) || words.length === 0) return null;
     
     let vttContent = "WEBVTT\n\n";
-    let startTime = 0;
+    let currentLine = [];
+    let lineCount = 1;
     
-    sentences.forEach((sentence, index) => {
-      // Estimate roughly 3 seconds per sentence
-      const duration = 3;
-      const start = formatTime(startTime);
-      const end = formatTime(startTime + duration);
+    for (let i = 0; i < words.length; i++) {
+      currentLine.push(words[i]);
       
-      vttContent += `${index + 1}\n`;
-      vttContent += `${start} --> ${end}\n`;
-      vttContent += `${sentence.trim()}\n\n`;
-      
-      startTime += duration;
-    });
+      // Create a new caption every 7 words or at the end of a sentence
+      if (currentLine.length === 7 || 
+          i === words.length - 1 || 
+          words[i].text.match(/[.!?]$/)) {
+        
+        const startTime = currentLine[0].start / 1000; // Convert to seconds
+        const endTime = currentLine[currentLine.length - 1].end / 1000;
+        
+        vttContent += `${lineCount}\n`;
+        vttContent += `${formatTime(startTime)} --> ${formatTime(endTime)}\n`;
+        vttContent += `${currentLine.map(w => w.text).join(' ')}\n\n`;
+        
+        lineCount++;
+        currentLine = [];
+      }
+    }
     
     return URL.createObjectURL(new Blob([vttContent], { type: 'text/vtt' }));
   };
@@ -91,12 +96,12 @@ const UserClassDetail = () => {
                 }}
               >
                 <source src={classItem.video} type="video/mp4" />
-                {classItem.captions && (
+                {classItem.words && (
                   <track 
                     label="English" 
                     kind="subtitles" 
                     srcLang="en" 
-                    src={createVTTContent(classItem.captions)} 
+                    src={createVTTContent(classItem.captions, classItem.words)} 
                     default 
                   />
                 )}

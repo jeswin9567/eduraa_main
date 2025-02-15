@@ -1,16 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const upload = require("../config/multerStorage"); // Your multer middleware
-const Class = require("../model/courses"); // Import the Class model
+const upload = require("../config/multerStorage"); // This already has Cloudinary config
+const Class = require("../model/courses");
 const Teacher = require("../model/Teacher");
-const axios = require('axios'); // Add this import
+const axios = require('axios');
 const fs = require('fs');
-const path = require('path'); // Add this import
+const dotenv = require('dotenv');
 
-// Update the AssemblyAI configuration near the top of the file
+dotenv.config();
+
+// Update the AssemblyAI configuration
 const ASSEMBLY_AI_API_KEY = process.env.ASSEMBLY_AI_API_KEY;
 
-// Create two separate axios instances - one for upload and one for other operations
 const assemblyApi = axios.create({
   baseURL: 'https://api.assemblyai.com/v2',
   headers: {
@@ -27,130 +28,102 @@ const assemblyUploadApi = axios.create({
   },
 });
 
-// Add this helper function to download the file
-async function downloadFile(url, outputPath) {
-  const response = await axios({
-    method: 'GET',
-    url: url,
-    responseType: 'stream'
-  });
-
-  const writer = fs.createWriteStream(outputPath);
-  response.data.pipe(writer);
-
-  return new Promise((resolve, reject) => {
-    writer.on('finish', resolve);
-    writer.on('error', reject);
-  });
-}
-
-// Route to handle class upload
-
 router.post("/upload-class", upload.fields([
   { name: "notes", maxCount: 1 },
   { name: "video", maxCount: 1 },
 ]), async (req, res) => {
   try {
-    // Check if files are uploaded
     if (!req.files || !req.files.notes || !req.files.video) {
       return res.status(400).json({ message: "Please upload both notes and video." });
     }
 
     const { topic, subTopic, teacherEmail } = req.body;
     
-    // Validate required fields
     if (!topic || !subTopic || !teacherEmail) {
       return res.status(400).json({ message: "Topic, subTopic, and teacher email are required." });
     }
 
-    // Retrieve teacher's name based on teacherEmail
     const teacher = await Teacher.findOne({ email: teacherEmail });
     if (!teacher) {
       return res.status(404).json({ message: "Teacher not found." });
     }
 
-    const teacherName = teacher.firstname + " " + teacher.lastname; // Construct full name
+    const teacherName = teacher.firstname + " " + teacher.lastname;
     const teacherAssignedSub = teacher.subjectassigned;
 
-    const videoFile = req.files.video[0];
-    const tempVideoPath = path.join(__dirname, '..', 'temp', `temp_${Date.now()}.mp4`);
+    // Get Cloudinary URLs
+    const notesUrl = req.files.notes[0].path;
+    const videoUrl = req.files.video[0].path;
 
-    // Ensure temp directory exists
-    const tempDir = path.join(__dirname, '..', 'temp');
-    if (!fs.existsSync(tempDir)) {
-      fs.mkdirSync(tempDir, { recursive: true });
-    }
+    try {
+      // Upload video to AssemblyAI
+      const videoResponse = await axios({
+        method: 'GET',
+        url: videoUrl,
+        responseType: 'arraybuffer'
+      });
 
-    // If video is already uploaded to Cloudinary, download it first
-    if (videoFile.path.startsWith('http')) {
-      await downloadFile(videoFile.path, tempVideoPath);
-    } else {
-      // If it's a local file, just copy it to temp location
-      fs.copyFileSync(videoFile.path, tempVideoPath);
-    }
-    
-    // Upload video to AssemblyAI using the upload-specific instance
-    const audioData = fs.readFileSync(tempVideoPath);
-    const uploadResponse = await assemblyUploadApi.post('/upload', audioData);
+      const uploadResponse = await assemblyUploadApi.post('/upload', videoResponse.data);
 
-    console.log('Upload response:', uploadResponse.data); // Add this for debugging
+      console.log('Upload response:', uploadResponse.data);
 
-    // Start transcription with the regular instance
-    const transcriptResponse = await assemblyApi.post('/transcript', {
-      audio_url: uploadResponse.data.upload_url,
-      auto_chapters: true,
-    });
+      // Start transcription
+      const transcriptResponse = await assemblyApi.post('/transcript', {
+        audio_url: uploadResponse.data.upload_url,
+        auto_chapters: true,
+      });
 
-    console.log('Transcript initiated:', transcriptResponse.data); // Add this for debugging
+      console.log('Transcript initiated:', transcriptResponse.data);
 
-    // Poll for completion
-    const checkCompletionInterval = setInterval(async () => {
-      try {
-        const transcript = await assemblyApi.get(`/transcript/${transcriptResponse.data.id}`);
-        console.log('Transcript status:', transcript.data.status); // Add this for debugging
-        
-        if (transcript.data.status === 'completed') {
-          clearInterval(checkCompletionInterval);
+      // Poll for completion
+      const checkCompletionInterval = setInterval(async () => {
+        try {
+          const transcript = await assemblyApi.get(`/transcript/${transcriptResponse.data.id}`);
+          console.log('Transcript status:', transcript.data.status);
           
-          // Create new class with captions
-          const newClass = new Class({
-            topic,
-            subTopic,
-            notes: req.files.notes[0].path,
-            video: videoFile.path,
-            teacherEmail,
-            teacherName,
-            teacherAssignedSub,
-            captions: transcript.data.text,
-            chapters: transcript.data.chapters
-          });
+          if (transcript.data.status === 'completed') {
+            clearInterval(checkCompletionInterval);
+            
+            // Log the transcript data structure to debug
+            console.log('Transcript data structure:', {
+              text: transcript.data.text ? 'present' : 'missing',
+              words: transcript.data.words ? `${transcript.data.words.length} words` : 'missing',
+              chapters: transcript.data.chapters ? `${transcript.data.chapters.length} chapters` : 'missing'
+            });
+            
+            const newClass = new Class({
+              topic,
+              subTopic,
+              notes: notesUrl,
+              video: videoUrl,
+              teacherEmail,
+              teacherName,
+              teacherAssignedSub,
+              captions: transcript.data.text,
+              words: transcript.data.words,
+              chapters: transcript.data.chapters
+            });
 
-          await newClass.save();
-
-          // Clean up temp file
-          fs.unlinkSync(tempVideoPath);
-
-          res.status(201).json({ message: "Class uploaded successfully!", class: newClass });
-        } else if (transcript.data.status === 'error') {
+            await newClass.save();
+            res.status(201).json({ message: "Class uploaded successfully!", class: newClass });
+          } else if (transcript.data.status === 'error') {
+            clearInterval(checkCompletionInterval);
+            throw new Error('Transcription failed');
+          }
+        } catch (error) {
           clearInterval(checkCompletionInterval);
-          // Clean up temp file
-          fs.unlinkSync(tempVideoPath);
-          throw new Error('Transcription failed');
+          console.error('Error in transcription polling:', error);
+          throw error;
         }
-      } catch (error) {
-        clearInterval(checkCompletionInterval);
-        console.error('Error in transcription polling:', error);
-        throw error;
-      }
-    }, 3000);
+      }, 3000);
+
+    } catch (error) {
+      console.error("Error processing video:", error);
+      throw error;
+    }
 
   } catch (error) {
     console.error("Upload error:", error.response?.data || error.message);
-    // Clean up temp file if it exists
-    const tempVideoPath = path.join(__dirname, '..', 'temp', `temp_${Date.now()}.mp4`);
-    if (fs.existsSync(tempVideoPath)) {
-      fs.unlinkSync(tempVideoPath);
-    }
     res.status(500).json({ 
       message: "An error occurred while uploading the class.",
       error: error.response?.data || error.message 
