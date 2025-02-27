@@ -148,3 +148,17 @@
     }
   }
   
+  .title-input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .title-input-container select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 5px;
+  }
+  

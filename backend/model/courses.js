@@ -52,6 +52,21 @@ const classSchema = new mongoose.Schema({
     end: Number,
     summary: String,
     headline: String
+  }],
+  completedBy: [{
+    studentEmail: {
+      type: String,
+      required: false
+    },
+    completedAt: {
+      type: Date,
+      default: Date.now
+    }
+  }],
+  feedback: [{
+    studentEmail: String,
+    feedback: String,
+    timestamp: Date
   }]
 });
 

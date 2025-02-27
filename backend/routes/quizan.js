@@ -5,7 +5,7 @@ const QuizAnswer = require('../model/quiz'); // Adjust the path based on your di
 // POST /quiz/saveAnswers
 // POST /quiz/saveAnswers
 router.post('/saveAnswers', async (req, res) => {
-    const { email, mockTestId, answers, score } = req.body;
+    const { email, mockTestId, answers, score, subject, title, description } = req.body;
 
     if (!email || !mockTestId || !answers || score === undefined) {
         return res.status(400).json({ message: 'All fields are required.' });
@@ -13,10 +13,13 @@ router.post('/saveAnswers', async (req, res) => {
 
     try {
         const newQuizAnswer = new QuizAnswer({
-            email,          // Store email directly
+            email,
             mockTestId,
             answers,
             score,
+            subject,
+            title,
+            description
         });
 
         await newQuizAnswer.save();

@@ -110,3 +110,103 @@
     line-height: 1.5;
     padding: 0.2em 0.5em;
   }
+
+  .feedback-btn {
+    background: #01472B;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.3s;
+  }
+
+  .feedback-btn:hover {
+    background: #013220;
+  }
+
+  .feedback-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .feedback-modal {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .feedback-modal h3 {
+    margin-top: 0;
+    color: #01472B;
+  }
+
+  .feedback-modal textarea {
+    width: 100%;
+    min-height: 150px;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: vertical;
+  }
+
+  .feedback-modal-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+
+  .feedback-modal-buttons button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .feedback-modal-buttons button[type="submit"] {
+    background: #01472B;
+    color: white;
+  }
+
+  .feedback-modal-buttons button[type="button"] {
+    background: #ddd;
+    color: #333;
+  }
+
+  .feedback-modal-buttons button:hover {
+    opacity: 0.9;
+  }
+
+  .success-message {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #01472B;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    z-index: 1001;
+    animation: fadeInOut 3s ease-in-out;
+  }
+
+  @keyframes fadeInOut {
+    0% { opacity: 0; transform: translate(-50%, -20px); }
+    15% { opacity: 1; transform: translate(-50%, 0); }
+    85% { opacity: 1; transform: translate(-50%, 0); }
+    100% { opacity: 0; transform: translate(-50%, -20px); }
+  }

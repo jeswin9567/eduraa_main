@@ -119,3 +119,184 @@
   font-weight: 500;
   text-transform: capitalize;
 }
+
+.sublistcour-back-btn {
+  background-color: #01472B;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.sublistcour-back-btn:hover {
+  background-color: #013220;
+}
+
+.sublistcour-feedback-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.sublistcour-feedback-btn:hover {
+  background-color: #45a049;
+}
+
+.feedback-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.feedback-modal {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.feedback-list {
+  margin: 20px 0;
+}
+
+.feedback-item {
+  background: #f5f5f5;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border-left: 4px solid #4CAF50;
+}
+
+.feedback-text {
+  color: #333;
+  margin: 0 0 10px 0;
+  font-size: 1em;
+}
+
+.feedback-date {
+  color: #888;
+  font-size: 0.8em;
+  text-align: right;
+  margin: 0;
+}
+
+.no-feedback {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+}
+
+.close-modal-btn {
+  background: #666;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  float: right;
+}
+
+.close-modal-btn:hover {
+  background: #555;
+}
+
+.sublistcour-viewed-btn {
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.sublistcour-viewed-btn:hover {
+  background-color: #1976D2;
+}
+
+.viewed-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.viewed-modal {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.viewed-count {
+  font-size: 1.5em;
+  color: #2196F3;
+  margin: 20px 0;
+  font-weight: bold;
+}
+
+.no-views {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  margin: 20px 0;
+}
+
+.viewed-students {
+  margin-top: 15px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.viewed-student-item {
+  background: #f5f5f5;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 5px;
+  border-left: 4px solid #2196F3;
+}
+
+.student-name {
+  color: #333;
+  margin: 0 0 5px 0;
+  font-weight: 500;
+  font-size: 1.1em;
+}
+
+.viewed-date {
+  color: #666;
+  font-size: 0.9em;
+  margin: 0;
+}

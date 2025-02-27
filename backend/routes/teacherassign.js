@@ -141,4 +141,37 @@ router.get("/student-progress/:studentEmail", async (req, res) => {
   }
 });
 
+// Add feedback for a teacher
+router.post("/teacher-feedback/:teacherId", async (req, res) => {
+  try {
+    const { teacherId } = req.params;
+    const { studentEmail, feedback, rating } = req.body;
+
+    if (!studentEmail || !feedback || !rating) {
+      return res.status(400).json({ error: "Student email, feedback, and rating are required" });
+    }
+
+    const teacher = await Teacher.findById(teacherId);
+    if (!teacher) {
+      return res.status(404).json({ error: "Teacher not found" });
+    }
+
+    // Add feedback to the teacher document
+    teacher.feedback = teacher.feedback || [];
+    teacher.feedback.push({
+      studentEmail,
+      feedback,
+      rating,
+      timestamp: new Date()
+    });
+
+    await teacher.save();
+
+    res.json({ message: "Feedback submitted successfully" });
+  } catch (error) {
+    console.error('Error submitting feedback:', error);
+    res.status(500).json({ error: "Failed to submit feedback" });
+  }
+});
+
 module.exports = router;

@@ -160,6 +160,7 @@ const TeacherMockTestUpdateCom = () => {
       formData.append('numberOfQuestions', mockTest.numberOfQuestions);
       formData.append('passingMarks', mockTest.passingMarks);
       formData.append('questions', JSON.stringify(mockTest.questions));
+      formData.append('email', mockTest.email);
 
       // Append any new question images
       Object.entries(questionImages).forEach(([index, file]) => {
@@ -167,7 +168,7 @@ const TeacherMockTestUpdateCom = () => {
       });
 
       const response = await axios.put(
-        `http://localhost:5000/mocktest/upmockTest/${mockTestId}`,
+        `http://localhost:5000/mocktest/teachupdmockTest/${mockTestId}`,
         formData,
         {
           headers: {

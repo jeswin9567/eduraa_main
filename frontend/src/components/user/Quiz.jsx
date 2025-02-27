@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import FeedbackModal from './Feedback';
@@ -13,6 +13,8 @@ const UQuizPage = () => {
   const [submitted, setSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(null);
+  const [timerActive, setTimerActive] = useState(true);
 
   // Retrieve user data from local storage
   const userEmail = localStorage.getItem('userEmail');
@@ -22,14 +24,55 @@ const UQuizPage = () => {
       try {
         const response = await axios.get(`http://localhost:5000/mocktest/umocktest/${mockTestId}`);
         setMockTest(response.data);
-        await fetchUserResults(); // Fetch user results
+        
+        // Get the start time from localStorage
+        const startTime = localStorage.getItem('quizStartTime');
+        if (startTime) {
+          const elapsedSeconds = Math.floor((Date.now() - parseInt(startTime)) / 1000);
+          const remainingTime = (response.data.duration * 60) - elapsedSeconds;
+          setTimeLeft(Math.max(0, remainingTime)); // Ensure time doesn't go negative
+        } else {
+          setTimeLeft(response.data.duration * 60);
+        }
+        
+        await fetchUserResults();
       } catch (error) {
         console.error('Error fetching mock test:', error);
         setErrorMessage('Failed to load the quiz. Please try again later.');
       }
     };
     fetchMockTest();
+
+    // Cleanup function to remove the start time when component unmounts
+    return () => {
+      localStorage.removeItem('quizStartTime');
+    };
   }, [mockTestId]);
+
+  useEffect(() => {
+    let timer;
+    if (timerActive && timeLeft > 0 && !submitted) {
+      timer = setInterval(() => {
+        setTimeLeft((prevTime) => {
+          if (prevTime <= 1) {
+            clearInterval(timer);
+            handleTimeUp();
+            return 0;
+          }
+          return prevTime - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [timerActive, timeLeft, submitted]);
+
+  const handleTimeUp = useCallback(async () => {
+    if (!submitted) {
+      await calculateScore();
+      setSubmitted(true);
+      setTimerActive(false);
+    }
+  }, [submitted]);
 
   // Fetch previous user's answers and score
   const fetchUserResults = async () => {
@@ -58,19 +101,71 @@ const UQuizPage = () => {
     }
   };
 
+  // Add this shuffle function
+  const shuffleArray = (array) => {
+    let currentIndex = array.length, randomIndex;
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+    }
+    return array;
+  };
+
+  // Modify handleRestart function
+  const handleRestart = async () => {
+    if (!userEmail) {
+      console.error('User email missing');
+      return;
+    }
+
+    const deleteData = {
+      email: userEmail,
+      mockTestId,
+    };
+
+    try {
+      await axios.delete('http://localhost:5000/quiz/deleteAnswers', { data: deleteData });
+      
+      const shuffledMockTest = {
+        ...mockTest,
+        questions: mockTest.questions.map(question => ({
+          ...question,
+          options: shuffleArray([...question.options])
+        }))
+      };
+      
+      setMockTest(shuffledMockTest);
+      setUserAnswers({});
+      setScore(null);
+      setSubmitted(false);
+      
+      // Reset timer and store new start time
+      setTimeLeft(mockTest.duration * 60);
+      localStorage.setItem('quizStartTime', Date.now().toString());
+      setTimerActive(true);
+      
+    } catch (error) {
+      console.error('Error deleting answers:', error);
+    }
+  };
+
+  // Modify calculateScore function to handle shuffled options
   const calculateScore = async () => {
     let calculatedScore = 0;
     mockTest.questions.forEach((question, index) => {
-      const correctOptionIndex = question.options.findIndex((option) => option.isCorrect);
-      if (userAnswers[index] === correctOptionIndex) {
-        calculatedScore += question.marks;
+      if (userAnswers[index] !== undefined) {
+        const selectedOption = question.options[userAnswers[index]];
+        if (selectedOption.isCorrect) {
+          calculatedScore += question.marks;
+        }
       }
     });
     setScore(calculatedScore);
     setSubmitted(true);
   
     await saveAnswers(calculatedScore);
-    await incrementParticipateCount(); // Increment participate count
+    await incrementParticipateCount();
   };
   
   // Function to increment participate count
@@ -97,15 +192,14 @@ const UQuizPage = () => {
       return;
     }
 
-    // Get the course from the mock test data
-    const course = mockTest.examId?.name || 'Unknown Course'; // Assuming examId contains the entrance exam details
-
     const answersToSave = {
       email: userEmail,
       mockTestId,
       answers: userAnswers,
       score: calculatedScore,
-      course: course, // Add the course information
+      subject: mockTest.subject,
+      title: mockTest.title,
+      description: mockTest.description
     };
 
     try {
@@ -114,30 +208,6 @@ const UQuizPage = () => {
     } catch (error) {
       console.error('Error saving answers:', error);
     }
-  };
-
-  const handleRestart = async () => {
-    if (!userEmail) {
-      console.error('User email missing');
-      return;
-    }
-
-    const deleteData = {
-      email: userEmail,
-      mockTestId,
-    };
-
-    try {
-      await axios.delete('http://localhost:5000/quiz/deleteAnswers', { data: deleteData });
-      console.log('Answers deleted successfully.');
-    } catch (error) {
-      console.error('Error deleting answers:', error);
-    }
-
-    // Reset local state after deleting the data
-    setUserAnswers({}); // Clear user answers
-    setScore(null); // Clear the score
-    setSubmitted(false); // Mark the quiz as not submitted
   };
 
   // Function to handle feedback submission
@@ -167,12 +237,25 @@ const UQuizPage = () => {
   };
   
 
+  // Format time function
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+  };
 
   if (!mockTest) return <div className="loading">{errorMessage || 'Loading...'}</div>;
 
   return (
     <div className="quizattmpt-container">
-      <h2 className="quizattmpt-title">{mockTest.title}</h2>
+      <div className="quizattmpt-header">
+        <h2 className="quizattmpt-title">{mockTest.title}</h2>
+        {!submitted && (
+          <div className="quizattmpt-timer">
+            Time Left: {formatTime(timeLeft)}
+          </div>
+        )}
+      </div>
       <p className="quizattmpt-description">{mockTest.description}</p>
 
       <div className="quizattmpt-all-questions">
@@ -208,7 +291,7 @@ const UQuizPage = () => {
         ))}
       </div>
 
-      <button onClick={calculateScore} className="quizattmpt-submit-button" disabled={submitted}>
+      <button id = "submit" onClick={calculateScore} className="quizattmpt-submit-button" disabled={submitted}>
         {submitted ? 'Submitted' : 'Submit'}
       </button>
 

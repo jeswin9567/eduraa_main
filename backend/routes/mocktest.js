@@ -46,12 +46,13 @@ router.post('/teacheraddMockTest', upload.array('questionImages', 10), async (re
       return res.status(404).json({ message: 'Teacher not found' });
     }
 
+    const subject = teacher.subjectassigned;
     // Combine teacher's firstname and lastname to get the full name
     const teacherFullName = `${teacher.firstname} ${teacher.lastname}`;
     console.log(teacherFullName);
 
     // Check for duplicate mock test by title within the same entrance exam
-    const existingMockTest = await MockTest.findOne({ title, examId: entranceExam });
+    const existingMockTest = await MockTest.findOne({ description, examId: entranceExam });
     if (existingMockTest) {
       return res.status(400).json({ message: 'A mock test with this title already exists for the selected entrance exam.' });
     }
@@ -67,6 +68,7 @@ router.post('/teacheraddMockTest', upload.array('questionImages', 10), async (re
       passingMarks,
       questions,
       email,
+      subject,
       teacherName: teacherFullName
     });
 
@@ -426,6 +428,91 @@ router.post('/saveAnswers', async (req, res) => {
   } catch (error) {
     console.error('Error saving quiz answers:', error);
     res.status(500).json({ message: 'Error saving quiz answers' });
+  }
+});
+
+// Add this new route to get titles for a specific teacher
+router.get('/teacher-titles', async (req, res) => {
+  try {
+    const email = req.query.email;
+    if (!email) {
+      return res.status(400).json({ message: 'Email is required' });
+    }
+
+    const titles = await MockTest.find({ email })
+      .distinct('title');
+
+    res.json(titles);
+  } catch (error) {
+    console.error('Error fetching titles:', error);
+    res.status(500).json({ message: 'Error fetching titles' });
+  }
+});
+
+// Teacher Update Mock Test route
+router.put('/teachupdmockTest/:id', upload.array('questionImages', 10), async (req, res) => {
+  try {
+    const { title, examId, email } = req.body;
+    const questions = JSON.parse(req.body.questions);
+
+    // Get teacher's subject and verify teacher
+    const teacher = await Teacher.findOne({ email });
+    if (!teacher) {
+      return res.status(404).json({ message: 'Teacher not found' });
+    }
+
+    // Verify if this mock test belongs to this teacher
+    const existingTest = await MockTest.findOne({ _id: req.params.id, email });
+    if (!existingTest) {
+      return res.status(403).json({ message: 'Unauthorized: This mock test does not belong to you' });
+    }
+
+    const subject = teacher.subjectassigned;
+    const teacherFullName = `${teacher.firstname} ${teacher.lastname}`;
+
+    // Handle new image uploads
+    if (req.files && req.files.length > 0) {
+      req.files.forEach(file => {
+        const questionIndex = file.originalname.split('-')[0];
+        if (questions[questionIndex]) {
+          questions[questionIndex].questionImage = file.path;
+        }
+      });
+    }
+
+    // Check for duplicate title
+    const existingMockTest = await MockTest.findOne({
+      title,
+      examId,
+      _id: { $ne: req.params.id },
+      email, // Only check for duplicates within teacher's tests
+    });
+
+    if (existingMockTest) {
+      return res.status(400).json({ message: 'A mock test with the same title already exists for this exam.' });
+    }
+
+    // Update the mock test with the new data
+    const updatedMockTest = await MockTest.findByIdAndUpdate(
+      req.params.id,
+      { 
+        ...req.body, 
+        questions,
+        subject,
+        teacherName: teacherFullName,
+        email
+      },
+      { new: true }
+    );
+
+    if (!updatedMockTest) {
+      return res.status(404).json({ message: 'Mock test not found' });
+    }
+
+    res.json(updatedMockTest);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
   }
 });
 

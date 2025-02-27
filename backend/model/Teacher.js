@@ -21,10 +21,19 @@ const teacherSchema = new mongoose.Schema({
   subjects: {type : String, required: true},
   active: {type:Boolean, default:false},
   subjectassigned: {type:String, required:false},
-
+  examTypes: [{
+    type: String,
+    required: false
+  }],
   assignedStudents: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
+  }],
+  feedback: [{
+    studentEmail: String,
+    feedback: String,
+    rating: Number,
+    timestamp: Date
   }]
 });
 

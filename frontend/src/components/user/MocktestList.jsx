@@ -58,6 +58,7 @@ const UserPrmMocktestList = () => {
 
   const handleParticipate = (mocktestId) => {
     if (isPremium || participateCount < 3) {
+      localStorage.setItem('quizStartTime', Date.now().toString());
       navigate(`/user/quiz/${mocktestId}`);
     } else {
       setShowPremiumPopup(true);

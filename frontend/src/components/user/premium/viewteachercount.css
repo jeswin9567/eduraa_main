@@ -1,0 +1,70 @@
+/* Main container */
+.viewteachcnt {
+  background: #4C5270;
+  border-radius: 16px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  text-align: center;
+  width: 300px;
+  height: 30%;
+  margin: 20px auto;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: #fff;
+}
+
+/* Hover effect */
+.viewteachcnt:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Inner content */
+.viewteachcnt-inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Title */
+.viewteachcnt-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Count */
+.viewteachcnt-count {
+  font-size: 3.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Subtitle */
+.viewteachcnt-subtitle {
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .viewteachcnt {
+      width: 100%;
+      padding: 15px;
+  }
+
+  .viewteachcnt-title {
+      font-size: 1.5rem;
+  }
+
+  .viewteachcnt-count {
+      font-size: 3rem;
+  }
+
+  .viewteachcnt-subtitle {
+      font-size: 1rem;
+  }
+}

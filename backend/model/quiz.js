@@ -15,9 +15,21 @@ const quizAnswerSchema = new mongoose.Schema({
         type: Map,
         of: Number, // Assuming answers are stored as question index: answer index
         required: true,
-    },
+    },  
     score: {
         type: Number,
+        required: true,
+    },
+    subject: {
+        type: String,
+        required: false,
+    },
+    title: {
+        type: String,
+        required: true,
+    },
+    description: {
+        type: String,
         required: true,
     },
     createdAt: {

@@ -5,6 +5,8 @@ import MockTestStatusBox from "../../components/teacher/dashboard/mocktestbox";
 import ClassCountBox from "../../components/teacher/dashboard/uploadedCourseBox";
 import LiveClassesBox from "../../components/teacher/dashboard/liveClass";
 import TeacherAssignedStudentsCount from "../../components/teacher/dashboard/viewstudbox";
+import TeacherRatingBox from "../../components/teacher/dashboard/teacherRating";
+import TeacherCalendar from "../../components/teacher/dashboard/teacherCalendar";
 import './teacherdashboard.css'
 
 
@@ -19,8 +21,9 @@ const TeacherDash = () => {
             <MockTestStatusBox />
             <ClassCountBox />
             <LiveClassesBox />
-
+            <TeacherRatingBox />
             <TeacherAssignedStudentsCount />
+            <TeacherCalendar />
             </div>
             
             

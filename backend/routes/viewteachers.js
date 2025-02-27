@@ -228,5 +228,57 @@ router.patch("/viewteachers/activate/:id", async (req, res) => {
   });
   
 
+// Add this new route to update exam types
+router.patch("/update-exam-types/:id", async (req, res) => {
+  try {
+    const { examTypes } = req.body;
+    const teacher = await Teacher.findByIdAndUpdate(
+      req.params.id,
+      { examTypes },
+      { new: true }
+    );
+    
+    if (!teacher) {
+      return res.status(404).json({ error: "Teacher not found" });
+    }
+    
+    res.status(200).json(teacher);
+  } catch (error) {
+    console.error("Error updating exam types:", error);
+    res.status(500).json({ error: "Failed to update exam types" });
+  }
+});
+
+// Get teacher's average rating
+router.get("/teacher-rating/:email", async (req, res) => {
+  try {
+    const { email } = req.params;
+    
+    const teacher = await Teacher.findOne({ email });
+    if (!teacher) {
+      return res.status(404).json({ error: "Teacher not found" });
+    }
+
+    // Calculate average rating
+    if (!teacher.feedback || teacher.feedback.length === 0) {
+      return res.json({ 
+        averageRating: 0,
+        totalFeedbacks: 0
+      });
+    }
+
+    const totalRating = teacher.feedback.reduce((sum, feedback) => sum + feedback.rating, 0);
+    const averageRating = totalRating / teacher.feedback.length;
+
+    res.json({
+      averageRating,
+      totalFeedbacks: teacher.feedback.length
+    });
+  } catch (error) {
+    console.error('Error fetching teacher rating:', error);
+    res.status(500).json({ error: "Failed to fetch rating" });
+  }
+});
+
 module.exports = router;
 

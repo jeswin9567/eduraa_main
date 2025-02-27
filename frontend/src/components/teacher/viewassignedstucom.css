@@ -75,3 +75,117 @@
     color: #374151;
   }
   
+  .feedback-btn {
+    background: #566b8d;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .feedback-btn:hover {
+    background: #6370a9;
+  }
+  
+  .feedback-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .feedback-modal {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+  }
+  
+  .feedback-modal textarea {
+    width: 100%;
+    min-height: 150px;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: vertical;
+  }
+  
+  .feedback-modal-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 15px;
+  }
+  
+  .feedback-modal-buttons button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .feedback-modal-buttons button[type="submit"] {
+    background: #01472B;
+    color: white;
+  }
+  
+  .feedback-modal-buttons button[type="button"] {
+    background: #ddd;
+    color: #333;
+  }
+  
+  .feedback-modal-buttons button:hover {
+    opacity: 0.9;
+  }
+  
+  .feedback-modal-buttons button[type="submit"]:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+  
+  .feedback-modal-buttons button[type="submit"]:disabled:hover {
+    opacity: 0.7;
+  }
+  
+  .rating-container {
+    margin: 15px 0;
+    text-align: center;
+  }
+  
+  .rating-container p {
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .star-rating {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .star {
+    font-size: 30px;
+    cursor: pointer;
+    color: #ddd;
+    transition: color 0.2s ease;
+  }
+  
+  .star.filled {
+    color: #ffd700;
+  }
+  
+  .star:hover {
+    transform: scale(1.1);
+  }
+  

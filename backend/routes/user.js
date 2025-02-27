@@ -95,5 +95,32 @@ router.get("/user-details", async (req, res) => {
   }
 });
 
+// to get teachers number
+
+router.get('/assigned-teacher-count', async (req, res) => {
+  try {
+    const { email } = req.query; 
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+
+    // Find user and populate assignedTeacher field
+    const user = await UserModel.findOne({ email }).populate('assignedTeacher');
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Ensure assignedTeacher is an array before getting length
+    const assignedTeacherCount = Array.isArray(user.assignedTeacher) ? user.assignedTeacher.length : 0;
+
+    res.json({ assignedTeacherCount });
+  } catch (error) {
+    console.error("Error fetching assigned teacher count:", error);
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
+
 module.exports = router;
 

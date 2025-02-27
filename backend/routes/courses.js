@@ -6,6 +6,7 @@ const Teacher = require("../model/Teacher");
 const axios = require('axios');
 const fs = require('fs');
 const dotenv = require('dotenv');
+const User = require("../model/User");
 
 dotenv.config();
 
@@ -396,6 +397,115 @@ router.get("/debug/classes-by-topic/:topic", async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+});
+
+// Add endpoint to mark class as completed
+router.post("/student/complete-class/:classId", async (req, res) => {
+  try {
+    const { classId } = req.params;
+    const { studentEmail } = req.body;
+
+    if (!studentEmail) {
+      return res.status(400).json({ error: "Student email is required" });
+    }
+
+    const classDoc = await Class.findById(classId);
+    if (!classDoc) {
+      return res.status(404).json({ error: "Class not found" });
+    }
+
+    // Check if student has already completed this class
+    const alreadyCompleted = classDoc.completedBy.some(
+      entry => entry.studentEmail === studentEmail
+    );
+
+    if (!alreadyCompleted) {
+      classDoc.completedBy.push({ studentEmail });
+      await classDoc.save();
+    }
+
+    res.json({ message: "Class marked as completed" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to mark class as completed" });
+  }
+});
+
+// Add feedback route
+router.post("/student/feedback/:classId", async (req, res) => {
+  try {
+    const { classId } = req.params;
+    const { studentEmail, feedback } = req.body;
+
+    if (!studentEmail || !feedback) {
+      return res.status(400).json({ error: "Student email and feedback are required" });
+    }
+
+    const classDoc = await Class.findById(classId);
+    if (!classDoc) {
+      return res.status(404).json({ error: "Class not found" });
+    }
+
+    // Add feedback to the class document
+    classDoc.feedback = classDoc.feedback || [];
+    classDoc.feedback.push({
+      studentEmail,
+      feedback,
+      timestamp: new Date()
+    });
+
+    await classDoc.save();
+
+    res.json({ message: "Feedback submitted successfully" });
+  } catch (error) {
+    console.error('Error submitting feedback:', error);
+    res.status(500).json({ error: "Failed to submit feedback" });
+  }
+});
+
+// Get feedbacks for a specific class
+router.get("/feedback/:classId", async (req, res) => {
+  try {
+    const { classId } = req.params;
+    
+    const classDoc = await Class.findById(classId);
+    if (!classDoc) {
+      return res.status(404).json({ error: "Class not found" });
+    }
+
+    // Return the feedbacks array (or empty array if no feedbacks)
+    res.json(classDoc.feedback || []);
+  } catch (error) {
+    console.error('Error fetching feedbacks:', error);
+    res.status(500).json({ error: "Failed to fetch feedbacks" });
+  }
+});
+
+// Get students who viewed a specific class
+router.get("/viewed-students/:classId", async (req, res) => {
+  try {
+    const { classId } = req.params;
+    
+    const classDoc = await Class.findById(classId);
+    if (!classDoc) {
+      return res.status(404).json({ error: "Class not found" });
+    }
+
+    // Get all student details from User model
+    const viewedStudentsDetails = await Promise.all(
+      classDoc.completedBy.map(async (viewer) => {
+        const userDoc = await User.findOne({ email: viewer.studentEmail });
+        return {
+          name: userDoc ? userDoc.name : 'Unknown User',
+          completedAt: viewer.completedAt
+        };
+      })
+    );
+
+    res.json(viewedStudentsDetails);
+  } catch (error) {
+    console.error('Error fetching viewed students:', error);
+    res.status(500).json({ error: "Failed to fetch viewed students" });
   }
 });
 

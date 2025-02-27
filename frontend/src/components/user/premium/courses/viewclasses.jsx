@@ -8,6 +8,10 @@ const UserClassDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [activeVideoIndex, setActiveVideoIndex] = useState(0);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [feedback, setFeedback] = useState("");
+  const [activeFeedbackClassId, setActiveFeedbackClassId] = useState(null);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   useEffect(() => {
     const fetchClassDetails = async () => {
@@ -71,11 +75,80 @@ const UserClassDetail = () => {
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}.${String(ms).padStart(3, '0')}`;
   };
 
+  const handleVideoComplete = async (classId) => {
+    try {
+      // Get student email from your auth context/storage
+      const studentEmail = localStorage.getItem('userEmail'); // Replace with actual student email
+
+      const response = await fetch(
+        `http://localhost:5000/api/course/student/complete-class/${classId}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ studentEmail }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to mark class as completed');
+      }
+    } catch (error) {
+      console.error('Error marking class as completed:', error);
+    }
+  };
+
+  const handleFeedbackSubmit = async (e) => {
+    e.preventDefault();
+    const studentEmail = localStorage.getItem('userEmail');
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/course/student/feedback/${activeFeedbackClassId}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ 
+            studentEmail,
+            feedback 
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to submit feedback');
+      }
+
+      // Reset form and close modal
+      setFeedback("");
+      setShowFeedbackModal(false);
+      setActiveFeedbackClassId(null);
+      
+      // Show success message
+      setShowSuccessMessage(true);
+      // Hide success message after 3 seconds
+      setTimeout(() => {
+        setShowSuccessMessage(false);
+      }, 3000);
+    } catch (error) {
+      console.error('Error submitting feedback:', error);
+    }
+  };
+
   if (loading) return <div className="classdetail-loading">Loading...</div>;
   if (error) return <div className="classdetail-error">Error: {error}</div>;
 
   return (
     <div className="classdetail-container">
+      {/* Show success message if showSuccessMessage is true */}
+      {showSuccessMessage && (
+        <div className="success-message">
+          Feedback submitted successfully!
+        </div>
+      )}
       <h2 className="classdetail-title">{subTopic}</h2>
       {classes.length === 0 ? (
         <p className="classdetail-empty">No content available</p>
@@ -87,6 +160,7 @@ const UserClassDetail = () => {
               <video 
                 controls
                 className="video-player"
+                onEnded={() => handleVideoComplete(classItem._id)}
                 onLoadedMetadata={(e) => {
                   // Ensure captions are displayed
                   const textTracks = e.target.textTracks;
@@ -138,8 +212,51 @@ const UserClassDetail = () => {
                 </div>
               </div>
             )}
+
+            {/* Add Feedback Button */}
+            <div className="classdetail-feedback">
+              <button 
+                className="feedback-btn"
+                onClick={() => {
+                  setActiveFeedbackClassId(classItem._id);
+                  setShowFeedbackModal(true);
+                }}
+              >
+                Give Feedback
+              </button>
+            </div>
           </div>
         ))
+      )}
+
+      {/* Feedback Modal */}
+      {showFeedbackModal && (
+        <div className="feedback-modal-overlay">
+          <div className="feedback-modal">
+            <h3>Submit Feedback</h3>
+            <form onSubmit={handleFeedbackSubmit}>
+              <textarea
+                value={feedback}
+                onChange={(e) => setFeedback(e.target.value)}
+                placeholder="Enter your feedback here..."
+                required
+              />
+              <div className="feedback-modal-buttons">
+                <button type="submit">Submit</button>
+                <button 
+                  type="button" 
+                  onClick={() => {
+                    setShowFeedbackModal(false);
+                    setFeedback("");
+                    setActiveFeedbackClassId(null);
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       )}
     </div>
   );

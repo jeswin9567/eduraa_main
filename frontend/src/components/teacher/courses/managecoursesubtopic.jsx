@@ -8,6 +8,10 @@ const SubtopicsPageCom = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate(); // Initialize useNavigate hook
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [selectedClassFeedbacks, setSelectedClassFeedbacks] = useState([]);
+  const [showViewedModal, setShowViewedModal] = useState(false);
+  const [viewedStudents, setViewedStudents] = useState([]);
 
   useEffect(() => {
     const fetchSubtopics = async () => {
@@ -67,6 +71,46 @@ const SubtopicsPageCom = () => {
     navigate("/video-player", { state: { videoUrl } }); // Navigate to VideoPlayerPage with the video URL as state
   };
 
+  const handleViewFeedbacks = async (classId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/course/feedback/${classId}`
+      );
+      
+      if (!response.ok) {
+        throw new Error("Failed to fetch feedbacks");
+      }
+      
+      const data = await response.json();
+      setSelectedClassFeedbacks(data);
+      setShowFeedbackModal(true);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleViewedClick = async (classId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/course/viewed-students/${classId}`
+      );
+      
+      if (!response.ok) {
+        throw new Error("Failed to fetch viewed students");
+      }
+      
+      const data = await response.json();
+      setViewedStudents(data);
+      setShowViewedModal(true);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleBack = () => {
+    navigate(-1); // This will take the user back to the previous page
+  };
+
   if (loading) return <div className="sublistcour-loading">Loading...</div>;
   if (error) return <div className="sublistcour-error">Error: {error}</div>;
 
@@ -112,14 +156,97 @@ const SubtopicsPageCom = () => {
                 {subtopicItem.activeStatus ? "Disable" : "Enable"}
               </button>
               <button
-  className="sublistcour-update-btn"
-  onClick={() => navigate(`/update-subtopic/${subtopicItem._id}`)}
->
-  Update
-</button>
+                className="sublistcour-update-btn"
+                onClick={() => navigate(`/update-subtopic/${subtopicItem._id}`)}
+              >
+                Update
+              </button>
+              <button
+                className="sublistcour-feedback-btn"
+                onClick={() => handleViewFeedbacks(subtopicItem._id)}
+              >
+                View Feedbacks
+              </button>
+              <button
+                className="sublistcour-viewed-btn"
+                onClick={() => handleViewedClick(subtopicItem._id)}
+              >
+                Viewed
+              </button>
+              <button 
+                className="sublistcour-back-btn"
+                onClick={handleBack}
+              >
+                ← Back
+              </button>
             </li>
           ))}
         </ul>
+      )}
+
+      {/* Feedback Modal */}
+      {showFeedbackModal && (
+        <div className="feedback-modal-overlay">
+          <div className="feedback-modal">
+            <h3>Student Feedbacks</h3>
+            <div className="feedback-list">
+              {selectedClassFeedbacks.length > 0 ? (
+                selectedClassFeedbacks.map((feedback, index) => (
+                  <div key={index} className="feedback-item">
+                    <p className="feedback-text">{feedback.feedback}</p>
+                    <p className="feedback-date">
+                      {new Date(feedback.timestamp).toLocaleString()}
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <p className="no-feedback">No feedbacks yet</p>
+              )}
+            </div>
+            <button 
+              className="close-modal-btn"
+              onClick={() => setShowFeedbackModal(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Viewed Students Modal */}
+      {showViewedModal && (
+        <div className="viewed-modal-overlay">
+          <div className="viewed-modal">
+            <h3>Students Who Viewed This Class</h3>
+            <div className="viewed-list">
+              {viewedStudents.length > 0 ? (
+                <>
+                  <div className="viewed-count">
+                    Total Views: {viewedStudents.length}
+                  </div>
+                  <div className="viewed-students">
+                    {viewedStudents.map((student, index) => (
+                      <div key={index} className="viewed-student-item">
+                        <p className="student-name">{student.name}</p>
+                        <p className="viewed-date">
+                          Viewed on: {new Date(student.completedAt).toLocaleString()}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <p className="no-views">No students have viewed this class yet</p>
+              )}
+            </div>
+            <button 
+              className="close-modal-btn"
+              onClick={() => setShowViewedModal(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

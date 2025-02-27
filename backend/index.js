@@ -60,6 +60,7 @@ const EntranceFiledRoute = require('./routes/entrancecoursef');
 const AssignStudentRoute = require('./routes/teacherassign')
 const mocktestRoutes = require('./routes/mocktest');
 const AnnouncementRoute = require('./routes/announcement');
+const TeacherCalendarRoute = require('./routes/reminders');
 
 
 
@@ -135,7 +136,7 @@ app.use('/api/entrancefield',EntranceFiledRoute);
 app.use('/api/viewassign',AssignStudentRoute)
 app.use('/api/mocktest', mocktestRoutes);
 app.use('/api/announcement', AnnouncementRoute)
-
+app.use('/api/teachercalendar', TeacherCalendarRoute);
 // Create PeerJS server
 const peerServer = PeerServer({
   port: 3001,

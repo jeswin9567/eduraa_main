@@ -31,16 +31,43 @@ const TeacherMocktest = () => {
 
   const [questionImages, setQuestionImages] = useState({});
 
+  const [existingTitles, setExistingTitles] = useState([]);
+  const [isManualTitle, setIsManualTitle] = useState(true);
+  const teacherEmail = localStorage.getItem('userEmail');
+
   useEffect(() => {
     const fetchEntranceExams = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/viewentr'); // Adjust URL to your API endpoint
+        const response = await axios.get(
+          'http://localhost:5000/viewentr/teacher-assigned-entrances',
+          {
+            headers: {
+              email: teacherEmail
+            }
+          }
+          ); 
+          // 
+          // // Adjust URL to your API endpoint
         setEntranceExams(response.data);
       } catch (error) {
         console.error('Error fetching entrance exams:', error);
       }
     };
     fetchEntranceExams();
+  }, []);
+
+  useEffect(() => {
+    const fetchTitles = async () => {
+      try {
+        const email = localStorage.getItem('userEmail');
+        const response = await axios.get(`http://localhost:5000/mocktest/teacher-titles?email=${email}`);
+        setExistingTitles(response.data);
+      } catch (error) {
+        console.error('Error fetching titles:', error);
+      }
+    };
+
+    fetchTitles();
   }, []);
 
   const calculateTotalAssignedMarks = () => {
@@ -236,21 +263,48 @@ const TeacherMocktest = () => {
         {/* Title Field */}
         <div className="teachermocktest-field">
           <label className="teachermocktest-label">Title:</label>
-          <input
-            className="teachermocktest-input"
-            type="text"
-            value={title}
-            onChange={(e) => {
-              const value = e.target.value;
-              setTitle(value);
-              if (!value || /^[^a-zA-Z]*$/.test(value)) {
-                setTitleError('Title must contain letters and cannot consist of only numbers or special characters.');
-              } else {
-                setTitleError('');
-              }
-            }}
-            required
-          />
+          <div className="title-input-container">
+            <select
+              className="teachermocktest-input"
+              onChange={(e) => {
+                if (e.target.value === "manual") {
+                  setIsManualTitle(true);
+                  setTitle('');
+                } else {
+                  setIsManualTitle(false);
+                  setTitle(e.target.value);
+                  setTitleError('');
+                }
+              }}
+              value={isManualTitle ? "manual" : title}
+            >
+              <option value="manual">Enter New Title</option>
+              {existingTitles.map((existingTitle, index) => (
+                <option key={index} value={existingTitle}>
+                  {existingTitle}
+                </option>
+              ))}
+            </select>
+            
+            {isManualTitle && (
+              <input
+                className="teachermocktest-input"
+                type="text"
+                value={title}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setTitle(value);
+                  if (!value || /^[^a-zA-Z]*$/.test(value)) {
+                    setTitleError('Title must contain letters and cannot consist of only numbers or special characters.');
+                  } else {
+                    setTitleError('');
+                  }
+                }}
+                placeholder="Enter new title"
+                required
+              />
+            )}
+          </div>
           {titleError && <p className="teachermocktest-error">{titleError}</p>}
         </div>
 

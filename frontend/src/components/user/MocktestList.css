@@ -1,25 +1,31 @@
 .mocktest-container {
+  width: 75%;
+  margin: 20px auto;
   padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
+  text-align: center;
 }
 
 .mocktest-header {
-  color: #333;
-  margin-bottom: 30px;
   font-size: 24px;
+  font-weight: bold;
+  color: #690e0e;
+  margin-bottom: 30px;
   padding-bottom: 10px;
   border-bottom: 1px solid #eee;
 }
 
 .mocktest-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  display: flex;
+  overflow-x: auto;
   gap: 20px;
   padding: 10px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
 }
 
 .mocktest-card {
+  flex: 0 0 280px;
+  scroll-snap-align: start;
   background: white;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -124,11 +130,11 @@
 
 @media (max-width: 768px) {
   .mocktest-grid {
-    grid-template-columns: 1fr;
+    display: flex;
   }
   
   .mocktest-card {
-    max-width: 100%;
+    flex: 0 0 280px;
   }
 }
 
@@ -172,4 +178,23 @@
 
 .premium-popup-content button:hover {
   background: #ff8800;
+}
+
+/* Add smooth scrollbar styling */
+.mocktest-grid::-webkit-scrollbar {
+  height: 8px;
+}
+
+.mocktest-grid::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.mocktest-grid::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.mocktest-grid::-webkit-scrollbar-thumb:hover {
+  background: #555;
 } 
