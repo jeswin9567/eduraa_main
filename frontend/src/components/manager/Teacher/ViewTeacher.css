@@ -307,3 +307,29 @@
   background-color: #f44336;
   color: white;
 }
+
+.teacher-rating {
+  margin: 10px 0;
+}
+
+.star-display {
+  display: inline-flex;
+  gap: 2px;
+  margin-left: 8px;
+}
+
+.star {
+  color: #ddd;
+  font-size: 18px;
+}
+
+.star.filled {
+  color: #ffd700;
+}
+
+.rating-count {
+  display: inline-block;
+  margin-left: 8px;
+  color: #666;
+  font-size: 0.9em;
+}

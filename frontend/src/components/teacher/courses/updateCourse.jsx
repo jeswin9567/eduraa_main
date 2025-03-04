@@ -11,6 +11,8 @@ const UpdateSubtopicPage = () => {
   const [error, setError] = useState("");
   const [notesFile, setNotesFile] = useState(null);
   const [videoFile, setVideoFile] = useState(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [processingStatus, setProcessingStatus] = useState('');
 
   useEffect(() => {
     const fetchSubtopic = async () => {
@@ -32,6 +34,7 @@ const UpdateSubtopicPage = () => {
 
   const handleUpdate = async () => {
     try {
+      setIsProcessing(true);
       const formData = new FormData();
       formData.append("subTopic", subTopicName);
 
@@ -42,6 +45,7 @@ const UpdateSubtopicPage = () => {
       }
 
       if (videoFile) {
+        setProcessingStatus('Uploading video and generating captions...');
         formData.append("video", videoFile);
       } else {
         formData.append("video", video);
@@ -54,9 +58,17 @@ const UpdateSubtopicPage = () => {
 
       if (!response.ok) throw new Error("Failed to update subtopic");
 
-      navigate(`/subtopics/${subtopic.topic}`);
+      const result = await response.json();
+      setProcessingStatus('Update completed successfully!');
+      setTimeout(() => {
+        navigate(`/subtopics/${subtopic.topic}`);
+      }, 1500);
+
     } catch (err) {
       setError(err.message);
+      setProcessingStatus('');
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -120,6 +132,18 @@ const UpdateSubtopicPage = () => {
     <div style={containerStyle}>
       <h2 style={headingStyle}>Update Subtopic</h2>
       {error && <div style={errorStyle}>Error: {error}</div>}
+      {processingStatus && (
+        <div style={{
+          textAlign: 'center',
+          color: '#007bff',
+          margin: '10px 0',
+          padding: '10px',
+          backgroundColor: '#f8f9fa',
+          borderRadius: '5px'
+        }}>
+          {processingStatus}
+        </div>
+      )}
       {subtopic ? (
         <form onSubmit={(e) => e.preventDefault()}>
           <div style={formGroupStyle}>
@@ -149,8 +173,16 @@ const UpdateSubtopicPage = () => {
             />
             {video && <p>Current file: {video}</p>}
           </div>
-          <button style={buttonStyle} onClick={handleUpdate}>
-            Update Subtopic
+          <button 
+            style={{
+              ...buttonStyle,
+              opacity: isProcessing ? 0.7 : 1,
+              cursor: isProcessing ? 'not-allowed' : 'pointer'
+            }} 
+            onClick={handleUpdate}
+            disabled={isProcessing}
+          >
+            {isProcessing ? 'Processing...' : 'Update Subtopic'}
           </button>
         </form>
       ) : (

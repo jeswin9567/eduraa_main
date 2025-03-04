@@ -13,6 +13,7 @@ const UserPrmMocktestList = () => {
   const { subject } = useParams();
   const navigate = useNavigate();
   const userEmail = localStorage.getItem('userEmail');
+  const [participationStatus, setParticipationStatus] = useState({});
 
   useEffect(() => {
     const fetchMocktests = async () => {
@@ -52,7 +53,51 @@ const UserPrmMocktestList = () => {
       }
     };
 
-    fetchMocktests();
+    const checkParticipationStatus = async (mocktests) => {
+      const statusMap = {};
+      for (const mocktest of mocktests) {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/api/mocktest/check-participation/${mocktest._id}`,
+            {
+              headers: { useremail: userEmail }
+            }
+          );
+          statusMap[mocktest._id] = response.data;
+        } catch (error) {
+          console.error('Error checking participation status:', error);
+        }
+      }
+      setParticipationStatus(statusMap);
+    };
+
+    const fetchData = async () => {
+      try {
+        const email = localStorage.getItem('userEmail');
+        if (!email) {
+          setError('User email not found. Please login again.');
+          setLoading(false);
+          return;
+        }
+        
+        const response = await axios.get(
+          `http://localhost:5000/api/mocktest/user-mocktests/${encodeURIComponent(subject)}`,
+          {
+            headers: { useremail: email }
+          }
+        );
+        
+        setMocktests(response.data);
+        await checkParticipationStatus(response.data);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error details:', err.response || err);
+        setError(err.response?.data?.message || 'Failed to fetch mocktests');
+        setLoading(false);
+      }
+    };
+
+    fetchData();
     fetchUserDetails();
   }, [subject, userEmail]);
 
@@ -63,6 +108,10 @@ const UserPrmMocktestList = () => {
     } else {
       setShowPremiumPopup(true);
     }
+  };
+
+  const handleViewResult = (mocktestId) => {
+    navigate(`/user/quiz/${mocktestId}`);
   };
 
   return (
@@ -103,12 +152,21 @@ const UserPrmMocktestList = () => {
                       <span className="info-value">{mocktest.passingMarks}</span>
                     </div>
                   </div>
-                  <button 
-                    className="start-test-btn"
-                    onClick={() => handleParticipate(mocktest._id)}
-                  >
-                    Participate
-                  </button>
+                  {participationStatus[mocktest._id]?.hasParticipated ? (
+                    <button 
+                      className="view-result-btn"
+                      onClick={() => handleViewResult(mocktest._id)}
+                    >
+                      View Result
+                    </button>
+                  ) : (
+                    <button 
+                      className="start-test-btn"
+                      onClick={() => handleParticipate(mocktest._id)}
+                    >
+                      Participate
+                    </button>
+                  )}
                 </div>
               </div>
             ))

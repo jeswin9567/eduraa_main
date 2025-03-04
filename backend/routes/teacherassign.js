@@ -3,6 +3,7 @@ const router = express.Router();
 const Teacher = require("../model/Teacher");
 const User = require('../model/User')
 const QuizAnswer = require("../model/quiz");
+const Class = require("../model/courses");
 
 // Fetch assigned students for a teacher using their email
 router.get("/assigned-students", async (req, res) => {
@@ -95,7 +96,7 @@ router.get("/student-progress/:studentEmail", async (req, res) => {
       },
       {
         $lookup: {
-          from: 'mocktests', // The collection name for mock tests
+          from: 'mocktests',
           localField: 'mockTestId',
           foreignField: '_id',
           as: 'mockTest'
@@ -106,19 +107,19 @@ router.get("/student-progress/:studentEmail", async (req, res) => {
       },
       {
         $match: {
-          'mockTest.email': teacherEmail // Only get results for this teacher's mock tests
+          'mockTest.email': teacherEmail
         }
       },
       {
         $lookup: {
-          from: 'users', // The collection name for users
+          from: 'users',
           localField: 'email',
           foreignField: 'email',
           as: 'userDetails'
         }
       },
       {
-        $unwind: '$userDetails' // Unwind to get user details
+        $unwind: '$userDetails'
       },
       {
         $project: {
@@ -126,15 +127,51 @@ router.get("/student-progress/:studentEmail", async (req, res) => {
           score: 1,
           totalMarks: '$mockTest.totalMarks',
           createdAt: 1,
-          studentName: '$userDetails.name' // Include the student's name
+          studentName: '$userDetails.name',
+          attempts: 1,
+          percentageScore: 1,
+          description: '$mockTest.description'
         }
       },
       {
-        $sort: { createdAt: -1 } // Sort by newest first
+        $sort: { createdAt: -1 }
       }
     ]);
 
-    res.json({ progress: quizAnswers });
+    // Get completed classes count
+    const completedClasses = await Class.aggregate([
+      {
+        $match: {
+          teacherEmail: teacherEmail,
+          'completedBy.studentEmail': studentEmail
+        }
+      },
+      {
+        $project: {
+          topic: 1,
+          subTopic: 1,
+          completedAt: {
+            $filter: {
+              input: '$completedBy',
+              as: 'completion',
+              cond: { $eq: ['$$completion.studentEmail', studentEmail] }
+            }
+          }
+        }
+      }
+    ]);
+
+    // Get total classes by this teacher
+    const totalClasses = await Class.countDocuments({ teacherEmail });
+
+    res.json({ 
+      progress: quizAnswers,
+      classProgress: {
+        completed: completedClasses.length,
+        total: totalClasses,
+        details: completedClasses
+      }
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });

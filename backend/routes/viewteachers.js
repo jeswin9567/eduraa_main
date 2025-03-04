@@ -21,13 +21,16 @@ const transporter = nodemailer.createTransport({
 // Route to get all teachers
 router.get("/teachers", async (req, res) => {
   try {
-    const teachers = await Teacher.find({active:true});
+    const teachers = await Teacher.find({ active: true })
+      .select('+feedback') // Include feedback field
+      .lean(); // Convert to plain JavaScript objects
+
     const teacherWithStatus = await Promise.all(
       teachers.map(async (teacher) => {
         const login = await LoginModel.findOne({ email: teacher.email });
         return {
-          ...teacher.toObject(),
-          status: login ? login.status : false, // Add status from Login model
+          ...teacher,
+          status: login ? login.status : false,
         };
       })
     );

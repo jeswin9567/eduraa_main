@@ -94,9 +94,16 @@ const UQuizPage = () => {
 
   const handleAnswerSelect = (questionIndex, optionIndex) => {
     if (!submitted) {
-      setUserAnswers({
-        ...userAnswers,
-        [questionIndex]: optionIndex,
+      console.log(`Selected answer for question ${questionIndex + 1}:`, optionIndex); // Debug log
+      console.log('Option details:', mockTest.questions[questionIndex].options[optionIndex]); // Debug log
+      
+      setUserAnswers(prev => {
+        const newAnswers = {
+          ...prev,
+          [questionIndex]: optionIndex
+        };
+        console.log('Updated user answers:', newAnswers); // Debug log
+        return newAnswers;
       });
     }
   };
@@ -115,57 +122,83 @@ const UQuizPage = () => {
   // Modify handleRestart function
   const handleRestart = async () => {
     if (!userEmail) {
-      console.error('User email missing');
-      return;
+        console.error('User email missing');
+        return;
     }
 
-    const deleteData = {
-      email: userEmail,
-      mockTestId,
-    };
-
     try {
-      await axios.delete('http://localhost:5000/quiz/deleteAnswers', { data: deleteData });
-      
-      const shuffledMockTest = {
-        ...mockTest,
-        questions: mockTest.questions.map(question => ({
-          ...question,
-          options: shuffleArray([...question.options])
-        }))
-      };
-      
-      setMockTest(shuffledMockTest);
-      setUserAnswers({});
-      setScore(null);
-      setSubmitted(false);
-      
-      // Reset timer and store new start time
-      setTimeLeft(mockTest.duration * 60);
-      localStorage.setItem('quizStartTime', Date.now().toString());
-      setTimerActive(true);
-      
+        // Only increment the attempts counter without changing other data
+        const response = await axios.put(`http://localhost:5000/quiz/incrementAttempts/${mockTestId}`, {
+            email: userEmail
+        });
+
+        console.log('Attempts incremented:', response.data);
+        
+        // Reset local state for new attempt
+        const shuffledMockTest = {
+            ...mockTest,
+            questions: mockTest.questions.map(question => ({
+                ...question,
+                options: shuffleArray([...question.options])
+            }))
+        };
+        
+        setMockTest(shuffledMockTest);
+        setUserAnswers({});
+        setScore(null);
+        setSubmitted(false);
+        
+        // Reset timer and store new start time
+        setTimeLeft(mockTest.duration * 60);
+        localStorage.setItem('quizStartTime', Date.now().toString());
+        setTimerActive(true);
+        
     } catch (error) {
-      console.error('Error deleting answers:', error);
+        console.error('Error restarting quiz:', error);
+        alert('Failed to restart quiz. Please try again.');
     }
   };
 
   // Modify calculateScore function to handle shuffled options
   const calculateScore = async () => {
-    let calculatedScore = 0;
-    mockTest.questions.forEach((question, index) => {
-      if (userAnswers[index] !== undefined) {
-        const selectedOption = question.options[userAnswers[index]];
-        if (selectedOption.isCorrect) {
-          calculatedScore += question.marks;
-        }
-      }
-    });
-    setScore(calculatedScore);
-    setSubmitted(true);
-  
-    await saveAnswers(calculatedScore);
-    await incrementParticipateCount();
+    try {
+        let calculatedScore = 0;
+        console.log('Calculating score...'); // Debug log
+        console.log('User answers:', userAnswers); // Debug log
+        console.log('Questions:', mockTest.questions); // Debug log
+
+        mockTest.questions.forEach((question, index) => {
+            if (userAnswers[index] !== undefined) {
+                const selectedOption = question.options[userAnswers[index]];
+                console.log(`Question ${index + 1}:`); // Debug log
+                console.log('Selected option:', selectedOption); // Debug log
+                console.log('Question marks:', question.marks); // Debug log
+                
+                if (selectedOption && selectedOption.isCorrect) {
+                    calculatedScore += question.marks;
+                    console.log(`Adding ${question.marks} marks. New total: ${calculatedScore}`); // Debug log
+                }
+            }
+        });
+        
+        console.log('Final calculated score:', calculatedScore); // Debug log
+        setScore(calculatedScore);
+        setSubmitted(true);
+
+        // Check if this is a retry
+        const isRetry = await checkIfRetry();
+        
+        // Wait for both operations to complete
+        await Promise.all([
+            saveAnswers(calculatedScore, isRetry),
+            incrementParticipateCount()
+        ]);
+
+        console.log('Score calculated and saved:', calculatedScore);
+    } catch (error) {
+        console.error('Error in calculateScore:', error);
+        alert('There was an error saving your quiz results.');
+    }
   };
   
   // Function to increment participate count
@@ -180,6 +213,18 @@ const UQuizPage = () => {
     }
   };
   
+  // Add this function to check if it's a retry
+  const checkIfRetry = async () => {
+    try {
+        const response = await axios.get(`http://localhost:5000/quiz/results/${mockTestId}`, {
+            params: { email: userEmail }
+        });
+        return response.data && response.data.attempts > 1;
+    } catch (error) {
+        console.error('Error checking retry status:', error);
+        return false;
+    }
+  };
 
   const handleBack = () => {
     console.log("Navigating back");
@@ -188,25 +233,36 @@ const UQuizPage = () => {
 
   const saveAnswers = async (calculatedScore) => {
     if (!userEmail) {
-      console.error('User email missing');
-      return;
+        console.error('User email missing');
+        return;
     }
 
+    const totalMarks = mockTest.totalMarks;
+    console.log('Total marks:', totalMarks, 'Score:', calculatedScore);
+
     const answersToSave = {
-      email: userEmail,
-      mockTestId,
-      answers: userAnswers,
-      score: calculatedScore,
-      subject: mockTest.subject,
-      title: mockTest.title,
-      description: mockTest.description
+        email: userEmail,
+        mockTestId,
+        answers: userAnswers,
+        score: calculatedScore,
+        totalMarks: totalMarks,
+        subject: mockTest.subject,
+        title: mockTest.title,
+        description: mockTest.description,
+        totalQuestions: mockTest.questions.length,
+        percentageScore: (calculatedScore / totalMarks) * 100
     };
 
     try {
-      await axios.post('http://localhost:5000/quiz/saveAnswers', answersToSave);
-      console.log('Answers saved successfully');
+        // Update the quiz without incrementing attempts
+        const response = await axios.put(
+            `http://localhost:5000/quiz/updateQuizAttempt/${mockTestId}`, 
+            answersToSave
+        );
+        console.log('Save response:', response.data);
     } catch (error) {
-      console.error('Error saving answers:', error);
+        console.error('Error saving answers:', error.response?.data || error.message);
+        alert('Failed to save quiz results. Please try again.');
     }
   };
 
@@ -242,6 +298,55 @@ const UQuizPage = () => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+  };
+
+  const handleSubmit = async () => {
+    try {
+        // Prevent multiple submissions
+        if (submitted) return;
+
+        // Validate that we have all required data
+        if (!mockTest || !userEmail || !mockTestId) {
+            console.error('Missing required data:', { mockTest, userEmail, mockTestId });
+            alert('Missing required data. Please try again.');
+            return;
+        }
+
+        // Calculate total score
+        let totalScore = 0;
+        Object.keys(userAnswers).forEach(questionIndex => {
+            const question = mockTest.questions[questionIndex];
+            const selectedOption = userAnswers[questionIndex];
+            if (question.options[selectedOption]?.isCorrect) {
+                totalScore += question.marks || 1;
+            }
+        });
+
+        // Prepare quiz data
+        const quizData = {
+            email: userEmail,
+            mockTestId: mockTestId,
+            answers: userAnswers,
+            score: totalScore,
+            totalMarks: mockTest.totalMarks,
+            subject: mockTest.subject,
+            title: mockTest.title,
+            description: mockTest.description,
+            totalQuestions: mockTest.questions.length,
+            percentageScore: (totalScore / mockTest.totalMarks) * 100
+        };
+
+        console.log('Submitting quiz data:', quizData); // Debug log
+
+        const response = await axios.post('http://localhost:5000/quiz/saveAnswers', quizData);
+        console.log('Quiz submission response:', response.data);
+
+        setSubmitted(true);
+        setScore(totalScore);
+    } catch (error) {
+        console.error('Error submitting quiz:', error);
+        alert('Failed to submit quiz. Please try again.');
+    }
   };
 
   if (!mockTest) return <div className="loading">{errorMessage || 'Loading...'}</div>;
@@ -291,7 +396,12 @@ const UQuizPage = () => {
         ))}
       </div>
 
-      <button id = "submit" onClick={calculateScore} className="quizattmpt-submit-button" disabled={submitted}>
+      <button 
+        id="submit" 
+        onClick={handleSubmit} 
+        className="quizattmpt-submit-button" 
+        disabled={submitted}
+      >
         {submitted ? 'Submitted' : 'Submit'}
       </button>
 

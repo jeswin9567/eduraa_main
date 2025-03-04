@@ -10,11 +10,13 @@ const Usersidebrcom = () => {
       <div className="uusersidebarbtns">
         <button onClick={() => navigate("/userhome")}>Home</button>
         <button onClick={() => navigate("/user/premium")}>Dashboard</button>
-        <button id= "course" onClick={() => navigate('/user/premium/classes')}>Courses</button>
-        <button id = "mocktest" onClick={() => navigate('/user/premium/mocktest')}>Mocktest</button>
-        <button id ="schedule" onClick={() => navigate('/student/classschedule')}>Class Schedules</button>
+        <button id="course" onClick={() => navigate('/user/premium/classes')}>Courses</button>
+        <button id="mocktest" onClick={() => navigate('/user/premium/mocktest')}>Mocktest</button>
+        <button id="schedule" onClick={() => navigate('/student/classschedule')}>Class Schedules</button>
         <button onClick={() => navigate('/student/assignedteachers')}>Teachers</button>
         <button onClick={() => navigate('/user/announcent')}>Announcement</button>
+        <button onClick={() => navigate('/user/ai-chat')}>AI Chat</button>
+        <button onClick={() => navigate('/user/ai-dashboard')}>AI Service</button>
       </div>
     </div>
   );

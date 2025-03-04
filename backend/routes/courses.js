@@ -132,10 +132,15 @@ router.post("/upload-class", upload.fields([
   }
 });
 
-// Get all unique topics
+// Modify the topics route to filter by teacher email
 router.get("/topics", async (req, res) => {
   try {
-    const topics = await Class.distinct("topic"); // Fetch unique topics from the 'Class' collection
+    const { teacherEmail } = req.query;
+    if (!teacherEmail) {
+      return res.status(400).json({ message: "Teacher email is required" });
+    }
+
+    const topics = await Class.distinct("topic", { teacherEmail });
     res.status(200).json(topics);
   } catch (error) {
     console.error("Error fetching topics:", error);
@@ -343,28 +348,83 @@ router.patch("/update-subtopic/:id", upload.fields([
     if (req.files && req.files.notes) {
       updateData.notes = req.files.notes[0].path;
     } else if (req.body.notes) {
-      updateData.notes = req.body.notes; // Keep existing URL
+      updateData.notes = req.body.notes;
     }
 
-    // Handle video file update
+    // Handle video file update and generate captions if new video
     if (req.files && req.files.video) {
       updateData.video = req.files.video[0].path;
+      
+      // Get video URL and generate captions
+      const videoUrl = req.files.video[0].path;
+      
+      // Upload video to AssemblyAI
+      const videoResponse = await axios({
+        method: 'GET',
+        url: videoUrl,
+        responseType: 'arraybuffer'
+      });
+
+      const uploadResponse = await assemblyUploadApi.post('/upload', videoResponse.data);
+      
+      // Start transcription
+      const transcriptResponse = await assemblyApi.post('/transcript', {
+        audio_url: uploadResponse.data.upload_url,
+        auto_chapters: true,
+      });
+
+      // Poll for completion
+      const checkCompletionInterval = setInterval(async () => {
+        try {
+          const transcript = await assemblyApi.get(`/transcript/${transcriptResponse.data.id}`);
+          
+          if (transcript.data.status === 'completed') {
+            clearInterval(checkCompletionInterval);
+            
+            // Update with new captions and related data
+            updateData.captions = transcript.data.text;
+            updateData.words = transcript.data.words;
+            updateData.chapters = transcript.data.chapters;
+
+            const updatedSubtopic = await Class.findByIdAndUpdate(
+              req.params.id,
+              updateData,
+              { new: true }
+            );
+            
+            if (!updatedSubtopic) {
+              return res.status(404).send({ message: "Subtopic not found" });
+            }
+
+            res.status(200).json(updatedSubtopic);
+          } else if (transcript.data.status === 'error') {
+            clearInterval(checkCompletionInterval);
+            throw new Error('Transcription failed');
+          }
+        } catch (error) {
+          clearInterval(checkCompletionInterval);
+          console.error('Error in transcription polling:', error);
+          throw error;
+        }
+      }, 3000);
+
     } else if (req.body.video) {
-      updateData.video = req.body.video; // Keep existing URL
+      updateData.video = req.body.video;
+      const updatedSubtopic = await Class.findByIdAndUpdate(
+        req.params.id,
+        updateData,
+        { new: true }
+      );
+      
+      if (!updatedSubtopic) {
+        return res.status(404).send({ message: "Subtopic not found" });
+      }
+
+      res.status(200).json(updatedSubtopic);
     }
 
-    const updatedSubtopic = await Class.findByIdAndUpdate(
-      req.params.id,
-      updateData,
-      { new: true }
-    );
-    
-    if (!updatedSubtopic) {
-      return res.status(404).send({ message: "Subtopic not found" });
-    }
-
-    res.status(200).json(updatedSubtopic);
   } catch (err) {
+    console.error("Update error:", err);
     res.status(500).send({ message: err.message });
   }
 });

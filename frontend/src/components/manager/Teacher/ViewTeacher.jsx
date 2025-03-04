@@ -96,6 +96,32 @@ const ViewTeacherCom = () => {
     }
   };
 
+  const renderRating = (teacher) => {
+    if (!teacher.feedback || teacher.feedback.length === 0) {
+      return <p><strong>Rating:</strong> No ratings yet</p>;
+    }
+
+    const totalRating = teacher.feedback.reduce((sum, fb) => sum + fb.rating, 0);
+    const averageRating = (totalRating / teacher.feedback.length).toFixed(1);
+
+    return (
+      <div className="teacher-rating">
+        <p><strong>Rating:</strong> {averageRating}/5</p>
+        <div className="star-display">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <span 
+              key={star} 
+              className={`star ${star <= averageRating ? 'filled' : ''}`}
+            >
+              ★
+            </span>
+          ))}
+        </div>
+        <p className="rating-count">({teacher.feedback.length} ratings)</p>
+      </div>
+    );
+  };
+
   return (
     <div className="manteachervie-container">
       <h2 className="manteachervie-page-title">Teacher Profiles</h2>
@@ -127,6 +153,7 @@ const ViewTeacherCom = () => {
               <p>
                 <strong>Subjects:</strong> {teacher.subjectassigned}
               </p>
+              {renderRating(teacher)}
               <button
                 className="manteachervie-toggle-details"
                 onClick={() => openModal(teacher)}

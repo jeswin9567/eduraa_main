@@ -98,7 +98,8 @@ import ViewStudentPr from './pages/Teacher/ViewStudentPro';
 import ManagerAnnouncementMake from './pages/Manager/announcement';
 import ViewTeachAnnouncement from './pages/Teacher/ViewAnnouncement';
 import ViewUsrAnnouncement from './pages/user/premium/viewannouncement';
-
+import AIChatPage from './pages/user/premium/AIChatpage';
+import AIStudentDashboard from './pages/user/premium/AIStudentDashboard';
 
 
 function App() {
@@ -215,6 +216,8 @@ function App() {
         <Route path = "/manager/makeannouncement" element = {<ManagerAnnouncementMake />} />
         <Route path = "/teacher/viewAnnouncement" element = {<ViewTeachAnnouncement />} />
         <Route path='/user/announcent' element = {<ViewUsrAnnouncement />} />
+        <Route path="/user/ai-chat" element={<AIChatPage />} />
+        <Route path="/user/ai-dashboard" element={<AIStudentDashboard />} />
       </Routes>
     </Router>
   );

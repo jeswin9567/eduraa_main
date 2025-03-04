@@ -57,17 +57,17 @@ const TeacherMocktest = () => {
   }, []);
 
   useEffect(() => {
-    const fetchTitles = async () => {
+    const fetchTopics = async () => {
       try {
         const email = localStorage.getItem('userEmail');
-        const response = await axios.get(`http://localhost:5000/mocktest/teacher-titles?email=${email}`);
+        const response = await axios.get(`http://localhost:5000/mocktest/teacher-topics?email=${email}`);
         setExistingTitles(response.data);
       } catch (error) {
-        console.error('Error fetching titles:', error);
+        console.error('Error fetching topics:', error);
       }
     };
 
-    fetchTitles();
+    fetchTopics();
   }, []);
 
   const calculateTotalAssignedMarks = () => {
@@ -277,33 +277,15 @@ const TeacherMocktest = () => {
                 }
               }}
               value={isManualTitle ? "manual" : title}
+              required
             >
-              <option value="manual">Enter New Title</option>
-              {existingTitles.map((existingTitle, index) => (
-                <option key={index} value={existingTitle}>
-                  {existingTitle}
+              <option value="manual">Select Topic</option>
+              {existingTitles.map((topic, index) => (
+                <option key={index} value={topic}>
+                  {topic}
                 </option>
               ))}
             </select>
-            
-            {isManualTitle && (
-              <input
-                className="teachermocktest-input"
-                type="text"
-                value={title}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setTitle(value);
-                  if (!value || /^[^a-zA-Z]*$/.test(value)) {
-                    setTitleError('Title must contain letters and cannot consist of only numbers or special characters.');
-                  } else {
-                    setTitleError('');
-                  }
-                }}
-                placeholder="Enter new title"
-                required
-              />
-            )}
           </div>
           {titleError && <p className="teachermocktest-error">{titleError}</p>}
         </div>

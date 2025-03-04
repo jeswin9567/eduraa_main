@@ -6,6 +6,7 @@ const Teacher = require('../model/Teacher')
 const User = require('../model/User');
 const upload = require('../config/multerStorage');
 const QuizAnswer = require('../model/quiz');
+const Class = require('../model/courses');
 
 //teacher add mocktest
 router.post('/teacheraddMockTest', upload.array('questionImages', 10), async (req, res) => {
@@ -20,6 +21,18 @@ router.post('/teacheraddMockTest', upload.array('questionImages', 10), async (re
       entranceExam,
       email
     } = req.body;
+
+    // Verify that the title (topic) exists in the Course model
+    const existingCourse = await Class.findOne({ 
+      teacherEmail: email,
+      topic: title 
+    });
+
+    if (!existingCourse) {
+      return res.status(400).json({ 
+        message: 'Selected topic does not exist in your courses' 
+      });
+    }
 
     // Parse the questions from the request body
     const questions = JSON.parse(req.body.questions);
@@ -513,6 +526,46 @@ router.put('/teachupdmockTest/:id', upload.array('questionImages', 10), async (r
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: error.message });
+  }
+});
+
+// Add this new route to check if user has taken a mocktest
+router.get('/check-participation/:mocktestId', async (req, res) => {
+  try {
+    const { mocktestId } = req.params;
+    const email = req.headers.useremail;
+
+    const attempt = await QuizAnswer.findOne({ 
+      mockTestId: mocktestId,
+      email: email 
+    });
+
+    res.json({ 
+      hasParticipated: !!attempt,
+      result: attempt
+    });
+  } catch (error) {
+    console.error('Error checking participation:', error);
+    res.status(500).json({ message: 'Error checking participation status' });
+  }
+});
+
+// Add this route to get topics for a specific teacher
+router.get('/teacher-topics', async (req, res) => {
+  try {
+    const email = req.query.email;
+    if (!email) {
+      return res.status(400).json({ message: 'Email is required' });
+    }
+
+    // Fetch unique topics from the Class model where teacherEmail matches
+    const topics = await Class.find({ teacherEmail: email })
+      .distinct('topic');
+
+    res.json(topics);
+  } catch (error) {
+    console.error('Error fetching topics:', error);
+    res.status(500).json({ message: 'Error fetching topics' });
   }
 });
 

@@ -24,7 +24,8 @@ const UploadClass = () => {
     // Fetch topics from the database
     const fetchTopics = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/course/topics");
+        const teacherEmail = localStorage.getItem("userEmail");
+        const response = await fetch(`http://localhost:5000/api/course/topics?teacherEmail=${teacherEmail}`);
         const data = await response.json();
         setTopics(data);
       } catch (error) {

@@ -18,7 +18,15 @@ const io = require('socket.io')(server, {
 const updateClassStatus = require("../backend/config/scheduler");
 updateClassStatus(); // Start the cron job when the server starts
 
-
+// Add this at the top of your index.js
+process.removeAllListeners('warning');
+// or specifically for this warning
+process.on('warning', (warning) => {
+  if (warning.name === 'DeprecationWarning' && warning.code === 'DEP0040') {
+    return;
+  }
+  console.warn(warning);
+});
 
 // Import routes
 const loginRoute = require('./routes/log');
@@ -45,7 +53,7 @@ const USrchEntraceRoute = require('./routes/searchentr');
 const USrchLoanRoute = require('./routes/searchloan');
 const ManagerProf = require('./routes/manvpro');
 const MockTestRoute = require('./routes/mocktest');
-const Quiz = require('./routes/quizan');
+const quizRoutes = require('./routes/quizan');
 const ViewAns = require('./routes/viewanswers');
 const UserStatus = require('./routes/user');
 const PriceRoute = require('./routes/price');
@@ -61,16 +69,13 @@ const AssignStudentRoute = require('./routes/teacherassign')
 const mocktestRoutes = require('./routes/mocktest');
 const AnnouncementRoute = require('./routes/announcement');
 const TeacherCalendarRoute = require('./routes/reminders');
+const aiChatRouter = require('./routes/aiChat');
 
-
-
-
-
-
-
-
-
-
+// CORS configuration
+app.use(cors({
+    origin: 'http://localhost:5173', // Your frontend URL
+    credentials: true
+}));
 
 // Middleware
 app.use(express.json());
@@ -80,8 +85,6 @@ app.use(session({
   saveUninitialized: true,    // Save uninitialized sessions (new but not modified)
   cookie: { secure: false }   // Set to true if using HTTPS
 }));
-
-app.use(cors());
 
 // Connect to MongoDB
 const connectDB = async () => {
@@ -121,7 +124,7 @@ app.use('/',USrchEntraceRoute);
 app.use('/',USrchLoanRoute);
 app.use('/',ManagerProf);
 app.use('/mocktest',MockTestRoute);
-app.use('/quiz',Quiz);
+app.use('/quiz', quizRoutes);
 app.use('/viewans',ViewAns);
 app.use('/user',UserStatus);
 app.use('/price',PriceRoute);
@@ -137,6 +140,17 @@ app.use('/api/viewassign',AssignStudentRoute)
 app.use('/api/mocktest', mocktestRoutes);
 app.use('/api/announcement', AnnouncementRoute)
 app.use('/api/teachercalendar', TeacherCalendarRoute);
+app.use('/api/ai-chat', aiChatRouter);
+
+// Add this after all your routes
+app.use((err, req, res, next) => {
+    console.error('Error:', err);
+    res.status(500).json({
+        message: 'Internal Server Error',
+        error: err.message
+    });
+});
+
 // Create PeerJS server
 const peerServer = PeerServer({
   port: 3001,

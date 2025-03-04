@@ -197,4 +197,19 @@
 
 .mocktest-grid::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+.view-result-btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.view-result-btn:hover {
+  background-color: #45a049;
 } 
