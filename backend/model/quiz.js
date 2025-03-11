@@ -25,11 +25,13 @@ const quizAnswerSchema = new mongoose.Schema({
     },
     subject: {
         type: String,
-        required: false
+        required: true,
+        set: v => v.trim().toLowerCase()
     },
     title: {
         type: String,
-        required: true
+        required: true,
+        set: v => v.trim().toLowerCase()
     },
     description: {
         type: String,
@@ -55,6 +57,20 @@ const quizAnswerSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    explanations: [{
+        type: String,
+        required: false
+    }],
+    generatedBy: {
+        type: String,
+        enum: ['manual', 'ai'],
+        default: 'manual'
+    },
+    difficultyLevel: {
+        type: String,
+        enum: ['basic', 'intermediate', 'advanced'],
+        required: false
+    }
 }, { timestamps: true });
 
 // Static method to find weak areas for a student
@@ -106,6 +122,12 @@ quizAnswerSchema.pre('save', function(next) {
     }
     if (!this.attempts || this.attempts < 1) {
         this.attempts = 1;
+    }
+    if (this.subject) {
+        this.subject = this.subject.trim().toLowerCase();
+    }
+    if (this.title) {
+        this.title = this.title.trim().toLowerCase();
     }
     next();
 });

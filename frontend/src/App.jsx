@@ -100,6 +100,8 @@ import ViewTeachAnnouncement from './pages/Teacher/ViewAnnouncement';
 import ViewUsrAnnouncement from './pages/user/premium/viewannouncement';
 import AIChatPage from './pages/user/premium/AIChatpage';
 import AIStudentDashboard from './pages/user/premium/AIStudentDashboard';
+import AIMockTest from './components/AIMockTest';
+import ViewAIQuizPage from './pages/user/premium/viewaiquiz';
 
 
 function App() {
@@ -218,6 +220,8 @@ function App() {
         <Route path='/user/announcent' element = {<ViewUsrAnnouncement />} />
         <Route path="/user/ai-chat" element={<AIChatPage />} />
         <Route path="/user/ai-dashboard" element={<AIStudentDashboard />} />
+        <Route path="/ai-mocktest/:id" element={<AIMockTest />} />
+        <Route path="/user/ai-quiz-results" element={<ViewAIQuizPage />} />
       </Routes>
     </Router>
   );

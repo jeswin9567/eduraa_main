@@ -107,6 +107,22 @@ UserSchema.methods.comparePassword = async function(candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
+// Add this to your UserSchema definition
+UserSchema.index({ premiumExpiresAt: 1 }, { 
+  expireAfterSeconds: 0,
+  partialFilterExpression: { premium: true }
+});
+
+// Add this method to your schema
+UserSchema.methods.handlePremiumExpiration = async function() {
+  if (this.premiumExpiresAt && this.premiumExpiresAt < new Date()) {
+    this.premium = false;
+    this.subscriptionPlan = null;
+    this.premiumExpiresAt = null;
+    await this.save();
+  }
+};
+
 // Export the User model
 const UserModel = mongoose.model("User", UserSchema);
 
