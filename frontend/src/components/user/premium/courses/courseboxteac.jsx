@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./courseboxteac.css";
+import { motion } from "framer-motion";
 
 const SubjectBoxom = () => {
   const [subjects, setSubjects] = useState([]);
@@ -13,7 +14,7 @@ const SubjectBoxom = () => {
     axios
       .get("http://localhost:5000/api/course/teachers/subjects")
       .then((response) => {
-        setSubjects(response.data); // Now directly setting unique subjects
+        setSubjects(response.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -22,30 +23,76 @@ const SubjectBoxom = () => {
       });
   }, []);
 
+  const subjectIcons = {
+    "Mathematics": "📐",
+    "Physics": "⚡",
+    "Chemistry": "🧪",
+    "Biology": "🧬",
+    "Computer Science": "💻",
+    "English": "📚",
+    // Add more subjects and their icons as needed
+  };
+
   return (
     <div className="classheaduserprm-container">
-      <h2 className="classheaduserprm-title">Classes</h2>
+      <div className="course-header">
+        <h2 className="classheaduserprm-title">Your Premium Courses</h2>
+        <p className="course-subtitle">Explore your personalized learning journey</p>
+      </div>
 
-      {loading && <p className="classheaduserprm-loading">Loading...</p>}
-      {error && <p className="classheaduserprm-error">{error}</p>}
+      {loading && (
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Loading your premium courses...</p>
+        </div>
+      )}
+      
+      {error && (
+        <div className="error-container">
+          <span className="error-icon">⚠️</span>
+          <p>{error}</p>
+        </div>
+      )}
 
       {!loading && !error && subjects.length === 0 && (
-        <p className="classheaduserprm-empty">No subjects assigned yet.</p>
+        <div className="empty-state">
+          <span className="empty-icon">📚</span>
+          <p>No subjects have been assigned yet.</p>
+          <p className="empty-subtitle">Check back later for updates!</p>
+        </div>
       )}
 
       {!loading && !error && subjects.length > 0 && (
-        <div className="classheaduserprm-grid">
+        <motion.div 
+          className="classheaduserprm-grid"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           {subjects.map((subject, index) => (
-            <div
+            <motion.div
               key={index}
               className="classheaduserprm-card"
               onClick={() => navigate(`/available-courses/${encodeURIComponent(subject)}`)}
+              whileHover={{ 
+                scale: 1.03,
+                boxShadow: "0 8px 20px rgba(0,0,0,0.1)"
+              }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: index * 0.1 }}
             >
+              <div className="subject-icon">
+                {subjectIcons[subject] || "📚"}
+              </div>
               <h3 className="classheaduserprm-topic">{subject}</h3>
-              <p className="classheaduserprm-count">Click to view available courses</p>
-            </div>
+              <div className="card-footer">
+                <p className="classheaduserprm-count">Explore Course Content</p>
+                <span className="arrow-icon">→</span>
+              </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       )}
     </div>
   );

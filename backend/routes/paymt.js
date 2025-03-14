@@ -6,6 +6,7 @@ const TeacherModel = require('../model/Teacher');
 const FieldCourses = require('../model/entrancefieldcour');
 const Razorpay = require('razorpay');
 const dotenv = require('dotenv');
+const Class = require('../model/courses');
 dotenv.config();
 
 const razorpay = new Razorpay({
@@ -159,5 +160,214 @@ router.post('/success', async (req, res) => {
   }
 });
 
+// Add this new route to get total revenue
+router.get('/total-revenue', async (req, res) => {
+  try {
+    const result = await PaymentModel.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalRevenue: { $sum: "$amount" }
+        }
+      }
+    ]);
+
+    const totalRevenue = result.length > 0 ? result[0].totalRevenue : 0;
+    res.status(200).json({ totalRevenue });
+  } catch (error) {
+    console.error('Error fetching total revenue:', error);
+    res.status(500).json({ error: 'Failed to fetch total revenue' });
+  }
+});
+
+// Add these new routes for revenue analysis
+router.get('/revenue-analysis', async (req, res) => {
+  try {
+    // Get current date and first day of current month
+    const now = new Date();
+    const currentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+    // Get total and current month revenue in a single aggregation
+    const revenueData = await PaymentModel.aggregate([
+      {
+        $facet: {
+          totalRevenue: [
+            {
+              $group: {
+                _id: null,
+                total: { $sum: "$amount" }
+              }
+            }
+          ],
+          currentMonth: [
+            {
+              $match: {
+                createdAt: { $gte: currentMonth }
+              }
+            },
+            {
+              $group: {
+                _id: null,
+                total: { $sum: "$amount" }
+              }
+            }
+          ]
+        }
+      }
+    ]);
+
+    const revenue = {
+      total: revenueData[0].totalRevenue[0]?.total || 0,
+      currentMonth: revenueData[0].currentMonth[0]?.total || 0
+    };
+
+    res.status(200).json({ revenue });
+  } catch (error) {
+    console.error('Error fetching revenue:', error);
+    res.status(500).json({ error: 'Failed to fetch revenue data' });
+  }
+});
+
+// Add this new route to get active courses count
+router.get('/dashboard-stats', async (req, res) => {
+  try {
+    // Get current date and first day of current month
+    const now = new Date();
+    const currentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+    // Get revenue data
+    const revenueData = await PaymentModel.aggregate([
+      {
+        $facet: {
+          totalRevenue: [
+            {
+              $group: {
+                _id: null,
+                total: { $sum: "$amount" }
+              }
+            }
+          ],
+          currentMonth: [
+            {
+              $match: {
+                createdAt: { $gte: currentMonth }
+              }
+            },
+            {
+              $group: {
+                _id: null,
+                total: { $sum: "$amount" }
+              }
+            }
+          ]
+        }
+      }
+    ]);
+
+    // Get active courses count
+    const coursesCount = await Class.countDocuments({ activeStatus: true });
+
+    const stats = {
+      revenue: {
+        total: revenueData[0].totalRevenue[0]?.total || 0,
+        currentMonth: revenueData[0].currentMonth[0]?.total || 0
+      },
+      activeCourses: coursesCount
+    };
+
+    res.status(200).json(stats);
+  } catch (error) {
+    console.error('Error fetching dashboard stats:', error);
+    res.status(500).json({ error: 'Failed to fetch dashboard statistics' });
+  }
+});
+
+// Add this new route for detailed revenue information
+router.get('/revenue-details', async (req, res) => {
+  try {
+    const now = new Date();
+    const currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+
+    const [currentMonthData, lastMonthData, recentTransactions] = await Promise.all([
+      // Get current month data
+      PaymentModel.aggregate([
+        {
+          $match: {
+            createdAt: { $gte: currentMonthStart }
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            revenue: { $sum: "$amount" },
+            count: { $sum: 1 }
+          }
+        }
+      ]),
+
+      // Get last month data
+      PaymentModel.aggregate([
+        {
+          $match: {
+            createdAt: { 
+              $gte: lastMonthStart,
+              $lt: currentMonthStart
+            }
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            revenue: { $sum: "$amount" },
+            count: { $sum: 1 }
+          }
+        }
+      ]),
+
+      // Get recent transactions
+      PaymentModel.aggregate([
+        {
+          $lookup: {
+            from: 'users',
+            localField: 'email',
+            foreignField: 'email',
+            as: 'userDetails'
+          }
+        },
+        {
+          $unwind: '$userDetails'
+        },
+        {
+          $project: {
+            createdAt: 1,
+            amount: 1,
+            planType: 1,
+            expirationDate: 1,
+            userName: '$userDetails.name'
+          }
+        },
+        {
+          $sort: { createdAt: -1 }
+        }
+      ])
+    ]);
+
+    res.status(200).json({
+      currentMonth: {
+        revenue: currentMonthData[0]?.revenue || 0,
+        count: currentMonthData[0]?.count || 0
+      },
+      lastMonth: {
+        revenue: lastMonthData[0]?.revenue || 0,
+        count: lastMonthData[0]?.count || 0
+      },
+      transactions: recentTransactions
+    });
+  } catch (error) {
+    console.error('Error fetching revenue details:', error);
+    res.status(500).json({ error: 'Failed to fetch revenue details' });
+  }
+});
 
 module.exports = router;

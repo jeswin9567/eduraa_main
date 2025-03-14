@@ -89,9 +89,20 @@ const UserSchema = new mongoose.Schema({
   assignedTeacher: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Teacher'
-  }]
-  
-
+  }],
+  lastActivityDate: { type: Date },
+  lastLoginDate: { 
+    type: Date,
+    default: null
+  },
+  currentStreak: { 
+    type: Number, 
+    default: 0 
+  },
+  longestStreak: { 
+    type: Number, 
+    default: 0 
+  }
 }, { timestamps: true });
 
 // Password hashing middleware

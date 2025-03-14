@@ -1,0 +1,14 @@
+.profile-button-container {
+    display: inline-block;
+}
+
+.profile-content {
+    font-size: 14px;
+    background: transparent;
+    border: none;
+    transition: opacity 0.2s ease;
+}
+
+.profile-content:hover {
+    opacity: 0.8;
+} 

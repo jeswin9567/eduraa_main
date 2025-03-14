@@ -73,3 +73,195 @@
     color: white;
     border-color: transparent;
 }
+
+/* Add these new styles */
+.search-container {
+    flex: 1;
+    max-width: 500px;
+    margin: 0 20px;
+}
+
+.search-wrapper {
+    display: flex;
+    align-items: center;
+    background-color: #f5f5f5;
+    border-radius: 24px;
+    padding: 5px 15px;
+    border: 1px solid #ddd;
+}
+
+.search-wrapper input {
+    flex: 1;
+    border: none;
+    background: none;
+    padding: 8px;
+    font-size: 14px;
+    outline: none;
+}
+
+.search-button {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    transition: color 0.3s ease;
+}
+
+.search-button:hover {
+    color: #2980b9;
+}
+
+.search-icon-button {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.search-icon-button:hover {
+    color: #2980b9;
+}
+
+/* Update the search section styles */
+.search-section {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-form {
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    width: 300px;
+}
+
+.search-input {
+    width: 100%;
+    height: 40px;
+    padding: 8px 40px 8px 16px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.voseacive-button {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: all 0.3s ease;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: none;
+    z-index: 2;
+}
+
+.voseacive-button:hover {
+    color: #2980b9;
+}
+
+.voseacive-button.voseacive-listening {
+    color: #e74c3c;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: translateY(-50%) scale(1); }
+    50% { transform: translateY(-50%) scale(1.2); }
+    100% { transform: translateY(-50%) scale(1); }
+}
+
+/* Animation for search bar appearance */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50%) translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(-50%) translateX(0);
+    }
+}
+
+.search-form {
+    animation: slideIn 0.3s ease;
+}
+
+/* Add these to your existing CSS */
+
+.voice-popup {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 200px;
+    text-align: center;
+}
+
+.voice-visualization {
+    width: 100%;
+    height: 60px;
+    margin-bottom: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.voice-popup p {
+    color: #2980b9;
+    margin: 0;
+    font-size: 14px;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.voseacive-button {
+    /* ... existing styles ... */
+    position: relative;
+}
+
+.voseacive-button::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(41, 128, 185, 0.1);
+    border-radius: 50%;
+    transform: scale(0);
+    transition: transform 0.3s ease;
+}
+
+.voseacive-button:hover::before {
+    transform: scale(1.5);
+}
+

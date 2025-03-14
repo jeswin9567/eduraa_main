@@ -53,7 +53,7 @@ function UHead({ scrollToAbout, scrollToServices, scrollToContact }) {
         <button className="uhome-homb" onClick={() => navigate('/userhome')}>Home</button>
         <button className="uhome-aboutb" onClick={scrollToAbout}>About</button>
         <button id="service" className="uhome-serb" onClick={scrollToServices}>Services</button>
-        <button id = "premium" className="uhome-contb" onClick={premium}>Premium</button>
+        <button id = "premiumm" className="uhome-contb" onClick={premium}>Premium</button>
         <button className="uhome-contb" onClick={scrollToContact}>Contact Us</button>
       </nav>
       <div className="uhome-profsession">

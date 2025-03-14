@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "./viewusercoursebox.css";
+import { motion } from "framer-motion";
+import "./viewcoursedeta.css";
 
 const UserSubtopicsListCom = () => {
   const { topic } = useParams();
@@ -13,8 +14,6 @@ const UserSubtopicsListCom = () => {
     const fetchSubtopics = async () => {
       try {
         setLoading(true);
-        console.log("Fetching subtopics for topic:", topic); // Debug log
-
         const response = await fetch(
           `http://localhost:5000/api/course/student/course/${encodeURIComponent(topic)}`
         );
@@ -24,16 +23,12 @@ const UserSubtopicsListCom = () => {
         }
 
         const data = await response.json();
-        console.log("Received subtopics data:", data); // Debug log
-
         if (Array.isArray(data)) {
           setSubtopics(data);
         } else {
-          console.error("Received non-array data:", data);
           setError("Invalid data format received");
         }
       } catch (err) {
-        console.error("Error fetching subtopics:", err);
         setError(err.message || "Failed to fetch subtopics");
       } finally {
         setLoading(false);
@@ -45,45 +40,103 @@ const UserSubtopicsListCom = () => {
     }
   }, [topic]);
 
+  const getSubtopicIcon = (subtopic) => {
+    const icons = {
+      "Introduction": "📝",
+      "Basic Concepts": "💡",
+      "Advanced Topics": "🎯",
+      "Practice": "✍️",
+      "Examples": "📚",
+      "Problems": "🧩",
+      "Quiz": "📋",
+      "Summary": "📑",
+      // Add more subtopic-specific icons
+    };
+    return icons[subtopic] || "📖";
+  };
+
   if (loading) {
     return (
-      <div className="userprmclasbox-loading">
-        <p>Loading subtopics for {topic}...</p>
+      <div className="corsetop-loading">
+        <div className="corsetop-spinner"></div>
+        <p>Loading course content...</p>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="userprmclasbox-error">
-        <p>Error: {error}</p>
-        <button onClick={() => window.location.reload()}>Retry</button>
+      <div className="corsetop-error">
+        <span className="error-icon">⚠️</span>
+        <p>{error}</p>
+        <button className="retry-button" onClick={() => window.location.reload()}>
+          Try Again
+        </button>
       </div>
     );
   }
 
   return (
-    <div className="userprmclasbox-container">
-      <h2 className="userprmclasbox-title">Subtopics under {topic}</h2>
+    <div className="corsetop-container">
+      <motion.div 
+        className="corsetop-header"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <h2 className="corsetop-title">
+          <span className="topic-highlight">{topic}</span>
+          <span className="title-detail">Course Content</span>
+        </h2>
+        <p className="corsetop-description">
+          Master each concept with our structured learning path
+        </p>
+      </motion.div>
+
       {subtopics.length === 0 ? (
-        <div className="userprmclasbox-empty">
-          <p>No subtopics found for {topic}</p>
-          <p>Please check back later for new content.</p>
-        </div>
+        <motion.div 
+          className="corsetop-empty"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+        >
+          <span className="empty-icon">📚</span>
+          <h3>No Content Available Yet</h3>
+          <p>We're preparing amazing content for this topic. Check back soon!</p>
+        </motion.div>
       ) : (
-        <div className="userprmclasbox-grid">
+        <motion.div 
+          className="corsetop-grid"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           {subtopics.map((subTopic, index) => (
-            <div
-              className="userprmclasbox-card"
+            <motion.div
               key={`${subTopic}-${index}`}
+              className="corsetop-card"
               onClick={() => 
                 navigate(`/classes/${encodeURIComponent(topic)}/${encodeURIComponent(subTopic)}`)
               }
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: index * 0.1 }}
+              whileHover={{ 
+                scale: 1.03,
+                boxShadow: "0 8px 20px rgba(0,0,0,0.1)"
+              }}
             >
-              <h3 className="userprmclasbox-topic">{subTopic}</h3>
-            </div>
+              <div className="subtopic-icon">
+                {getSubtopicIcon(subTopic)}
+              </div>
+              <h3 className="subtopic-title">{subTopic}</h3>
+              <div className="card-footer">
+                <span className="start-learning">Start Learning</span>
+                <span className="arrow-icon">→</span>
+              </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       )}
     </div>
   );

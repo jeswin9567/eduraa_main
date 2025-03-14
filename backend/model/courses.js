@@ -66,8 +66,26 @@ const classSchema = new mongoose.Schema({
   feedback: [{
     studentEmail: String,
     feedback: String,
-    timestamp: Date
+    rating: {
+      type: Number,
+      min: 1,
+      max: 5,
+      required: true
+    },
+    timestamp: {
+      type: Date,
+      default: Date.now
+    }
   }]
+});
+
+// Add a virtual field for average rating
+classSchema.virtual('averageRating').get(function() {
+  if (this.feedback && this.feedback.length > 0) {
+    const totalRating = this.feedback.reduce((sum, item) => sum + item.rating, 0);
+    return (totalRating / this.feedback.length).toFixed(1);
+  }
+  return 0;
 });
 
 const Class = mongoose.model("Class", classSchema);

@@ -25,7 +25,7 @@ const quizAnswerSchema = new mongoose.Schema({
     },
     subject: {
         type: String,
-        required: true,
+        required: false,
         set: v => v.trim().toLowerCase()
     },
     title: {

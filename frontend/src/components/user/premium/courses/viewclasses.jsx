@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { FaStar } from 'react-icons/fa';
 import "./viewclasses.css";
 
 const UserClassDetail = () => {
@@ -12,6 +13,8 @@ const UserClassDetail = () => {
   const [feedback, setFeedback] = useState("");
   const [activeFeedbackClassId, setActiveFeedbackClassId] = useState(null);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [hover, setHover] = useState(0);
 
   useEffect(() => {
     const fetchClassDetails = async () => {
@@ -103,6 +106,12 @@ const UserClassDetail = () => {
     e.preventDefault();
     const studentEmail = localStorage.getItem('userEmail');
 
+    // Validate rating before submission
+    if (!rating) {
+      alert("Please select a rating before submitting");
+      return;
+    }
+
     try {
       const response = await fetch(
         `http://localhost:5000/api/course/student/feedback/${activeFeedbackClassId}`,
@@ -113,29 +122,63 @@ const UserClassDetail = () => {
           },
           body: JSON.stringify({ 
             studentEmail,
-            feedback 
+            feedback,
+            rating: Number(rating) // Ensure rating is sent as a number
           }),
         }
       );
 
       if (!response.ok) {
-        throw new Error('Failed to submit feedback');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to submit feedback');
       }
 
       // Reset form and close modal
       setFeedback("");
+      setRating(0);
       setShowFeedbackModal(false);
       setActiveFeedbackClassId(null);
       
       // Show success message
       setShowSuccessMessage(true);
-      // Hide success message after 3 seconds
       setTimeout(() => {
         setShowSuccessMessage(false);
       }, 3000);
     } catch (error) {
       console.error('Error submitting feedback:', error);
+      alert(error.message);
     }
+  };
+
+  const StarRating = () => {
+    return (
+      <div className="star-rating">
+        <p>Rate this course: <span className="rating-value">{rating}/5</span></p>
+        <div className="stars">
+          {[...Array(5)].map((_, index) => {
+            const ratingValue = index + 1;
+            return (
+              <label key={index}>
+                <input
+                  type="radio"
+                  name="rating"
+                  value={ratingValue}
+                  checked={rating === ratingValue}
+                  onChange={() => setRating(ratingValue)}
+                />
+                <FaStar
+                  className="star"
+                  color={ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
+                  size={24}
+                  onMouseEnter={() => setHover(ratingValue)}
+                  onMouseLeave={() => setHover(0)}
+                />
+              </label>
+            );
+          })}
+        </div>
+      </div>
+    );
   };
 
   if (loading) return <div className="classdetail-loading">Loading...</div>;
@@ -229,12 +272,13 @@ const UserClassDetail = () => {
         ))
       )}
 
-      {/* Feedback Modal */}
+      {/* Updated Feedback Modal */}
       {showFeedbackModal && (
         <div className="feedback-modal-overlay">
           <div className="feedback-modal">
             <h3>Submit Feedback</h3>
             <form onSubmit={handleFeedbackSubmit}>
+              <StarRating />
               <textarea
                 value={feedback}
                 onChange={(e) => setFeedback(e.target.value)}
@@ -242,12 +286,18 @@ const UserClassDetail = () => {
                 required
               />
               <div className="feedback-modal-buttons">
-                <button type="submit">Submit</button>
+                <button 
+                  type="submit" 
+                  disabled={!rating}
+                >
+                  Submit
+                </button>
                 <button 
                   type="button" 
                   onClick={() => {
                     setShowFeedbackModal(false);
                     setFeedback("");
+                    setRating(0);
                     setActiveFeedbackClassId(null);
                   }}
                 >

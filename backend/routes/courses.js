@@ -491,14 +491,15 @@ router.post("/student/complete-class/:classId", async (req, res) => {
   }
 });
 
-// Add feedback route
+// Update the feedback route
 router.post("/student/feedback/:classId", async (req, res) => {
   try {
     const { classId } = req.params;
-    const { studentEmail, feedback } = req.body;
+    const { studentEmail, feedback, rating } = req.body;
 
-    if (!studentEmail || !feedback) {
-      return res.status(400).json({ error: "Student email and feedback are required" });
+    // Validate rating
+    if (!rating || rating < 1 || rating > 5) {
+      return res.status(400).json({ error: "Rating is required and must be between 1 and 5" });
     }
 
     const classDoc = await Class.findById(classId);
@@ -506,19 +507,27 @@ router.post("/student/feedback/:classId", async (req, res) => {
       return res.status(404).json({ error: "Class not found" });
     }
 
-    // Add feedback to the class document
-    classDoc.feedback = classDoc.feedback || [];
-    classDoc.feedback.push({
-      studentEmail,
-      feedback,
-      timestamp: new Date()
-    });
+    // Check if student has already given feedback
+    const existingFeedback = classDoc.feedback.find(f => f.studentEmail === studentEmail);
+    if (existingFeedback) {
+      // Update existing feedback
+      existingFeedback.feedback = feedback;
+      existingFeedback.rating = rating;
+      existingFeedback.timestamp = new Date();
+    } else {
+      // Add new feedback
+      classDoc.feedback.push({
+        studentEmail,
+        feedback,
+        rating,
+        timestamp: new Date()
+      });
+    }
 
     await classDoc.save();
-
-    res.json({ message: "Feedback submitted successfully" });
+    res.status(200).json({ message: "Feedback submitted successfully" });
   } catch (error) {
-    console.error('Error submitting feedback:', error);
+    console.error("Error submitting feedback:", error);
     res.status(500).json({ error: "Failed to submit feedback" });
   }
 });
@@ -567,6 +576,19 @@ router.get("/viewed-students/:classId", async (req, res) => {
     console.error('Error fetching viewed students:', error);
     res.status(500).json({ error: "Failed to fetch viewed students" });
   }
+});
+
+router.get('/active', async (req, res) => {
+    try {
+        const activeCourses = await Class.find({ activeStatus: true })
+            .select('topic subTopic notes video uploadedAt teacherName teacherAssignedSub completedBy')
+            .sort({ uploadedAt: -1 });
+        
+        res.status(200).json(activeCourses);
+    } catch (error) {
+        console.error('Error fetching active courses:', error);
+        res.status(500).json({ error: 'Failed to fetch active courses' });
+    }
 });
 
 module.exports = router;

@@ -35,7 +35,7 @@ function SignUp() {
   };
 
   const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     
     if (!email) {
       setEmailError("Email is required");
@@ -44,7 +44,7 @@ function SignUp() {
       setEmailError("Email cannot contain spaces");
       return false;
     } else if (!emailRegex.test(email)) {
-      setEmailError("Invalid email format or domain");
+      setEmailError("Please enter a valid email address");
       return false;
     }
     setEmailError('');
@@ -112,12 +112,22 @@ function SignUp() {
 
     axios.post('http://localhost:5000/sign', { name, email, phone, password, confirmPassword })
       .then(result => {
-        Swal.fire("Success!", "OTP sent to your email. Please check your inbox.", "success");
+        Swal.fire({
+          title: "Success!",
+          text: "OTP sent to your email. Please check your inbox.",
+          icon: "success",
+          timer: 3000
+        });
         setIsOtpSent(true);
         showOtpPopup();
       })
       .catch(error => {
-        Swal.fire("Error", error.response?.data?.message || "An unexpected error occurred.", "error");
+        const errorMessage = error.response?.data?.message || "An unexpected error occurred.";
+        Swal.fire({
+          title: "Error",
+          text: errorMessage,
+          icon: "error"
+        });
       });
   };
 

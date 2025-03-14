@@ -22,62 +22,85 @@ const transporter = nodemailer.createTransport({
 
 // Helper function to validate email domain
 const validateEmailDomain = (email) => {
-  const domain = email.split('@')[1]; // Extract the domain from the email
   return new Promise((resolve, reject) => {
+    const domain = email.split('@')[1];
+    if (!domain) {
+      return reject(new Error("Invalid email format"));
+    }
+
+    // Basic domain validation
+    const domainRegex = /^[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/;
+    if (!domainRegex.test(domain)) {
+      return reject(new Error("Invalid email domain format"));
+    }
+
+    // Optional: DNS check (you can comment this out if causing issues)
     dns.resolveMx(domain, (err, addresses) => {
-      if (err || !addresses || addresses.length === 0) {
-        return reject(new Error("Invalid email domain or no MX records found"));
+      if (err) {
+        // Instead of rejecting, we'll accept the email if the domain format is valid
+        console.log("DNS MX lookup failed:", err);
+        resolve(true);
+        return;
       }
-      resolve(true); // Valid domain with MX records
+      resolve(true);
     });
   });
 };
-
-
 
 // Signup route
 router.post('/', async (req, res) => {
   const { name, email, phone, password, confirmPassword } = req.body;
 
-  // Validate if passwords match
-  if (password !== confirmPassword) {
-    return res.status(400).json({ message: "Passwords do not match" });
-  }
-
-  // Check if user already exists
-  const existingUser = await UserModel.findOne({ email });
-  if (existingUser) {
-    return res.status(400).json({ message: "User already exists" });
-  }
-
-  // Validate email domain with DNS MX lookup
   try {
-    await validateEmailDomain(email);
+    // Basic validations
+    if (password !== confirmPassword) {
+      return res.status(400).json({ message: "Passwords do not match" });
+    }
+
+    // Check if user already exists
+    const existingUser = await UserModel.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+
+    // Validate email domain with more lenient checks
+    try {
+      await validateEmailDomain(email);
+    } catch (error) {
+      return res.status(400).json({ 
+        message: "Please enter a valid email address",
+        details: error.message 
+      });
+    }
+
+    // Generate OTP and continue with the signup process
+    const otp = crypto.randomInt(100000, 999999).toString();
+    const otpDetails = {
+      otp,
+      name,
+      phone,
+      password,
+      generatedAt: Date.now(),
+    };
+    OTPs[email] = otpDetails;
+
+    // Send OTP email
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: 'Your OTP Code for Signup',
+      text: `Your OTP code is ${otp}. This code will expire in 30 seconds.`,
+    });
+
+    res.status(200).json({ message: "OTP sent to your email", email });
+
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    console.error("Signup error:", error);
+    res.status(500).json({ 
+      message: "An error occurred during signup",
+      details: error.message 
+    });
   }
-
-  // Generate OTP
-  const otp = crypto.randomInt(100000, 999999).toString();
-  const otpDetails = {
-    otp,
-    name,
-    phone,
-    password,
-    generatedAt: Date.now(), // Store the time when OTP is generated
-  };
-  OTPs[email] = otpDetails; // Store OTP and user details
-
-  // Send OTP email
-  await transporter.sendMail({
-    from: 'your-email@gmail.com',
-    to: email,
-    subject: 'Your OTP Code',
-    text: `Your OTP code is ${otp}`,
-  });
-
-  // Respond with a message to enter OTP
-  res.status(200).json({ message: "OTP sent to your email", email });
 });
 
 // OTP Verification Route

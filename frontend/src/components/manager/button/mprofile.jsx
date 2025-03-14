@@ -2,22 +2,25 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import SessEmail from "../../namesession";
 
-    
 const ManProfileBtn = () => {
     const navigate = useNavigate();
-    return(
-        <>
-        <div>
-            <button onClick={ () => navigate('/manager/profile')}
+    
+    return (
+        <div className="profile-button-container">
+            <div 
+                className="profile-content"
+                onClick={() => navigate('/manager/profile')}
                 style={{
-                    fontSize:'14px',
-                    background:'transparent',
-                    border:'none'
-            
+                    cursor: 'pointer',
+                    padding: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px'
                 }}
-                ><SessEmail /></button>
+            >
+                <SessEmail />
+            </div>
         </div>
-        </>
     );
 }
 

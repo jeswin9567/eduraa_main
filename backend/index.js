@@ -70,7 +70,8 @@ const mocktestRoutes = require('./routes/mocktest');
 const AnnouncementRoute = require('./routes/announcement');
 const TeacherCalendarRoute = require('./routes/reminders');
 const aiChatRouter = require('./routes/aiChat');
-
+const seachRoutes = require('./routes/searchRoutes');
+const analyticsRoutes = require('./routes/analytics');
 // CORS configuration
 app.use(cors({
     origin: 'http://localhost:5173', // Your frontend URL
@@ -141,6 +142,8 @@ app.use('/api/mocktest', mocktestRoutes);
 app.use('/api/announcement', AnnouncementRoute)
 app.use('/api/teachercalendar', TeacherCalendarRoute);
 app.use('/api/ai-chat', aiChatRouter);
+app.use('/api/search',seachRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 // Add this after all your routes
 app.use((err, req, res, next) => {

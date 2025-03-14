@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import './MocktestList.css'; // Create this CSS file
 
 const UserPrmMocktestList = () => {
@@ -116,72 +117,156 @@ const UserPrmMocktestList = () => {
 
   return (
     <div className="mocktest-container">
-      <h2 className="mocktest-header">Mocktests for {decodeURIComponent(subject)}</h2>
+      <motion.div 
+        className="mocktest-header-section"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <h2 className="mocktest-header">
+          <span className="subject-name">{decodeURIComponent(subject)}</span>
+          <span className="header-separator">|</span>
+          <span className="header-subtitle">Mock Tests</span>
+        </h2>
+        <p className="header-description">
+          Challenge yourself with our curated mock tests
+        </p>
+      </motion.div>
       
-      {loading && <div className="mocktest-loading">Loading...</div>}
-      {error && <div className="mocktest-error">{error}</div>}
+      {loading && (
+        <div className="mocktest-loading">
+          <div className="loading-spinner"></div>
+          <p>Loading mock tests...</p>
+        </div>
+      )}
+
+      {error && (
+        <motion.div 
+          className="mocktest-error"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          <span className="error-icon">⚠️</span>
+          <p>{error}</p>
+        </motion.div>
+      )}
       
       {!loading && !error && (
-        <div className="mocktest-grid">
+        <motion.div 
+          className="mocktest-grid"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           {mocktests.length === 0 ? (
-            <p className="no-mocktests">No mocktests available for this subject</p>
+            <motion.div 
+              className="no-mocktests"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+            >
+              <span className="empty-icon">📝</span>
+              <h3>No Mock Tests Available</h3>
+              <p>Check back later for new tests in this subject</p>
+            </motion.div>
           ) : (
-            mocktests.map((mocktest) => (
-              <div 
+            mocktests.map((mocktest, index) => (
+              <motion.div 
                 key={mocktest._id} 
                 className="mocktest-card"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
+                whileHover={{ 
+                  scale: 1.02,
+                  boxShadow: "0 8px 20px rgba(0,0,0,0.1)"
+                }}
               >
                 <div className="mocktest-content">
-                  <h3 className="mocktest-title">{mocktest.title}</h3>
+                  <div className="test-header">
+                    <div className="test-icon">📋</div>
+                    <h3 className="mocktest-title">{mocktest.title}</h3>
+                  </div>
                   <p className="mocktest-description">{mocktest.description}</p>
+                  
                   <div className="mocktest-info">
                     <div className="info-item">
-                      <span className="info-label">Duration:</span>
-                      <span className="info-value">{mocktest.duration} mins</span>
+                      <span className="info-icon">⏱️</span>
+                      <div className="info-details">
+                        <span className="info-label">Duration</span>
+                        <span className="info-value">{mocktest.duration} mins</span>
+                      </div>
                     </div>
                     <div className="info-item">
-                      <span className="info-label">Total Marks:</span>
-                      <span className="info-value">{mocktest.totalMarks}</span>
+                      <span className="info-icon">🎯</span>
+                      <div className="info-details">
+                        <span className="info-label">Total Marks</span>
+                        <span className="info-value">{mocktest.totalMarks}</span>
+                      </div>
                     </div>
                     <div className="info-item">
-                      <span className="info-label">Questions:</span>
-                      <span className="info-value">{mocktest.numberOfQuestions}</span>
+                      <span className="info-icon">❓</span>
+                      <div className="info-details">
+                        <span className="info-label">Questions</span>
+                        <span className="info-value">{mocktest.numberOfQuestions}</span>
+                      </div>
                     </div>
                     <div className="info-item">
-                      <span className="info-label">Passing Marks:</span>
-                      <span className="info-value">{mocktest.passingMarks}</span>
+                      <span className="info-icon">✅</span>
+                      <div className="info-details">
+                        <span className="info-label">Passing Marks</span>
+                        <span className="info-value">{mocktest.passingMarks}</span>
+                      </div>
                     </div>
                   </div>
+
                   {participationStatus[mocktest._id]?.hasParticipated ? (
                     <button 
                       className="view-result-btn"
                       onClick={() => handleViewResult(mocktest._id)}
                     >
-                      View Result
+                      View Result <span className="btn-icon">📊</span>
                     </button>
                   ) : (
                     <button 
                       className="start-test-btn"
                       onClick={() => handleParticipate(mocktest._id)}
                     >
-                      Participate
+                      Start Test <span className="btn-icon">→</span>
                     </button>
                   )}
                 </div>
-              </div>
+              </motion.div>
             ))
           )}
-        </div>
+        </motion.div>
       )}
 
-      {/* Premium Popup */}
       {showPremiumPopup && (
-        <div className="premium-popup">
-          <div className="premium-popup-content">
-            <p>Just participate the test with Eduraa Premium to access unlimited tests!</p>
-            <button onClick={() => setShowPremiumPopup(false)}>Close</button>
-          </div>
-        </div>
+        <motion.div 
+          className="premium-popup"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          <motion.div 
+            className="premium-popup-content"
+            initial={{ scale: 0.5 }}
+            animate={{ scale: 1 }}
+          >
+            <span className="premium-icon">⭐</span>
+            <h3>Upgrade to Premium</h3>
+            <p>Get unlimited access to all mock tests and boost your preparation!</p>
+            <div className="popup-buttons">
+              <button className="upgrade-btn">Upgrade Now</button>
+              <button 
+                className="close-btn"
+                onClick={() => setShowPremiumPopup(false)}
+              >
+                Maybe Later
+              </button>
+            </div>
+          </motion.div>
+        </motion.div>
       )}
     </div>
   );

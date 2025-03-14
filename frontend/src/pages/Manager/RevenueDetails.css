@@ -1,0 +1,194 @@
+.revedetne-container {
+    padding: 2rem;
+    flex: 1;
+    background: #f8f9fa;
+}
+
+.revedetne-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.revedetne-download-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.revedetne-download-btn:hover {
+    background: #2980b9;
+}
+
+.revedetne-summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.revedetne-summary-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.revedetne-summary-card h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.revedetne-amount {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #3498db;
+    margin-bottom: 0.5rem;
+}
+
+.revedetne-count {
+    color: #6c757d;
+}
+
+.revedetne-table-container {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    overflow-x: auto;
+}
+
+.revedetne-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.revedetne-table th,
+.revedetne-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.revedetne-table th {
+    background: #f8f9fa;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.revedetne-status {
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+}
+
+.revedetne-status.active {
+    background: rgba(0, 168, 84, 0.1);
+    color: #00a854;
+}
+
+.revedetne-status.expired {
+    background: rgba(255, 77, 79, 0.1);
+    color: #ff4d4f;
+}
+
+.revedetne-change {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
+    font-size: 1.25rem;
+}
+
+.revedetne-change.profit {
+    color: #00a854;
+}
+
+.revedetne-change.loss {
+    color: #ff4d4f;
+}
+
+.revedetne-percentage {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.revedetne-change-label {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-top: 0.25rem;
+}
+
+.revedetne-previous {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.revedetne-table-header {
+    margin-bottom: 1rem;
+}
+
+.revedetne-table-header h3 {
+    color: #2c3e50;
+    font-size: 1.2rem;
+}
+
+.revedetne-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.revedetne-page-btn {
+    padding: 0.5rem 1rem;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.revedetne-page-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.revedetne-page-btn:hover:not(:disabled) {
+    background: #2980b9;
+}
+
+.revedetne-page-info {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.revedetne-total-count {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .revedetne-header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .revedetne-table-container {
+        margin-top: 1rem;
+    }
+} 

@@ -1,0 +1,356 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+}
+
+.search-page {
+    min-height: 100vh;
+    background-color: #f8f9fa !important;
+}
+
+.search-results-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.search-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.search-header h1 {
+    color: #2c3e50;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.search-header p {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.search-header p span {
+    color: #2980b9;
+    font-weight: 500;
+}
+
+.results-grid {
+    display: grid;
+    gap: 2rem;
+}
+
+.result-section {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.result-section:hover {
+    transform: translateY(-5px);
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #2980b9, #3498db);
+    color: white;
+}
+
+.section-icon {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+}
+
+.section-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.results-list {
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.result-card {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.result-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    border-color: #2980b9;
+}
+
+.result-card h3 {
+    color: #2c3e50;
+    margin: 0 0 0.5rem 0;
+    font-size: 1.2rem;
+}
+
+.result-card p {
+    color: #666;
+    margin: 0 0 1rem 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.teacher-info, .test-meta, .scholarship-meta {
+    font-size: 0.9rem;
+    color: #666;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.empty-state-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.empty-state h2 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    color: #666;
+}
+
+/* Loading Animation */
+.loading-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #2980b9;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .search-results-container {
+        padding: 1rem;
+    }
+
+    .results-list {
+        grid-template-columns: 1fr;
+    }
+
+    .search-header h1 {
+        font-size: 2rem;
+    }
+}
+
+.search-results-wrapper {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: #f8f9fa;
+    padding: 20px 20px 20px 0; /* Reduced left padding to account for sidebar */
+}
+
+.search-results-content {
+    max-width: calc(100% - 20px);
+    margin-left: auto;
+    margin-right: auto;
+    background: transparent;
+}
+
+.search-header {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-bottom: 24px;
+    text-align: left;
+}
+
+.search-header h1 {
+    color: #2c3e50;
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+}
+
+.search-header p {
+    color: #666;
+    font-size: 1rem;
+}
+
+.results-grid {
+    display: grid;
+    gap: 24px;
+}
+
+.result-section {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    overflow: hidden;
+    transition: transform 0.2s ease;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #2980b9, #3498db);
+    color: white;
+    position: relative;
+}
+
+.section-icon {
+    font-size: 1.2rem;
+    margin-right: 12px;
+}
+
+.section-header h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    flex: 1;
+}
+
+.result-count {
+    background: rgba(255,255,255,0.2);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+}
+
+.results-list {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.result-card {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.result-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-color: #2980b9;
+}
+
+.card-content {
+    padding: 16px;
+}
+
+.result-card h3 {
+    color: #2c3e50;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+}
+
+.result-card p {
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 12px;
+}
+
+.teacher-info {
+    font-size: 0.85rem;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #eee;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 48px 24px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.empty-state-icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+}
+
+.empty-state h2 {
+    color: #2c3e50;
+    margin-bottom: 8px;
+}
+
+.empty-state p {
+    color: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .results-list {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .search-results-wrapper {
+        padding: 16px;
+    }
+
+    .search-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .results-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Custom Scrollbar */
+.search-results-wrapper::-webkit-scrollbar {
+    width: 8px;
+}
+
+.search-results-wrapper::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.search-results-wrapper::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}
+
+.search-results-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #999;
+} 

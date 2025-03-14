@@ -102,6 +102,10 @@ import AIChatPage from './pages/user/premium/AIChatpage';
 import AIStudentDashboard from './pages/user/premium/AIStudentDashboard';
 import AIMockTest from './components/AIMockTest';
 import ViewAIQuizPage from './pages/user/premium/viewaiquiz';
+import SearchResultpage from './pages/user/premium/SearchResultpage';
+import RevenueDetails from './pages/Manager/RevenueDetails';
+import CourseDetails from './pages/Manager/CourseDetails';
+import NewRptgn from './pages/Manager/NewRptgn';
 
 
 function App() {
@@ -222,6 +226,10 @@ function App() {
         <Route path="/user/ai-dashboard" element={<AIStudentDashboard />} />
         <Route path="/ai-mocktest/:id" element={<AIMockTest />} />
         <Route path="/user/ai-quiz-results" element={<ViewAIQuizPage />} />
+        <Route path="/query/search-results" element={<SearchResultpage />} />
+        <Route path="/manager/revenue-details" element={<RevenueDetails />} />
+        <Route path="/manager/course-details" element={<CourseDetails />} />
+        <Route path="/manager/analytics" element={<NewRptgn />} />
       </Routes>
     </Router>
   );

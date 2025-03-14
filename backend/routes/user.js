@@ -3,7 +3,8 @@ const express = require('express');
 const router = express.Router();
 const UserModel = require('../model/User'); // Adjust the path as needed
 const MockTest = require('../model/Mocktest');
-const QuizAnswer = require('../model/quiz');
+const QuizAnswer = require('../model/quiz');  
+const Class = require('../model/courses');
 
 // Route to get participation count for a user
 // Route to get participation count and premium status for a user
@@ -197,52 +198,215 @@ router.get('/learning-progress/:email', async (req, res) => {
 
     // Get all mocktest IDs created by assigned teachers
     const teacherEmails = user.assignedTeacher.map(teacher => teacher.email);
-    const mocktests = await MockTest.find({ 
-      $or: [
-        { email: { $in: teacherEmails } },
-        { teacherName: { $in: teacherEmails } }
-      ],
-      status: true
+    
+    // Get classes from assigned teachers
+    const classes = await Class.find({
+      teacherEmail: { $in: teacherEmails },
+      activeStatus: true
     });
 
-    // Get user's quiz attempts for these mocktests
-    const quizAttempts = await QuizAnswer.find({
-      email: email,
-      mockTestId: { $in: mocktests.map(test => test._id) }
-    });
+    // Get completed classes count
+    const completedClasses = classes.filter(cls => 
+      cls.completedBy.some(completion => completion.studentEmail === email)
+    );
+
+    // Calculate progress percentage based only on classes
+    let progressPercentage = 0;
+    if (classes.length > 0) {
+      progressPercentage = Math.round((completedClasses.length / classes.length) * 100);
+    }
+
+    // Ensure percentage doesn't exceed 100
+    progressPercentage = Math.min(progressPercentage, 100);
 
     // Detailed console logging
     console.log('----------------------------------------');
     console.log(`Learning Progress Details for ${email}:`);
     console.log(`Assigned Teachers:`, teacherEmails);
-    console.log(`Total Available Mocktests: ${mocktests.length}`);
-    console.log('Mocktest Details:', mocktests.map(m => ({
-      id: m._id,
-      title: m.title,
-      teacher: m.email || m.teacherName
-    })));
-    console.log(`Total Quiz Attempts: ${quizAttempts.length}`);
-    console.log('Quiz Attempts:', quizAttempts.map(q => ({
-      mockTestId: q.mockTestId,
-      score: q.percentageScore
-    })));
+    console.log(`Total Classes: ${classes.length}`);
+    console.log(`Completed Classes: ${completedClasses.length}`);
+    console.log(`Progress Percentage: ${progressPercentage}%`);
     console.log('----------------------------------------');
-
-    // Calculate progress percentage
-    let progressPercentage = 0;
-    if (mocktests.length > 0) {
-      progressPercentage = Math.round((quizAttempts.length / mocktests.length) * 100);
-    }
 
     res.json({ 
       progressPercentage,
-      totalMocktests: mocktests.length,
-      completedTests: quizAttempts.length
+      totalClasses: classes.length,
+      completedClasses: completedClasses.length
     });
   } catch (error) {
     console.error('Error calculating learning progress:', error);
     res.status(500).json({ message: 'Server error' });
   }
+});
+
+// Add this new route to update and get streak information
+router.get('/learning-streak/:email', async (req, res) => {
+    try {
+        const email = req.params.email;
+        const user = await UserModel.findOne({ email });
+        
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const today = new Date();
+        const lastActivity = user.lastActivityDate;
+        
+        // If this is the first activity
+        if (!lastActivity) {
+            user.lastActivityDate = today;
+            user.currentStreak = 1;
+            user.longestStreak = 1;
+        } else {
+            const timeDiff = today - lastActivity;
+            const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            
+            if (daysDiff === 0) {
+                // Already logged activity today
+                // Do nothing
+            } else if (daysDiff === 1) {
+                // Consecutive day
+                user.currentStreak += 1;
+                user.lastActivityDate = today;
+                if (user.currentStreak > user.longestStreak) {
+                    user.longestStreak = user.currentStreak;
+                }
+            } else {
+                // Streak broken
+                user.currentStreak = 1;
+                user.lastActivityDate = today;
+            }
+        }
+        
+        await user.save();
+        
+        res.json({
+            currentStreak: user.currentStreak,
+            longestStreak: user.longestStreak
+        });
+    } catch (error) {
+        console.error('Error updating learning streak:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+// Add this new route to update last activity
+router.post('/update-activity', async (req, res) => {
+    try {
+        const { email } = req.body;
+        
+        const user = await UserModel.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const today = new Date();
+        const lastActivity = user.lastActivityDate;
+        
+        // Only update if it's a new day
+        if (!lastActivity || !isSameDay(today, lastActivity)) {
+            user.lastActivityDate = today;
+            
+            // Update streak
+            if (!lastActivity) {
+                // First activity ever
+                user.currentStreak = 1;
+                user.longestStreak = 1;
+            } else {
+                const daysDiff = getDaysDifference(today, lastActivity);
+                
+                if (daysDiff === 1) {
+                    // Consecutive day
+                    user.currentStreak += 1;
+                    if (user.currentStreak > user.longestStreak) {
+                        user.longestStreak = user.currentStreak;
+                    }
+                } else if (daysDiff > 1) {
+                    // Streak broken
+                    user.currentStreak = 1;
+                }
+            }
+            
+            await user.save();
+        }
+
+        res.json({
+            currentStreak: user.currentStreak,
+            longestStreak: user.longestStreak,
+            lastActivityDate: user.lastActivityDate
+        });
+    } catch (error) {
+        console.error('Error updating activity:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+// Helper functions
+function isSameDay(date1, date2) {
+    return date1.getFullYear() === date2.getFullYear() &&
+           date1.getMonth() === date2.getMonth() &&
+           date1.getDate() === date2.getDate();
+}
+
+function getDaysDifference(date1, date2) {
+    const diffTime = Math.abs(date1 - date2);
+    return Math.floor(diffTime / (1000 * 60 * 60 * 24));
+}
+
+// Add this route to handle login streaks
+router.post('/login-streak', async (req, res) => {
+    try {
+        const { email } = req.body;
+        const user = await UserModel.findOne({ email });
+        
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const currentDate = new Date();
+        const lastLogin = user.lastLoginDate;
+
+        // If first time login
+        if (!lastLogin) {
+            user.currentStreak = 1;
+            user.longestStreak = 1;
+            user.lastLoginDate = currentDate;
+        } else {
+            // Calculate days between logins
+            const lastLoginDay = new Date(lastLogin).setHours(0, 0, 0, 0);
+            const currentDay = new Date(currentDate).setHours(0, 0, 0, 0);
+            const dayDifference = Math.floor((currentDay - lastLoginDay) / (1000 * 60 * 60 * 24));
+
+            if (dayDifference === 0) {
+                // Same day login - do nothing
+            } else if (dayDifference === 1) {
+                // Consecutive day login
+                user.currentStreak += 1;
+                user.lastLoginDate = currentDate;
+                
+                // Update longest streak if current is higher
+                if (user.currentStreak > user.longestStreak) {
+                    user.longestStreak = user.currentStreak;
+                }
+            } else {
+                // Streak broken
+                user.currentStreak = 1;
+                user.lastLoginDate = currentDate;
+            }
+        }
+
+        await user.save();
+
+        res.json({
+            currentStreak: user.currentStreak,
+            longestStreak: user.longestStreak,
+            lastLoginDate: user.lastLoginDate
+        });
+
+    } catch (error) {
+        console.error('Error updating login streak:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
 });
 
 module.exports = router;

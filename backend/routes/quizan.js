@@ -35,12 +35,12 @@ router.post('/saveAnswers', async (req, res) => {
             generatedBy  // Add this to destructuring
         } = req.body;
 
-        const normalizedTitle = title.trim().toLowerCase();
-        const normalizedSubject = subject.trim().toLowerCase();
+        const normalizedTitle = title?.trim().toLowerCase() ?? '';
+        const normalizedSubject = subject?.trim().toLowerCase() ?? '';
 
         // Check if this is an AI-generated quiz
-        const isAIQuiz = description.includes('AI Generated Test');
-        let finalDescription = description;
+        const isAIQuiz = description?.includes('AI Generated Test') ?? false;
+        let finalDescription = description ?? '';
 
         if (isAIQuiz) {
             const nextNumber = await getNextAIQuizNumber(normalizedSubject, normalizedTitle);

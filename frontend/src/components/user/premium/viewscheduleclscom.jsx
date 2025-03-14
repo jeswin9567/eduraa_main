@@ -68,7 +68,7 @@ const UserViewScheduledClassesCom = () => {
                 <td>
                   {liveClass.status && (
                     <button 
-                    id = "join"
+                    id = "joinbtn"
                       className="join-button"
                       onClick={() => joinClass(liveClass._id)}
                     >
