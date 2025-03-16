@@ -3,7 +3,7 @@ import './ViewTeach.css'
 import ManagerDashHead from "../../components/manager/mheads/mhomehead";
 import Managersidebrcom from "../../components/manager/sidebarmain/sidebarmain";
 import ViewTeacherCom from "../../components/manager/Teacher/ViewTeacher";
-import useAuth from "../../function/useAuth";
+import useAuth from "../../../function/useAuth";
 
 const ViewTeacher = () => {
     useAuth();

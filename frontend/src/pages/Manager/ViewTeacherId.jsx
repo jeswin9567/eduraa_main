@@ -3,7 +3,7 @@ import ManagerDashHead from '../../components/manager/mheads/mhomehead';
 import Managersidebrcom from '../../components/manager/sidebarmain/sidebarmain';
 import ViewReqTeacherDetails from '../../components/manager/Teacher/ViewTeacherDetails';
 import './ViewTeacherId.css'
-import useAuth from '../../function/useAuth';
+import useAuth from '../../../function/useAuth';
 
 const ViewTeachID = () => {
     useAuth();

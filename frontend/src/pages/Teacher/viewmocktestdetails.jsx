@@ -3,7 +3,7 @@ import TeacherDashHead from "../../components/teacher/heads/teacherhomehead";
 import Teachersidebrcom from "../../components/teacher/sidebar/teachersidebarcom";
 import TeachViewMockTestDetails from "../../components/teacher/mocktest/viewmocktestdetails";
 import './viewmocktestdetails.css'
-import useAuth from "../../function/useAuth";
+import useAuth from "../../../function/useAuth";
 
 const TeacherViewMockDetails = () => {
     useAuth();

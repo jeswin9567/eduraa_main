@@ -10,7 +10,7 @@ import { FaUsers, FaChalkboardTeacher, FaBook, FaClipboardCheck,
          FaCalendarCheck, FaClock } from 'react-icons/fa';
 import './teacherdashboard.css';
 import axios from 'axios';
-import useAuth from "../../function/useAuth";
+import useAuth from "../../../function/useAuth";
 
 const TeacherDash = () => {
     useAuth();

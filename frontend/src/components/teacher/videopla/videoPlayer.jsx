@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import "./videoPlayerPage.css"; // Optional for styling
-import useAuth from "../../../function/useAuth";
+import useAuth from "../../../../function/useAuth";
 
 const VideoPlayerPage = () => {
   useAuth();

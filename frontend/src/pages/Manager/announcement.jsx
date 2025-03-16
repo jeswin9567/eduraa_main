@@ -3,7 +3,7 @@ import ManagerDashHead from "../../components/manager/mheads/mhomehead";
 import Managersidebrcom from "../../components/manager/sidebarmain/sidebarmain";
 import AnnouncementsCom from "../../components/manager/announcement";
 import './announcement.css'
-import useAuth from "../../function/useAuth";
+import useAuth from "../../../function/useAuth";
 
 const ManagerAnnouncementMake = () => {
     useAuth();

@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './TeacherCareers.css';
 import { FaClock, FaGlobeAmericas, FaChartLine, FaGraduationCap, FaLaptop, FaUsers, FaHome } from 'react-icons/fa';
-import useAuth from '../../../../function/useAuth';
+
 
 const TeacherCareers = () => {
 
-    useAuth();
+
 
   useEffect(() => {
     // Smooth scroll function
