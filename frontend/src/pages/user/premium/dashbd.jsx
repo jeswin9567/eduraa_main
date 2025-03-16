@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import UserPremDHead from "../../../components/user/premium/heads/updhead";
 import Usersidebrcom from "../../../components/user/premium/sidebar/usersidebar";
-import './dashbd.css'
 import useAuth from "../../../../function/useAuth";
+
+import './dashbd.css'
 
 const UserPrmDashBrd = () => {
     useAuth();
@@ -70,7 +71,7 @@ const UserPrmDashBrd = () => {
                 const email = localStorage.getItem('userEmail');
                 if (!email) return;
 
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/user/login-streak`, {
+                const response = await fetch('http://localhost:5000/user/login-streak', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -102,7 +103,7 @@ const UserPrmDashBrd = () => {
             const email = localStorage.getItem('userEmail');
             if (!email) return;
 
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/user/update-activity`, {
+            const response = await fetch('http://localhost:5000/user/update-activity', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -140,10 +141,7 @@ const UserPrmDashBrd = () => {
                     <div className="usrmp-stats-container">
                         <div className="usrmp-stat-card usrmp-progress-card">
                             <h3>Learning Progress</h3>
-                            <div 
-                                className="usrmp-progress-circle" 
-                                style={{"--progress": `${learningProgress}%`}}
-                            >
+                            <div className="usrmp-progress-circle">
                                 <div className="usrmp-progress-value">{learningProgress}%</div>
                             </div>
                             <p>Overall Completion</p>
