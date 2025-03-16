@@ -71,7 +71,7 @@ const UserPrmDashBrd = () => {
                 const email = localStorage.getItem('userEmail');
                 if (!email) return;
 
-                const response = await fetch('http://localhost:5000/user/login-streak', {
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/user/login-streak`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -103,7 +103,7 @@ const UserPrmDashBrd = () => {
             const email = localStorage.getItem('userEmail');
             if (!email) return;
 
-            const response = await fetch('http://localhost:5000/user/update-activity', {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/user/update-activity`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
