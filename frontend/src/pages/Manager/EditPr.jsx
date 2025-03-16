@@ -1,6 +1,6 @@
 import React from "react";
 import EditPriceForm from "../../components/manager/editprice";
-import useAuth from "../../function/useAuth";
+import useAuth from "../../../function/useAuth";
 
 const EditPr = () => {
     useAuth();
