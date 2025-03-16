@@ -5,7 +5,7 @@ import useAuth from "../../../function/useAuth";
 import TeacherRequestBox from "../../components/manager/Teacher/Requestcomp";
 import ActiveTeacherBox from "../../components/manager/Teacher/Teacherbox";
 import UserBox from "../../components/manager/User/userbox";
-import { FaChartLine, FaGraduationCap, FaCog } from 'react-icons/fa';
+import { FaChartLine, FaGraduationCap, FaCog, FaClipboardCheck, FaMoneyBillWave } from 'react-icons/fa';
 import axios from 'axios';
 import './mhome.css';
 import { useNavigate } from 'react-router-dom';
@@ -97,7 +97,7 @@ function Mhome()
                         </div>
                     </div>
 
-                    <div className="quick-actions-grid" >
+                    <div className="quick-actions-grid">
                         <div className="action-card" onClick={() => navigate('/manager/analytics')}>
                             <div className="action-icon">
                                 <FaChartLine />
@@ -105,12 +105,12 @@ function Mhome()
                             <h3>Reports & Analytics</h3>
                             <p>View detailed insights and reports</p>
                         </div>
-                        <div className="action-card">
+                        <div className="action-card" onClick={() => navigate('/manager/vprice')}>
                             <div className="action-icon">
-                                <FaCog />
+                                <FaMoneyBillWave />
                             </div>
-                            <h3>System Settings</h3>
-                            <p>Manage platform configurations and settings</p>
+                            <h3>Payment Management</h3>
+                            <p>Monitor transactions and subscription plans</p>
                         </div>
                     </div>
                 </div>

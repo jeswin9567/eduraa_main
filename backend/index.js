@@ -127,7 +127,7 @@ app.use('/',ManagerProf);
 app.use('/mocktest',MockTestRoute);
 app.use('/quiz', quizRoutes);
 app.use('/viewans',ViewAns);
-app.use('/user',UserStatus);
+app.use('/user',UserStatus);  
 app.use('/price',PriceRoute);
 app.use('/payment',PaymentRoute);
 app.use('/feed',FeedBackRoute);

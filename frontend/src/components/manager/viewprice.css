@@ -1,65 +1,168 @@
 /* Container styling */
 .viewprice-container {
-   width: 75%;
-   height: 30%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Title styling */
-  .viewprice-title {
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    color: #333;
-  }
-  
-  /* Table styling */
-  .viewprice-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .viewprice-header {
-    background-color: #4CAF50;
-    color: white;
-    padding: 8px;
-    font-weight: bold;
-    text-align: left;
-    border: 1px solid #ddd;
-  }
-  
-  .viewprice-row:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-  
-  .viewprice-row:hover {
-    background-color: #e0f7fa;
-  }
-  
-  .viewprice-data {
-    padding: 8px;
-    border: 1px solid #ddd;
-    text-align: left;
+  width: 100%;
+  padding: 2rem;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.viewprice-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.header-icon {
+  font-size: 2rem;
+  color: #4a90e2;
+}
+
+.viewprice-header h2 {
+  color: #2c3e50;
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.price-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.price-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.price-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.price-card.mocktest { border-top: 4px solid #ff6b6b; }
+.price-card.normal { border-top: 4px solid #4a90e2; }
+.price-card.premium { border-top: 4px solid #845ef7; }
+
+.price-card-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.plan-badge {
+  background: #4a90e2;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  text-transform: capitalize;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.price-card-header h3 {
+  color: #2c3e50;
+  font-size: 1.4rem;
+  margin: 0.5rem 0;
+  text-transform: capitalize;
+}
+
+.price-amount {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #2c3e50;
+  margin: 1rem 0;
+}
+
+.price-period {
+  font-size: 1rem;
+  color: #666;
+  font-weight: normal;
+}
+
+.price-card-details {
+  margin: 1.5rem 0;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 0.8rem 0;
+  color: #666;
+}
+
+.detail-item svg {
+  color: #4a90e2;
+}
+
+.created-date {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.edit-price-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.8rem;
+  background: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s ease;
+}
+
+.edit-price-button:hover {
+  background: #357abd;
+}
+
+.viewprice-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: #666;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #4a90e2;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .viewprice-container {
+    padding: 1rem;
   }
 
-  .viewprice-edit-button {
-    background-color: #007bff;
-    color: white;
-    padding: 6px 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.2s ease;
+  .price-cards-container {
+    grid-template-columns: 1fr;
   }
-  
-  .viewprice-edit-button:hover {
-    background-color: #0056b3;
+
+  .price-amount {
+    font-size: 1.8rem;
   }
-  
+}
   

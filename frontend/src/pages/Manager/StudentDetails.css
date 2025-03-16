@@ -1,0 +1,156 @@
+.sdpm-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}
+
+.sdpm-content {
+    flex: 1;
+    padding: 2rem;
+}
+
+.sdpm-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.sdpm-header-icon {
+    font-size: 2.5rem;
+    color: #4a90e2;
+}
+
+.sdpm-header-text h2 {
+    color: #2c3e50;
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.sdpm-header-text p {
+    color: #6c757d;
+    margin: 0.5rem 0 0 0;
+}
+
+.sdpm-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+.sdpm-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.sdpm-card:hover {
+    transform: translateY(-5px);
+}
+
+.sdpm-card-header {
+    padding: 1.5rem;
+    background: linear-gradient(to right, #4a90e2, #357abd);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sdpm-card-header h3 {
+    margin: 0;
+    font-size: 1.4rem;
+}
+
+.sdpm-premium-badge {
+    background: #ffd700;
+    color: #2c3e50;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.sdpm-card-details {
+    padding: 1.5rem;
+}
+
+.sdpm-detail-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    color: #495057;
+}
+
+.sdpm-detail-icon {
+    color: #4a90e2;
+    font-size: 1.1rem;
+    width: 20px;
+}
+
+.sdpm-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+}
+
+.sdpm-stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.sdpm-stat-item strong {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+}
+
+.sdpm-stat-item span {
+    font-size: 1.2rem;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.student-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    color: #666;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #4a90e2;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+    .sdpm-content {
+        padding: 1rem;
+    }
+
+    .sdpm-grid {
+        grid-template-columns: 1fr;
+    }
+} 

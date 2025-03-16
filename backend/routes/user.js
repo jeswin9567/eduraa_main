@@ -409,5 +409,20 @@ router.post('/login-streak', async (req, res) => {
     }
 });
 
+// Add this new route to get all users (add it in the existing user.js file)
+router.get('/users', async (req, res) => {
+    try {
+        // Find all users with role 'user', excluding admin and manager accounts
+        const users = await UserModel.find({ role: 'user' })
+            .select('-password') // Exclude password from the response
+            .sort({ createdAt: -1 }); // Sort by newest first
+
+        res.json(users);
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
 module.exports = router;
 

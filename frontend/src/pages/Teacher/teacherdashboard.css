@@ -1,22 +1,565 @@
 .teacherdashbod-container {
     display: flex;
     flex-direction: row;
-    width: 100%; /* Use full width */
-    min-height: 80.4vh;
+    width: 100%;
+    min-height: 90vh;
+    background-color: #f8f9fa;
 }
 
 .teachermian-container {
-    flex: 1; /* Take remaining space */
-    display: flex;
-    flex-wrap: wrap; /* Allow items to wrap */
-    gap: 16px; /* Add spacing between items */
-    padding: 16px; /* Add internal spacing */
-    align-content: flex-start; /* Align wrapped rows to top */
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    padding: 24px;
+    margin: 20px;
+    position: relative;
 }
 
-/* Optional: Add responsive base width for children */
 .teachermian-container > * {
-    flex: 1 1 300px; /* Grow, shrink, base width of 300px */
-    min-width: 280px; /* Minimum width before wrapping */
-    max-width: 200px
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.2s ease;
+    height: 200px;
+}
+
+.teachermian-container > *:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Calendar specific styling */
+.teachermian-container > *:last-child {
+    grid-column: 1 / -1;
+    height: auto;
+    min-height: 400px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .teachermian-container {
+        margin: 10px;
+        padding: 16px;
+        gap: 16px;
+    }
+}
+
+.dashboard-content {
+    flex: 1;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    overflow-y: auto;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom: 2rem;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.header-left h1 {
+    background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.welcome-message {
+    color: #6c757d;
+    font-size: 1rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    min-height: 140px;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+}
+
+.stat-card .stat-icon {
+    color: rgba(255, 255, 255, 0.9) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.stat-card .stat-content h3,
+.stat-card .stat-number,
+.stat-card .stat-label {
+    color: white !important;
+}
+
+.stat-icon {
+    font-size: 1.5rem;
+    color: #3498db;
+    padding: 1rem;
+    background: rgba(52, 152, 219, 0.1);
+    border-radius: 12px;
+}
+
+.stat-content h3 {
+    color: #6c757d;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2c3e50;
+    margin: 10px 0;
+}
+
+.stat-label {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.dashboard-grid {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom: 2rem;
+}
+
+.calendar-section {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-top: 2rem;
+}
+
+.gradient-blue {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%) !important;
+    color: white !important;
+}
+
+.gradient-purple {
+    background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%) !important;
+    color: white !important;
+}
+
+.gradient-green {
+    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%) !important;
+    color: white !important;
+}
+
+.gradient-orange {
+    background: linear-gradient(135deg, #e67e22 0%, #d35400 100%) !important;
+    color: white !important;
+}
+
+.live-time {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    color: #2c3e50;
+}
+
+.clock-icon {
+    color: #3498db;
+}
+
+.quick-info-section {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.upcoming-classes {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.upcoming-classes h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+}
+
+.class-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.class-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+.class-item:hover {
+    transform: translateX(5px);
+    background: #f1f3f5;
+}
+
+.time-badge {
+    background: #3498db;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    min-width: 90px;
+    text-align: center;
+}
+
+.class-details {
+    flex: 1;
+}
+
+.class-details h4 {
+    color: #2c3e50;
+    margin: 0;
+    font-size: 1rem;
+}
+
+.class-details p {
+    color: #6c757d;
+    margin: 5px 0 0;
+    font-size: 0.9rem;
+}
+
+/* Add status indicators */
+.class-details p {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.class-details p::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #6c757d;
+}
+
+.class-details p:has(text="In Progress")::before {
+    background-color: #2ecc71;
+}
+
+@keyframes bellShake {
+    0% { transform: rotate(0); }
+    15% { transform: rotate(5deg); }
+    30% { transform: rotate(-5deg); }
+    45% { transform: rotate(4deg); }
+    60% { transform: rotate(-4deg); }
+    75% { transform: rotate(2deg); }
+    85% { transform: rotate(-2deg); }
+    92% { transform: rotate(1deg); }
+    100% { transform: rotate(0); }
+}
+
+.notification-bell:hover {
+    animation: bellShake 0.5s ease;
+}
+
+@media (max-width: 768px) {
+    .dashboard-content {
+        padding: 1rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+    
+    .header-right {
+        display: none;
+    }
+    
+    .quick-info-section {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .live-time {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Add these new styles to integrate the viewstudbox component */
+
+.stat-wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+.stat-wrapper .assigned-students-box {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+}
+
+.stat-wrapper .assigned-students-box h2 {
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.stat-wrapper .assigned-students-box .student-count {
+    color: white;
+    font-size: 2rem;
+    margin-top: 0.5rem;
+}
+
+.stat-wrapper .assigned-students-box:hover {
+    transform: none;
+}
+
+.stat-wrapper .assigned-students-box .loading-text,
+.stat-wrapper .assigned-students-box .error-text {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Update the existing stat-card styles to accommodate the wrapped component */
+.stat-card:hover .assigned-students-box {
+    transform: none;
+}
+
+/* Add these styles for the LiveClassesBox integration */
+.stat-wrapper .liveclazbxs {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    color: white;
+}
+
+.stat-wrapper .liveclazbxs h3 {
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    text-align: left;
+    padding-bottom: 8px;
+}
+
+.stat-wrapper .liveclazbxs p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.stat-wrapper .liveclazbxs strong {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.stat-wrapper .liveclazbxs .buttons {
+    margin-top: auto;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.stat-wrapper .liveclazbxs button {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.stat-wrapper .liveclazbxs button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.stat-wrapper .liveclazbxs .schedule-button,
+.stat-wrapper .liveclazbxs .remind-button {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.stat-wrapper .liveclazbxs .schedule-button:hover,
+.stat-wrapper .liveclazbxs .remind-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Add these styles for the ClassCountBox integration */
+.stat-wrapper .class-box {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    color: white;
+}
+
+.stat-wrapper .class-box h2 {
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    text-align: left;
+    padding-bottom: 8px;
+}
+
+.stat-wrapper .class-box__count {
+    color: white;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-top: 0.5rem;
+}
+
+.stat-wrapper .class-box:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.stat-wrapper .class-box.loading {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.stat-wrapper .class-box:hover .class-box__count {
+    color: white;
+}
+
+.stat-wrapper .class-box:hover h2 {
+    color: white;
+}
+
+/* Add or update these styles */
+.loading-message, .no-classes-message {
+    text-align: center;
+    color: #6c757d;
+    padding: 1rem;
+    font-style: italic;
+}
+
+/* Add these styles for the MockTestStatusBox integration */
+.stat-wrapper .mktbxcon {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    color: white;
+}
+
+.stat-wrapper .mktbxcon h2 {
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    text-align: left;
+    padding-bottom: 8px;
+}
+
+.stat-wrapper .mktbxcon__statusItem {
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 0.75rem;
+}
+
+.stat-wrapper .mktbxcon__statusItem span:first-child {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.stat-wrapper .mktbxcon__active {
+    color: white !important;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.stat-wrapper .mktbxcon__nonActive {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.stat-wrapper .mktbxcon.loading {
+    color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.stat-wrapper .mktbxcon:hover {
+    transform: none;
+}
+
+/* Add these new styles for the calendar section */
+.dashboard-calendar-section {
+    display: none;
+}
+
+.calendar-container {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.calendar-container h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
 }

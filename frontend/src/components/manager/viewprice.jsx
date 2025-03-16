@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { FaEdit, FaMoneyBillWave, FaClock, FaTag } from 'react-icons/fa';
 import './viewprice.css';
 
 const PriceTable = () => {
   const navigate = useNavigate();
   const [prices, setPrices] = useState([]);
-  const [loading, setLoading] = useState(true); // Loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPrices = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/price/prices'); // Adjust the endpoint
+        const response = await axios.get('http://localhost:5000/price/prices');
         setPrices(response.data);
       } catch (error) {     
         console.error('Error fetching prices:', error);
@@ -25,48 +26,68 @@ const PriceTable = () => {
 
   const handleEdit = (id) => {
     navigate(`/manager/eprice/${id}`);
-    console.log('Editing price with ID:', id);
   };
+
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR'
+    }).format(amount);
+  };
+
+  if (loading) {
+    return (
+      <div className="viewprice-loading">
+        <div className="loading-spinner"></div>
+        <p>Loading pricing details...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="viewprice-container">
-      <h2 className="viewprice-title">Pricing Options</h2>
+      <div className="viewprice-header">
+        <FaMoneyBillWave className="header-icon" />
+        <h2>Subscription Plans</h2>
+      </div>
 
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <table className="viewprice-table">
-          <thead>
-            <tr>
-              <th className="viewprice-header">Amount</th>
-              <th className="viewprice-header">Frequency</th>
-              <th className="viewprice-header">Plan Type</th>
-              <th className="viewprice-header">Created At</th>
-              <th className="viewprice-header">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {prices.map((price) => (
-              <tr key={price._id} className="viewprice-row">
-                <td className="viewprice-data">₹{price.amount}</td>
-                <td className="viewprice-data">{price.frequency}</td>
-                <td className="viewprice-data">{price.planType || 'N/A'}</td>
-                <td className="viewprice-data">
-                  {new Date(price.createdAt).toLocaleString()}
-                </td>
-                <td className="viewprice-data">
-                  <button 
-                    onClick={() => handleEdit(price._id)} 
-                    className="viewprice-edit-button"
-                  >
-                    Edit
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+      <div className="price-cards-container">
+        {prices.map((price) => (
+          <div key={price._id} className={`price-card ${price.planType.toLowerCase()}`}>
+            <div className="price-card-header">
+              <span className="plan-badge">{price.planType}</span>
+              <h3>{price.frequency}</h3>
+              <div className="price-amount">
+                {formatCurrency(price.amount)}
+                <span className="price-period">/{price.frequency}</span>
+              </div>
+            </div>
+
+            <div className="price-card-details">
+              <div className="detail-item">
+                <FaClock />
+                <span>Billing: {price.frequency}</span>
+              </div>
+              <div className="detail-item">
+                <FaTag />
+                <span>Plan: {price.planType}</span>
+              </div>
+              <div className="detail-item">
+                <span className="created-date">
+                  Created: {new Date(price.createdAt).toLocaleDateString()}
+                </span>
+              </div>
+            </div>
+
+            <button 
+              className="edit-price-button"
+              onClick={() => handleEdit(price._id)}
+            >
+              <FaEdit /> Edit Plan
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

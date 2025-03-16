@@ -106,6 +106,7 @@ import SearchResultpage from './pages/user/premium/SearchResultpage';
 import RevenueDetails from './pages/Manager/RevenueDetails';
 import CourseDetails from './pages/Manager/CourseDetails';
 import NewRptgn from './pages/Manager/NewRptgn';
+import StudentDetails from './pages/Manager/StudentDetails';
 
 
 function App() {
@@ -230,6 +231,7 @@ function App() {
         <Route path="/manager/revenue-details" element={<RevenueDetails />} />
         <Route path="/manager/course-details" element={<CourseDetails />} />
         <Route path="/manager/analytics" element={<NewRptgn />} />
+        <Route path="/manager/students" element={<StudentDetails />} />
       </Routes>
     </Router>
   );

@@ -312,5 +312,55 @@ router.post("/remind/:classId", async (req, res) => {
   }
 });
 
+// Add this new route for today's schedule
+router.get("/today-schedule/:teacherEmail", async (req, res) => {
+  try {
+    const { teacherEmail } = req.params;
+    
+    // Get start and end of today
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+    
+    const endOfToday = new Date();
+    endOfToday.setHours(23, 59, 59, 999);
+
+    // Find all classes scheduled for today for this teacher
+    const todayClasses = await LiveClass.find({
+      teacherEmail: teacherEmail,
+      date: {
+        $gte: startOfToday,
+        $lte: endOfToday
+      }
+    }).sort({ time: 1 }); // Sort by time ascending
+
+    if (!todayClasses || todayClasses.length === 0) {
+      return res.status(200).json({ 
+        message: "No classes scheduled for today",
+        classes: []
+      });
+    }
+
+    // Format the response
+    const formattedClasses = todayClasses.map(cls => ({
+      id: cls._id,
+      subject: cls.topic,
+      time: cls.time,
+      endTime: cls.endtime,
+      status: cls.status
+    }));
+
+    res.status(200).json({
+      message: "Today's schedule retrieved successfully",
+      classes: formattedClasses
+    });
+
+  } catch (error) {
+    console.error("Error fetching today's schedule:", error);
+    res.status(500).json({ 
+      message: "Error fetching today's schedule",
+      error: error.message 
+    });
+  }
+});
 
 module.exports = router;

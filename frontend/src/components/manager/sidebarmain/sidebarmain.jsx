@@ -12,18 +12,17 @@ const Managersidebrcom = () => {
         <>
         <div className="managersidebar">
             <div className="managersidebarbtns">
-            <button onClick={() =>navigate('/mhome')}>Home</button>
-            <MServiceButton/>
-            <MTeacherButton />
-            <UpdateFlBtn />
-            
-            <button>Students</button>
-            <button onClick={() => navigate('/manager/makeannouncement')}>Announcements</button>
-            <button>Feedback</button>
-            <MPriceButton />
+                <button onClick={() =>navigate('/mhome')}>Home</button>
+                <MServiceButton/>
+                <MTeacherButton />
+                <UpdateFlBtn />
+                
+                <button onClick={() => navigate('/manager/students')}>Students</button>
+                <button onClick={() => navigate('/manager/makeannouncement')}>Announcements</button>
+
+                <MPriceButton />
             </div>
         </div>
-        
         </>
     );
 }
