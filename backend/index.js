@@ -9,7 +9,20 @@ const server = http.createServer(app);
 const { PeerServer } = require('peer');
 const io = require('socket.io')(server, {
   cors: {
-    origin: '*',  // We'll make this more restrictive once frontend is deployed
+    origin: function(origin, callback) {
+      if (!origin) return callback(null, true);
+      
+      const allowedOrigins = [
+        'https://eduraatest.netlify.app',
+        'http://localhost:5173'  // Your local development URL
+      ];
+      
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     methods: ["GET", "POST"],
     credentials: true
   }
@@ -75,9 +88,30 @@ const seachRoutes = require('./routes/searchRoutes');
 const analyticsRoutes = require('./routes/analytics');
 // CORS configuration
 app.use(cors({
-    origin: '*',  // We'll make this more restrictive once frontend is deployed
-    credentials: true
+    origin: function(origin, callback) {
+        if (!origin) return callback(null, true);
+        
+        const allowedOrigins = [
+            'https://eduraatest.netlify.app',
+            'http://localhost:5173'  // Your local development URL
+        ];
+        
+        if (allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+// Add this before your routes to ensure cookies work properly
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Credentials', 'true');
+    next();
+});
 
 // Middleware
 app.use(express.json());

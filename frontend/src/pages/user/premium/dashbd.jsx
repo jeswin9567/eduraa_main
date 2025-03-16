@@ -29,19 +29,19 @@ const UserPrmDashBrd = () => {
                 // Fetch learning progress
                 const progressResponse = await fetch(`${import.meta.env.VITE_API_URL}/user/learning-progress/${email}`, {
                     method: 'GET',
+                    credentials: 'include',
                     headers: {
                         'Content-Type': 'application/json',
-                    },
-                    credentials: 'include'
+                    }
                 });
                 
                 // Fetch streak data
                 const streakResponse = await fetch(`${import.meta.env.VITE_API_URL}/user/learning-streak/${email}`, {
                     method: 'GET',
+                    credentials: 'include',
                     headers: {
                         'Content-Type': 'application/json',
-                    },
-                    credentials: 'include'
+                    }
                 });
 
                 if (!progressResponse.ok || !streakResponse.ok) {
