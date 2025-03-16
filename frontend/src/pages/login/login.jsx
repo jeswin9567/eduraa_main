@@ -15,8 +15,8 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault(); // Prevent page reload on form submission
 
-    // Post request to server for login
-    axios.post('http://localhost:5000/log', { email, password: pass })
+    // Use the environment variable for the API URL
+    axios.post(`${import.meta.env.VITE_API_URL}/log`, { email, password: pass })
       .then(result => {
         // If login is successful, navigate to home
         if(result.data.message === "success"){

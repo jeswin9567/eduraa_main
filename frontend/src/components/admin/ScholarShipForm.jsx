@@ -199,7 +199,7 @@ const validateField = (name, value) => {
 
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:5000/schship', formData);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/schship`, formData);
       console.log(response.data);
       alert('Scholarship submitted successfully');
 

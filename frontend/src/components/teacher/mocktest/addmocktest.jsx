@@ -39,7 +39,7 @@ const TeacherMocktest = () => {
     const fetchEntranceExams = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:5000/viewentr/teacher-assigned-entrances',
+          `${import.meta.env.VITE_API_URL}/viewentr/teacher-assigned-entrances`,
           {
             headers: {
               email: teacherEmail
@@ -60,7 +60,7 @@ const TeacherMocktest = () => {
     const fetchTopics = async () => {
       try {
         const email = localStorage.getItem('userEmail');
-        const response = await axios.get(`http://localhost:5000/mocktest/teacher-topics?email=${email}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/mocktest/teacher-topics?email=${email}`);
         setExistingTitles(response.data);
       } catch (error) {
         console.error('Error fetching topics:', error);
@@ -199,7 +199,7 @@ const TeacherMocktest = () => {
       });
 
       const response = await axios.post(
-        'http://localhost:5000/mocktest/teacheraddMockTest', 
+        `${import.meta.env.VITE_API_URL}/mocktest/teacheraddMockTest`, 
         formData,
         {
           headers: {

@@ -3,8 +3,10 @@ import TeacherDashHead from "../../components/teacher/heads/teacherhomehead";
 import Teachersidebrcom from "../../components/teacher/sidebar/teachersidebarcom";
 import StudentProgress from "../../components/teacher/StudentProgress";
 import './viewscheduleliveclassAll.css'
+import useAuth from "../../function/useAuth";
 
 const ViewStudentPr = () => {
+    useAuth();
     return (
         <>
             <div>

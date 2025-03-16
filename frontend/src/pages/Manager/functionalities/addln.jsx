@@ -123,7 +123,7 @@ const MStudentLoanForm = () => {
     if (Object.keys(newErrors).length === 0) {
       setLoading(true);
       try {
-        const response = await axios.post('http://localhost:5000/studln', formData);
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/studln`, formData);
         console.log(response.data);
         alert('Student loan submitted successfully');
         setFormData({

@@ -76,7 +76,7 @@ const TeacherCalendar = () => {
     try {
       const teacherEmail = localStorage.getItem("userEmail");
       const response = await fetch(
-        `http://localhost:5000/api/teachercalendar/view-reminders?date=${date.toISOString()}&email=${teacherEmail}`
+        `${import.meta.env.VITE_API_URL}/api/teachercalendar/view-reminders?date=${date.toISOString()}&email=${teacherEmail}`
       );
       const data = await response.json();
       setDateReminders(data.reminders);
@@ -108,7 +108,7 @@ const TeacherCalendar = () => {
     reminderDateTime.setHours(parseInt(selectedHour), parseInt(selectedMinute), 0, 0);
     
     try {
-      const response = await fetch('http://localhost:5000/api/teachercalendar/add', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/teachercalendar/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

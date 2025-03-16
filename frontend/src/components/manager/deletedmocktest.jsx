@@ -7,7 +7,7 @@ const DeletedMockTests = ({ examId }) => {
 
   useEffect(() => {
     // Fetch deleted mock tests
-    axios.get(`http://localhost:5000/mocktest/deletedmocktests`)
+    axios.get(`${import.meta.env.VITE_API_URL}/mocktest/deletedmocktests`)
       .then(response => {
         setMockTests(response.data);
       })
@@ -17,7 +17,7 @@ const DeletedMockTests = ({ examId }) => {
   }, [examId]);
 
   const enableMockTest = (mockTestId) => {
-    axios.put(`http://localhost:5000/mocktest/enablemocktest/${mockTestId}`)
+    axios.put(`${import.meta.env.VITE_API_URL}/mocktest/enablemocktest/${mockTestId}`)
       .then(response => {
         alert('Mock test enabled successfully');
         // Optionally, refetch the deleted mock tests to update the list

@@ -8,7 +8,7 @@ const ManScholarshipList = () => {
     useEffect(() => {
         const fetchScholarships = async () => {
             try {
-                const response = await fetch('http://localhost:5000/viewscho'); // No filters in the query params
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/viewscho`); // No filters in the query params
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }

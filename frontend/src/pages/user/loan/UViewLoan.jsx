@@ -14,7 +14,7 @@ const UVLoanDetails = () => {
     useEffect(() => {
         const fetchLoanDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/viewln/${id}`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/viewln/${id}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch loan details');
                 }

@@ -13,7 +13,7 @@ const ViewTeacherCom = () => {
   useEffect(() => {
     const fetchTeachers = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/viewteachers/teachers");
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/viewteachers/teachers`);
         setTeachers(response.data);
       } catch (error) {
         console.error("Error fetching teachers:", error);
@@ -22,7 +22,7 @@ const ViewTeacherCom = () => {
 
     const fetchExamTypes = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/viewentr");
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/viewentr`);
         const uniqueExamTypes = [...new Set(response.data.map(entrance => entrance.examType))];
         setExamTypeOptions(uniqueExamTypes);
       } catch (error) {
@@ -45,7 +45,7 @@ const ViewTeacherCom = () => {
   const handleStatusChange = async (id, newStatus) => {
     try {
       const response = await axios.patch(
-        `http://localhost:5000/api/viewteachers/viewteachers/${newStatus ? "activate" : "disable"}/${id}`
+        `${import.meta.env.VITE_API_URL}/api/viewteachers/viewteachers/${newStatus ? "activate" : "disable"}/${id}`
       );
       alert(`Teacher has been ${newStatus ? "activated" : "disabled"} successfully!`);
       setTeachers((prevTeachers) =>
@@ -77,7 +77,7 @@ const ViewTeacherCom = () => {
   const handleExamTypeSubmit = async () => {
     try {
       await axios.patch(
-        `http://localhost:5000/api/viewteachers/update-exam-types/${selectedTeacher._id}`,
+        `${import.meta.env.VITE_API_URL}/api/viewteachers/update-exam-types/${selectedTeacher._id}`,
         { examTypes: selectedExamTypes }
       );
       

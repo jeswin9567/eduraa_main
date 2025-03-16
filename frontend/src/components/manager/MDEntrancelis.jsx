@@ -8,7 +8,7 @@ const MDEntranceList = () => {
     useEffect(() => {
         const fetchEntrances = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/viewentr/managerdel`); // Adjust the endpoint if needed
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/viewentr/managerdel`); // Adjust the endpoint if needed
                 setEntrances(response.data);
             } catch (error) {
                 console.error("Error fetching entrances:", error);
@@ -21,7 +21,7 @@ const MDEntranceList = () => {
     // Function to enable entrance (set status to true)
     const handleEnable = async (id) => {
         try {
-            await axios.put(`http://localhost:5000/delentr/managerena/${id}`, { status: true });
+            await axios.put(`${import.meta.env.VITE_API_URL}/delentr/managerena/${id}`, { status: true });
             // Update the local state to reflect the change in status
             setEntrances(entrances.map(entrance => 
                 entrance._id === id ? { ...entrance, status: true } : entrance

@@ -9,7 +9,7 @@ const TeacherDeletedMockTestsCom = ({ examId }) => {
   useEffect(() => {
     // Fetch deleted mock tests with email
     axios
-      .get(`http://localhost:5000/mocktest/teacherdeletedmocktests`, {
+      .get(`${import.meta.env.VITE_API_URL}/mocktest/teacherdeletedmocktests`, {
         headers: { email }, // Pass email in headers
       })
       .then((response) => {
@@ -22,7 +22,7 @@ const TeacherDeletedMockTestsCom = ({ examId }) => {
 
   const enableMockTest = (mockTestId) => {
     axios
-      .put(`http://localhost:5000/mocktest/enablemocktest/${mockTestId}`)
+      .put(`${import.meta.env.VITE_API_URL}/mocktest/enablemocktest/${mockTestId}`)
       .then((response) => {
         alert('Mock test enabled successfully');
         setMockTests(mockTests.filter((test) => test._id !== mockTestId)); // Remove the enabled test from the list

@@ -13,7 +13,7 @@ const TeachViewMockTestDetails = () => {
   useEffect(() => {
     const fetchMockTestDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/mocktest/mocktest/${mockTestId}`); // Adjust URL to your API endpoint
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/mocktest/mocktest/${mockTestId}`); // Adjust URL to your API endpoint
         setMockTest(response.data);
       } catch (error) {
         setError('Error fetching mock test details');
@@ -34,7 +34,7 @@ const TeachViewMockTestDetails = () => {
   const handleDelete = async () => {
     try {
       // Call the backend to deactivate the mock test
-      await axios.delete(`http://localhost:5000/mocktest/mockTest/deactivate/${mockTestId}`); // Adjust URL to your API endpoint
+      await axios.delete(`${import.meta.env.VITE_API_URL}/mocktest/mockTest/deactivate/${mockTestId}`); // Adjust URL to your API endpoint
   
       // Navigate to the mock tests list page after deactivation
       navigate(`/manager/managemocktest`); // Change to the correct path for your mock tests list

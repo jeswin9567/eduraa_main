@@ -32,7 +32,7 @@ const UpdateScholarship = () => {
     useEffect(() => {
         const fetchScholarshipDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/viewscho/${id}`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/viewscho/${id}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch scholarship details');
                 }
@@ -98,7 +98,7 @@ const UpdateScholarship = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`http://localhost:5000/upscho/${id}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/upscho/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

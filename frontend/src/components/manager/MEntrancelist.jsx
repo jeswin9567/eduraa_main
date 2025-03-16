@@ -9,7 +9,7 @@ const MEntranceList = () => {
     useEffect(() => {
         const fetchEntrances = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/viewentr`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/viewentr`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }

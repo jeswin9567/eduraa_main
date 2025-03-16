@@ -20,7 +20,7 @@ const UserClassDetail = () => {
     const fetchClassDetails = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/course/student/course/${encodeURIComponent(topic)}/${encodeURIComponent(subTopic)}`
+          `${import.meta.env.VITE_API_URL}/api/course/student/course/${encodeURIComponent(topic)}/${encodeURIComponent(subTopic)}`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch class details");
@@ -84,7 +84,7 @@ const UserClassDetail = () => {
       const studentEmail = localStorage.getItem('userEmail'); // Replace with actual student email
 
       const response = await fetch(
-        `http://localhost:5000/api/course/student/complete-class/${classId}`,
+        `${import.meta.env.VITE_API_URL}/api/course/student/complete-class/${classId}`,
         {
           method: 'POST',
           headers: {
@@ -114,7 +114,7 @@ const UserClassDetail = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/course/student/feedback/${activeFeedbackClassId}`,
+        `${import.meta.env.VITE_API_URL}/api/course/student/feedback/${activeFeedbackClassId}`,
         {
           method: 'POST',
           headers: {

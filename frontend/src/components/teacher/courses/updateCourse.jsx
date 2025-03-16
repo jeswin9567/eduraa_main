@@ -17,7 +17,7 @@ const UpdateSubtopicPage = () => {
   useEffect(() => {
     const fetchSubtopic = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/course/subtopic/${subtopicId}`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/course/subtopic/${subtopicId}`);
         if (!response.ok) throw new Error("Failed to fetch subtopic");
         const data = await response.json();
         setSubtopic(data);
@@ -51,7 +51,7 @@ const UpdateSubtopicPage = () => {
         formData.append("video", video);
       }
 
-      const response = await fetch(`http://localhost:5000/api/course/update-subtopic/${subtopicId}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/course/update-subtopic/${subtopicId}`, {
         method: "PATCH",
         body: formData,
       });

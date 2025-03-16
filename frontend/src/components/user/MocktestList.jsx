@@ -27,7 +27,7 @@ const UserPrmMocktestList = () => {
         }
         
         const response = await axios.get(
-          `http://localhost:5000/api/mocktest/user-mocktests/${encodeURIComponent(subject)}`,
+          `${import.meta.env.VITE_API_URL}/api/mocktest/user-mocktests/${encodeURIComponent(subject)}`,
           {
             headers: {
               useremail: email
@@ -46,7 +46,7 @@ const UserPrmMocktestList = () => {
 
     const fetchUserDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/user/user/${userEmail}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/user/user/${userEmail}`);
         setParticipateCount(response.data.participate);
         setIsPremium(response.data.premium);
       } catch (error) {
@@ -59,7 +59,7 @@ const UserPrmMocktestList = () => {
       for (const mocktest of mocktests) {
         try {
           const response = await axios.get(
-            `http://localhost:5000/api/mocktest/check-participation/${mocktest._id}`,
+            `${import.meta.env.VITE_API_URL}/api/mocktest/check-participation/${mocktest._id}`,
             {
               headers: { useremail: userEmail }
             }
@@ -82,7 +82,7 @@ const UserPrmMocktestList = () => {
         }
         
         const response = await axios.get(
-          `http://localhost:5000/api/mocktest/user-mocktests/${encodeURIComponent(subject)}`,
+          `${import.meta.env.VITE_API_URL}/api/mocktest/user-mocktests/${encodeURIComponent(subject)}`,
           {
             headers: { useremail: email }
           }

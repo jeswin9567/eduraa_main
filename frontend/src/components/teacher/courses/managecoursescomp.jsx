@@ -18,7 +18,7 @@ const VClassCom = () => {
       }
 
       try {
-        const response = await fetch(`http://localhost:5000/api/course/classes?email=${email}`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/course/classes?email=${email}`);
         if (!response.ok) {
           throw new Error("Failed to fetch classes");
         }

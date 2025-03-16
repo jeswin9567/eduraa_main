@@ -3,8 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './VideoCall.css';
+import useAuth from '../../function/useAuth';
 
 const VideoCall = () => {
+  useAuth();
   const { classId } = useParams();
   const navigate = useNavigate();
   const [classDetails, setClassDetails] = useState(null);
@@ -15,7 +17,7 @@ const VideoCall = () => {
   useEffect(() => {
     const fetchClassDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/liveclass/${classId}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/liveclass/${classId}`);
         setClassDetails(response.data);
         setIsTeacher(response.data.teacherEmail === userEmail);
       } catch (err) {
@@ -29,7 +31,7 @@ const VideoCall = () => {
   const handleClose = async () => {
     if (isTeacher) {
       try {
-        await axios.put(`http://localhost:5000/api/liveclass/end/${classId}`);
+        await axios.put(`${import.meta.env.VITE_API_URL}/api/liveclass/end/${classId}`);
         navigate('/teacher/viewscheduleclasses');
       } catch (err) {
         console.error('Error ending class:', err);

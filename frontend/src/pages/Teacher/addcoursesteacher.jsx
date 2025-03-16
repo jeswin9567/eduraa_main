@@ -3,8 +3,10 @@ import TeacherDashHead from "../../components/teacher/heads/teacherhomehead";
 import Teachersidebrcom from "../../components/teacher/sidebar/teachersidebarcom";
 import UploadClass from "../../components/teacher/courses/addCoursescomp";
 import './addcoursesteacher.css'
+import useAuth from "../../function/useAuth";
 
 const TeachAddCourse = () => {
+    useAuth();
     return (
         <>
         <div>

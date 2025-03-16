@@ -23,7 +23,7 @@ const ViewTeachProf = () => {
             }
 
             try {
-                const response = await axios.get("http://localhost:5000/api/profile/teacher-profile", {
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/profile/teacher-profile`, {
                     headers: { Authorization: token },
                 });
                 setUser(response.data);
@@ -42,7 +42,7 @@ const ViewTeachProf = () => {
     const handleChangePassword = async () => {
         try {
             const token = localStorage.getItem("token");
-            const response = await axios.post("http://localhost:5000/api/profile/verify-password", {
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/profile/verify-password`, {
                 email: user.email,
                 currentPassword
             }, {
@@ -69,7 +69,7 @@ const ViewTeachProf = () => {
 
         try {
             const token = localStorage.getItem("token");
-            await axios.post("http://localhost:5000/api/profile/update-password", {
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/profile/update-password`, {
                 email: user.email,
                 newPassword
             }, {

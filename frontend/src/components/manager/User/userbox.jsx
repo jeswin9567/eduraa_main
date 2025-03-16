@@ -10,7 +10,7 @@ const UserBox = () => {
   useEffect(() => {
     const fetchUserCount = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/user/users/count");
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/user/users/count`);
         setUserCount(response.data.count);
       } catch (error) {
         console.error("Error fetching user count:", error);

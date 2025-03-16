@@ -19,7 +19,7 @@ const ViewAssignedTeacherCount = () => {
       }
 
       try {
-        const response = await axios.get(`http://localhost:5000/user/assigned-teacher-count?email=${email}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/user/assigned-teacher-count?email=${email}`);
         setCount(response.data.assignedTeacherCount);
       } catch (error) {
         console.error("Error fetching assigned teacher count:", error);

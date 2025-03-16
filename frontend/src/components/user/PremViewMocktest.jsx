@@ -12,7 +12,7 @@ const PremViewMocktest = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/course/teachers/subjects")
+      .get(`${import.meta.env.VITE_API_URL}/api/course/teachers/subjects`)
       .then((response) => {
         setSubjects(response.data);
         setLoading(false);

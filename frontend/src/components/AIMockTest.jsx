@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import './AIMockTest.css';
+import useAuth from '../../function/useAuth';
 
-const AIMockTest = () => {
+const   AIMockTest = () => {
+    useAuth();
     const [test, setTest] = useState(null);
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [selectedAnswers, setSelectedAnswers] = useState({});
@@ -20,7 +22,7 @@ const AIMockTest = () => {
     useEffect(() => {
         const fetchTest = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/quiz/ai-mocktest/${id}`);
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/quiz/ai-mocktest/${id}`);
                 console.log('Test data:', response.data);
                 
                 if (response.data.success && response.data.mockTest) {
@@ -98,7 +100,7 @@ const AIMockTest = () => {
         
         try {
             // Save test results with generatedBy field set to 'ai'
-            await axios.post('http://localhost:5000/quiz/saveAnswers', {
+            await axios.post(`${import.meta.env.VITE_API_URL}/quiz/saveAnswers`, {
                 email: userEmail,
                 mockTestId: test._id,
                 answers: Object.fromEntries(answersMap),

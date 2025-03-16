@@ -14,7 +14,7 @@ const WeakAreas = () => {
     useEffect(() => {
         const fetchAnalysis = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/quiz/performance-analysis/${userEmail}`);
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/quiz/performance-analysis/${userEmail}`);
                 console.log("Response data:", response.data);
                 setAnalysisData(response.data.analysis);
                 setLoading(false);

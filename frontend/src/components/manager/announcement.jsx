@@ -14,7 +14,7 @@ const AnnouncementsCom = () => {
 
   const fetchAnnouncements = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/announcement/get");
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/announcement/get`);
       setAnnouncements(response.data);
     } catch (error) {
       console.error("Error fetching announcements", error);
@@ -25,7 +25,7 @@ const AnnouncementsCom = () => {
     e.preventDefault();
     try {
       const userEmail = localStorage.getItem("userEmail"); // Get the email from local storage
-      await axios.post("http://localhost:5000/api/announcement/create", { title, content, createdBy: userEmail, targetAudience });
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/announcement/create`, { title, content, createdBy: userEmail, targetAudience });
       fetchAnnouncements();
       setTitle("");
       setContent("");
@@ -36,7 +36,7 @@ const AnnouncementsCom = () => {
 
   const deleteAnnouncement = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/announcement/delete/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/announcement/delete/${id}`);
       fetchAnnouncements(); // Refresh the announcements list after deletion
     } catch (error) {
       console.error("Error deleting announcement", error);

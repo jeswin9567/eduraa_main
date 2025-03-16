@@ -17,7 +17,7 @@ function UHead({ scrollToAbout, scrollToServices, scrollToContact }) {
 
     try {
       // Make an API call to get user details from the server
-      const response = await fetch(`http://localhost:5000/user/users/${email}`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/user/users/${email}`);
       const userData = await response.json();
 
       // Check if user has a valid subscription plan

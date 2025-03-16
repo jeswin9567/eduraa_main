@@ -37,7 +37,7 @@ const MUpdateEntrance = () => {
     useEffect(() => {
         const fetchEntranceDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/viewentr/${id}`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/viewentr/${id}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch entrance details');
                 }
@@ -197,7 +197,7 @@ const MUpdateEntrance = () => {
             return;
         }
         try {
-            const response = await fetch(`http://localhost:5000/upentr/${id}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/upentr/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

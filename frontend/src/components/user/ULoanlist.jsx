@@ -15,7 +15,7 @@ const ULoanList = ({ filters }) => {
                     interestRate: filters.interestRate,
                 }).toString();
 
-                const response = await fetch(`http://localhost:5000/viewln?${queryParams}`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/viewln?${queryParams}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch loans');
                 }

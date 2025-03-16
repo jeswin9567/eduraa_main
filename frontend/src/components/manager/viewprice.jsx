@@ -12,7 +12,7 @@ const PriceTable = () => {
   useEffect(() => {
     const fetchPrices = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/price/prices');
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/price/prices`);
         setPrices(response.data);
       } catch (error) {     
         console.error('Error fetching prices:', error);

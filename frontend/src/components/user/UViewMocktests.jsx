@@ -17,7 +17,7 @@ const UMockTestList = () => {
   useEffect(() => {
     const fetchMockTests = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/mocktest/viewmocktests/${examId}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/mocktest/viewmocktests/${examId}`);
         setMockTests(response.data);
       } catch (error) {
         setError('Error fetching mock tests');
@@ -27,7 +27,7 @@ const UMockTestList = () => {
 
     const fetchUserDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/user/user/${userEmail}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/user/user/${userEmail}`);
         setParticipateCount(response.data.participate);
         setIsPremium(response.data.premium);
       } catch (error) {

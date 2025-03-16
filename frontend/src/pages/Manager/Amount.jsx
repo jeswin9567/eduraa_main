@@ -3,7 +3,10 @@ import ManagerDashHead from "../../components/manager/mheads/mhomehead";
 import Managersidebrcom from "../../components/manager/sidebarmain/sidebarmain";
 import AddPaymentOption from "../../components/manager/addprice";
 import './Amount.css'
+import useAuth from "../../function/useAuth";
+
 const Amount = () => {
+    useAuth();
     return (
         <>
         <div>

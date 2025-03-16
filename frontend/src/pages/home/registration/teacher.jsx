@@ -4,8 +4,10 @@ import Swal from "sweetalert2";
 import { useNavigate } from 'react-router-dom';
 import './teacher.css';
 import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCalendar, FaBook, FaGraduationCap, FaFileAlt } from 'react-icons/fa';
+import useAuth from "../../../function/useAuth";
 
 const TeacherRegistration = () => {
+    useAuth();
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -186,7 +188,7 @@ case "declaration":
           formDataToSend.append(key, formData[key]);
         }
       });
-      axios.post("http://localhost:5000/api/teachers/register", formDataToSend)
+      axios.post(`${import.meta.env.VITE_API_URL}/api/teachers/register`, formDataToSend)
         .then((response) => {
           if (response.data.success) {
             Swal.fire({

@@ -10,8 +10,10 @@ import { FaUsers, FaChalkboardTeacher, FaBook, FaClipboardCheck,
          FaCalendarCheck, FaClock } from 'react-icons/fa';
 import './teacherdashboard.css';
 import axios from 'axios';
+import useAuth from "../../function/useAuth";
 
 const TeacherDash = () => {
+    useAuth();
     const [greeting, setGreeting] = useState('');
     const [currentTime, setCurrentTime] = useState(new Date());
     const [todaySchedule, setTodaySchedule] = useState([]);
@@ -33,7 +35,7 @@ const TeacherDash = () => {
             try {
                 const teacherEmail = localStorage.getItem('userEmail');
                 const response = await axios.get(
-                    `http://localhost:5000/api/liveclass/today-schedule/${teacherEmail}`
+                    `${import.meta.env.VITE_API_URL}/api/liveclass/today-schedule/${teacherEmail}`
                 );
                 setTodaySchedule(response.data.classes);
             } catch (error) {

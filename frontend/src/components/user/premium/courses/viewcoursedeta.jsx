@@ -15,7 +15,7 @@ const UserSubtopicsListCom = () => {
       try {
         setLoading(true);
         const response = await fetch(
-          `http://localhost:5000/api/course/student/course/${encodeURIComponent(topic)}`
+          `${import.meta.env.VITE_API_URL}/api/course/student/course/${encodeURIComponent(topic)}`
         );
 
         if (!response.ok) {

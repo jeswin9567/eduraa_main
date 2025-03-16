@@ -3,8 +3,10 @@ import TeacherDashHead from "../../components/teacher/heads/teacherhomehead";
 import Teachersidebrcom from "../../components/teacher/sidebar/teachersidebarcom";
 import UpdateSubtopicPage from "../../components/teacher/courses/updateCourse";
 import './updatecourspage.css'
+import useAuth from "../../function/useAuth";
 
 const UpdCoursePage = () => {
+    useAuth();
     return (
         <>
         <div>

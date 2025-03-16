@@ -8,7 +8,7 @@ const Performance = () => {
     useEffect(() => {
         const fetchPerformance = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/quiz/performance/${userEmail}`);
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/quiz/performance/${userEmail}`);
                 console.log('Performance data received:', response.data);
                 setPerformanceData(response.data);
             } catch (error) {

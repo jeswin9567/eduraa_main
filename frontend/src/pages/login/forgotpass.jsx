@@ -20,7 +20,7 @@ function ForgotPassword() {
   const handleSendOtp = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/forgetpass', { email });
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/forgetpass`, { email });
       Swal.fire({
         title: 'Success!',
         text: response.data.message,
@@ -41,7 +41,7 @@ function ForgotPassword() {
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/forgetpass/verify-otp', { email, otp });
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/forgetpass/verify-otp`, { email, otp });
       Swal.fire({
         title: 'Success!',
         text: response.data.message,
@@ -71,7 +71,7 @@ function ForgotPassword() {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/forgetpass/reset-password', { email, password: newPassword });
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/forgetpass/reset-password`, { email, password: newPassword });
       Swal.fire({
         title: 'Success!',
         text: response.data.message,

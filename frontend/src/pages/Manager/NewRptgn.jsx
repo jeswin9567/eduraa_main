@@ -10,9 +10,13 @@ import './NewRptgn.css';
 import { FaChartLine, FaUsers, FaGraduationCap } from 'react-icons/fa';
 import { LineChart, Line } from 'recharts';
 
+import useAuth from '../../../function/useAuth';
+
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
 
 function NewRptgn() {
+
+    useAuth();
     const [courseAnalytics, setCourseAnalytics] = useState(null);
     const [financialAnalytics, setFinancialAnalytics] = useState(null);
     const [teacherAnalytics, setTeacherAnalytics] = useState(null);
@@ -37,11 +41,11 @@ function NewRptgn() {
             try {
                 setIsLoading(true);
                 const [courseRes, financialRes, teacherRes, engagementRes, performanceRes] = await Promise.all([
-                    axios.get('http://localhost:5000/api/analytics/course-analytics'),
-                    axios.get('http://localhost:5000/api/analytics/financial-analytics'),
-                    axios.get('http://localhost:5000/api/analytics/teacher-analytics'),
-                    axios.get('http://localhost:5000/api/analytics/user-engagement'),
-                    axios.get('http://localhost:5000/api/analytics/performance-metrics')
+                    axios.get(`${import.meta.env.VITE_API_URL}/api/analytics/course-analytics`),
+                    axios.get(`${import.meta.env.VITE_API_URL}/api/analytics/financial-analytics`),
+                    axios.get(`${import.meta.env.VITE_API_URL}/api/analytics/teacher-analytics`),
+                    axios.get(`${import.meta.env.VITE_API_URL}/api/analytics/user-engagement`),
+                    axios.get(`${import.meta.env.VITE_API_URL}/api/analytics/performance-metrics`)
                 ]);
 
                 setCourseAnalytics(courseRes.data);

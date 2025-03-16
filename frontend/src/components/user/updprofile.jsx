@@ -36,7 +36,7 @@ function EditProfile() {
     const fetchUserProfile = async () => {
       const token = localStorage.getItem('token');
       try {
-        const response = await axios.get('http://localhost:5000/vuprofile', {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/vuprofile`, {
           headers: { Authorization: token }
         });
         setUser(response.data);
@@ -81,7 +81,7 @@ function EditProfile() {
     e.preventDefault();
     const token = localStorage.getItem('token');
     try {
-      await axios.put('http://localhost:5000/updateProfile', user, {
+      await axios.put(`${import.meta.env.VITE_API_URL}/updateProfile`, user, {
         headers: { Authorization: token }
       });
       Swal.fire({
@@ -131,7 +131,7 @@ function EditProfile() {
         if (newPassword === confirmPassword) {
           const token = localStorage.getItem('token');
           try {
-            await axios.put('http://localhost:5000/changePassword', { currentPassword, newPassword }, {
+            await axios.put(`${import.meta.env.VITE_API_URL}/changePassword`, { currentPassword, newPassword }, {
               headers: { Authorization: token }
             });
             Swal.fire('Success!', 'Your password has been updated.', 'success');

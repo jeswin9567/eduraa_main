@@ -22,7 +22,7 @@ const USearchEntrResults = () => {
   useEffect(() => {
     const fetchEntrances = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/searchentr?query=${encodeURIComponent(query)}`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/searchentr?query=${encodeURIComponent(query)}`);
         if (!response.ok) {
           throw new Error('Failed to fetch Entrances');
         }

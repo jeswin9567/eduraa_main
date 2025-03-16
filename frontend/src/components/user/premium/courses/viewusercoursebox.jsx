@@ -13,7 +13,7 @@ const UVClassCom = () => {
   useEffect(() => {
     const fetchClasses = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/course/student/course");
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/course/student/course`);
         if (!response.ok) {
           throw new Error("Failed to fetch classes");
         }

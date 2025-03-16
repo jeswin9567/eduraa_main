@@ -10,7 +10,7 @@ const PaymentOptionsModal = ({ closeModal, userId }) => {
   useEffect(() => {
     const fetchPaymentOptions = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/price/view/payment-options');
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/price/view/payment-options`);
         setPaymentOptions(response.data);
       } catch (error) {
         console.error('Error fetching payment options:', error);
@@ -33,7 +33,7 @@ const PaymentOptionsModal = ({ closeModal, userId }) => {
     try {
       const email = localStorage.getItem('userEmail');
   
-      const response = await axios.post('http://localhost:5000/payment/process', {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/payment/process`, {
         email,
         amount: option.amount,
         frequency: option.frequency,
@@ -53,7 +53,7 @@ const PaymentOptionsModal = ({ closeModal, userId }) => {
           console.log('Payment Response:', paymentResponse);
   
           try {
-            await axios.post('http://localhost:5000/payment/success', {
+            await axios.post(`${import.meta.env.VITE_API_URL}/payment/success`, {
               userId,
               email,
               amount: option.amount,

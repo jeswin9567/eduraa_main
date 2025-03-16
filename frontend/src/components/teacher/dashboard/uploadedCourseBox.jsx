@@ -17,7 +17,7 @@ const ClassCountBox = () => {
             }
 
             try {
-                const response = await fetch(`http://localhost:5000/api/course/classes/teacher-count?email=${teacherEmail}`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/course/classes/teacher-count?email=${teacherEmail}`);
                 const data = await response.json();
                 setClassCount(data.count);
             } catch (error) {

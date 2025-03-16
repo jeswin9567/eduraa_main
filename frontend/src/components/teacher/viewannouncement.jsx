@@ -17,7 +17,7 @@ const TeacherAnnouncementsCom = () => {
         console.error("No user email found in localStorage");
         return;
       }
-      const response = await axios.post("http://localhost:5000/api/announcement/check-role", { email: userEmail });
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/announcement/check-role`, { email: userEmail });
       if (response.data.role === "teacher") {
         setIsTeacher(true);
         fetchAnnouncements();
@@ -31,7 +31,7 @@ const TeacherAnnouncementsCom = () => {
 
   const fetchAnnouncements = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/announcement/get-teacher");
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/announcement/get-teacher`);
       setAnnouncements(response.data);
     } catch (error) {
       console.error("Error fetching announcements", error);

@@ -10,7 +10,7 @@ const ManagerDashRequestBox = () => {
   useEffect(() => {
     const fetchInactiveTeachers = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/viewteachers/inactive-teachers");
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/viewteachers/inactive-teachers`);
         const inactiveTeachers = response.data.filter((teacher) => !teacher.active);
         setInactiveTeachersCount(inactiveTeachers.length);
       } catch (error) {

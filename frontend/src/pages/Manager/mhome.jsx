@@ -31,7 +31,7 @@ function Mhome()
 
         const fetchDashboardStats = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/payment/dashboard-stats');
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/payment/dashboard-stats`);
                 setDashboardStats(response.data);
             } catch (error) {
                 console.error('Error fetching dashboard stats:', error);

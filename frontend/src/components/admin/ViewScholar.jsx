@@ -12,7 +12,7 @@ const VScholarshipDetails = () => {
 
     useEffect(() => {
         const fetchScholarshipDetails = async () => {
-            const response = await fetch(`http://localhost:5000/viewscho/${id}`);
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/viewscho/${id}`);
             if (!response.ok) {
                 alert('Failed to fetch scholarship details');
                 return;
@@ -29,7 +29,7 @@ const VScholarshipDetails = () => {
         if (!confirmDelete) return; // Cancel deletion if user chooses not to proceed
 
         try {
-            const response = await fetch(`http://localhost:5000/delscho/${id}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/delscho/${id}`, {
                 method: 'DELETE',
             });
 

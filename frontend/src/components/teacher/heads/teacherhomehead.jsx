@@ -16,7 +16,7 @@ const TeacherDashHead = () => {
             }
 
             try {
-                const response = await axios.get("http://localhost:5000/api/profile/teacher-profile", {
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/profile/teacher-profile`, {
                     headers: { Authorization: token },
                 });
                 setFirstName(response.data.firstname);

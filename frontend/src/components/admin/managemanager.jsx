@@ -9,7 +9,7 @@ const VManagerList = () => {
   useEffect(() => {
     const fetchManagers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/man/managers'); // Adjust the URL to match your backend endpoint
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/man/managers`); // Adjust the URL to match your backend endpoint
         setManagers(response.data);
       } catch (error) {
         console.error('Error fetching managers:', error);
@@ -21,7 +21,7 @@ const VManagerList = () => {
 
   const toggleStatus = async (managerId, currentStatus) => {
     try {
-      await axios.put(`http://localhost:5000/man/managers/toggleStatus/${managerId}`, { status: !currentStatus });
+      await axios.put(`${import.meta.env.VITE_API_URL}/man/managers/toggleStatus/${managerId}`, { status: !currentStatus });
       setManagers((prevManagers) =>
         prevManagers.map((manager) =>
           manager._id === managerId ? { ...manager, status: !currentStatus } : manager

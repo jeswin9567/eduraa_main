@@ -20,7 +20,7 @@ const TeacherRatingBox = () => {
         }
 
         const response = await axios.get(
-          `http://localhost:5000/api/viewteachers/teacher-rating/${teacherEmail}`
+          `${import.meta.env.VITE_API_URL}/api/viewteachers/teacher-rating/${teacherEmail}`
         );
         
         setRating(response.data.averageRating);

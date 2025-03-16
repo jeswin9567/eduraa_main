@@ -18,7 +18,7 @@ const ViewAIQuiz = () => {
     useEffect(() => {
         const fetchAIQuizzes = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/quiz/ai-quizzes/${userEmail}`);
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/quiz/ai-quizzes/${userEmail}`);
                 let filteredQuizzes = response.data.quizzes;
 
                 if (subject && title) {
@@ -41,7 +41,7 @@ const ViewAIQuiz = () => {
 
     const handleQuizClick = async (quiz) => {
         try {
-            const response = await axios.get(`http://localhost:5000/quiz/quiz-details/${quiz.mockTestId}`);
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/quiz/quiz-details/${quiz.mockTestId}`);
             const mockTest = response.data.mockTest;
             
             // Combine mock test questions with user's answers

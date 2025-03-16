@@ -22,7 +22,7 @@ const UQuizPage = () => {
   useEffect(() => {
     const fetchMockTest = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/mocktest/umocktest/${mockTestId}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/mocktest/umocktest/${mockTestId}`);
         setMockTest(response.data);
         
         // Get the start time from localStorage
@@ -79,7 +79,7 @@ const UQuizPage = () => {
     if (!userEmail) return;
 
     try {
-      const response = await axios.get(`http://localhost:5000/quiz/results/${mockTestId}`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/quiz/results/${mockTestId}`, {
         params: { email: userEmail }, // Send email as a query parameter
       });
       if (response.data) {
@@ -128,7 +128,7 @@ const UQuizPage = () => {
 
     try {
         // Only increment the attempts counter without changing other data
-        const response = await axios.put(`http://localhost:5000/quiz/incrementAttempts/${mockTestId}`, {
+        const response = await axios.put(`${import.meta.env.VITE_API_URL}/quiz/incrementAttempts/${mockTestId}`, {
             email: userEmail
         });
 
@@ -204,7 +204,7 @@ const UQuizPage = () => {
   // Function to increment participate count
   const incrementParticipateCount = async () => {
     try {
-      await axios.post('http://localhost:5000/user/user/incrementParticipate', {
+      await axios.post(`${import.meta.env.VITE_API_URL}/user/user/incrementParticipate`, {
         email: userEmail,
       });
       console.log('Participate count incremented successfully');
@@ -216,7 +216,7 @@ const UQuizPage = () => {
   // Add this function to check if it's a retry
   const checkIfRetry = async () => {
     try {
-        const response = await axios.get(`http://localhost:5000/quiz/results/${mockTestId}`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/quiz/results/${mockTestId}`, {
             params: { email: userEmail }
         });
         return response.data && response.data.attempts > 1;
@@ -256,7 +256,7 @@ const UQuizPage = () => {
     try {
         // Update the quiz without incrementing attempts
         const response = await axios.put(
-            `http://localhost:5000/quiz/updateQuizAttempt/${mockTestId}`, 
+            `${import.meta.env.VITE_API_URL}/quiz/updateQuizAttempt/${mockTestId}`, 
             answersToSave
         );
         console.log('Save response:', response.data);
@@ -279,7 +279,7 @@ const UQuizPage = () => {
     });
   
     try {
-      await axios.post('http://localhost:5000/feed/feedback', {
+      await axios.post(`${import.meta.env.VITE_API_URL}/feed/feedback`, {
         email: userEmail,
         mockTestId,
         feedback,
@@ -338,7 +338,7 @@ const UQuizPage = () => {
 
         console.log('Submitting quiz data:', quizData); // Debug log
 
-        const response = await axios.post('http://localhost:5000/quiz/saveAnswers', quizData);
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/quiz/saveAnswers`, quizData);
         console.log('Quiz submission response:', response.data);
 
         setSubmitted(true);

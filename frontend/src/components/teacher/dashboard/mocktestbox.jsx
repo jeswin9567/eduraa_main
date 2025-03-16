@@ -9,7 +9,7 @@ const MockTestStatusBox = () => {
     useEffect(() => {
         const fetchMockTestStatus = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/mocktest/mocktest-status?email=${email}`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/mocktest/mocktest-status?email=${email}`);
                 const data = await response.json();
                 setStatus({ active: data.activeMockTests, nonActive: data.nonActiveMockTests });
             } catch (error) {

@@ -110,7 +110,7 @@ function SignUp() {
       return;
     }
 
-    axios.post('http://localhost:5000/sign', { name, email, phone, password, confirmPassword })
+    axios.post(`${import.meta.env.VITE_API_URL}/sign`, { name, email, phone, password, confirmPassword })
       .then(result => {
         Swal.fire({
           title: "Success!",
@@ -161,7 +161,7 @@ function SignUp() {
   };
 
   const handleOtpSubmit = (otp) => {
-    axios.post('http://localhost:5000/sign/verify-otp', { email, otp })
+    axios.post(`${import.meta.env.VITE_API_URL}/sign/verify-otp`, { email, otp })
       .then(result => {
         Swal.fire("Success!", "Your account has been created successfully.", "success");
         navigate('/login');

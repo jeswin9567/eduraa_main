@@ -23,7 +23,7 @@ const LiveClassesBox = () => {
         }
 
         const response = await axios.get(
-          `http://localhost:5000/api/liveclass/next-live-class/${teacherEmail}`
+          `${import.meta.env.VITE_API_URL}/api/liveclass/next-live-class/${teacherEmail}`
         );
         
         if (response.data.message) {
@@ -44,7 +44,7 @@ const LiveClassesBox = () => {
 
   const remindStudents = async () => {
     try {
-      await axios.post(`http://localhost:5000/api/liveclass/remind/${liveClass._id}`);
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/liveclass/remind/${liveClass._id}`);
       alert("Reminder email sent to students!");
     } catch (err) {
       setError("Could not send reminder email.");
@@ -55,7 +55,7 @@ const LiveClassesBox = () => {
 
   const startLiveClass = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/liveclass/start/${liveClass._id}`);
+      await axios.put(`${import.meta.env.VITE_API_URL}/api/liveclass/start/${liveClass._id}`);
       navigate(`/teacher/video-call/${liveClass._id}`);
     } catch (err) {
       setError("Could not start the live class.");

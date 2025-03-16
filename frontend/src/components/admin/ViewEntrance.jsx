@@ -13,7 +13,7 @@ const VEntranceDetails = () => {
     useEffect(() => {
         const fetchEntranceDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/viewentr/${id}`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/viewentr/${id}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch entrance details');
                 }
@@ -29,7 +29,7 @@ const VEntranceDetails = () => {
     }, [id]);
 
     const handleDelete = async () => {
-        const response = await fetch(`http://localhost:5000/delentr/${id}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/delentr/${id}`, {
             method: 'DELETE',
         });
 

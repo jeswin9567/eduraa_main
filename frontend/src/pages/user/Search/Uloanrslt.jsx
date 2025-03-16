@@ -22,7 +22,7 @@ const USearchLnResults = () => {
   useEffect(() => {
     const fetchLoans = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/searchln?query=${encodeURIComponent(query)}`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/searchln?query=${encodeURIComponent(query)}`);
         if (!response.ok) {
           throw new Error('Failed to fetch Loans');
         }

@@ -14,7 +14,7 @@ const UEntranceList = ({ filters }) => {
                     state: filters.state.join(','),
                     degrees: filters.degrees.join(','),
                 }).toString();
-                const response = await fetch(`http://localhost:5000/viewentr?${queryParams}`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/viewentr?${queryParams}`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }

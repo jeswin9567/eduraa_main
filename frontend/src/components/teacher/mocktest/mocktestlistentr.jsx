@@ -15,7 +15,7 @@ const TeacherMockEntranceExamListCom = () => {
     const fetchEntranceExams = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:5000/viewentr/teacher-assigned-entrances',
+          `${import.meta.env.VITE_API_URL}/viewentr/teacher-assigned-entrances`,
           {
             headers: {
               email: teacherEmail

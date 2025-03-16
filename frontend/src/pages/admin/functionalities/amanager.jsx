@@ -93,7 +93,7 @@ function AManager() {
     }
   
     try {
-      const response = await axios.post('http://localhost:5000/man', { name, email, password, confirmPass });
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/man`, { name, email, password, confirmPass });
   
       Swal.fire("Manager added successfully", "", "success");
       navigate('/adhome');

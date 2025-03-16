@@ -12,7 +12,7 @@ const ViewReqTeacherDetails = () => {
   useEffect(() => {
     // Fetch teacher details by ID
     axios
-      .get(`http://localhost:5000/api/viewteachers/viewteacherdet/${id}`)
+      .get(`${import.meta.env.VITE_API_URL}/api/viewteachers/viewteacherdet/${id}`)
       .then((response) => setTeacher(response.data))
       .catch((error) => console.error("Error fetching teacher details:", error));
   }, [id]);
@@ -24,7 +24,7 @@ const ViewReqTeacherDetails = () => {
     }
   
     axios
-      .patch(`http://localhost:5000/api/viewteachers/teacheraccept/${id}`, {
+      .patch(`${import.meta.env.VITE_API_URL}/api/viewteachers/teacheraccept/${id}`, {
         active: true,
         subjectassigned: subject,
       })
@@ -41,7 +41,7 @@ const ViewReqTeacherDetails = () => {
 
   const handleDelete = () => {
     axios
-      .delete(`http://localhost:5000/api/viewteachers/teacherreject/${id}`)
+      .delete(`${import.meta.env.VITE_API_URL}/api/viewteachers/teacherreject/${id}`)
       .then(() => {
         alert("Teacher deleted!");
         navigate("/teachers");

@@ -209,7 +209,7 @@ const MEntranceForm = () => {
     setLoading(true);
     
     try {
-      const response = await axios.post('http://localhost:5000/entrnc', formData);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/entrnc`, formData);
       console.log(response.data);
       alert('Entrance details entered successfully');
       setFormData({

@@ -22,7 +22,7 @@ const USearchSchoResults = () => {
   useEffect(() => {
     const fetchScholarships = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/search?query=${encodeURIComponent(query)}`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/search?query=${encodeURIComponent(query)}`);
         if (!response.ok) {
           throw new Error('Failed to fetch scholarships');
         }

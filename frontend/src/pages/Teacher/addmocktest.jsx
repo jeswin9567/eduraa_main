@@ -3,8 +3,10 @@ import TeacherDashHead from "../../components/teacher/heads/teacherhomehead";
 import Teachersidebrcom from "../../components/teacher/sidebar/teachersidebarcom";
 import TeacherMocktest from "../../components/teacher/mocktest/addmocktest";
 import './addmocktestteach.css'
+import useAuth from "../../function/useAuth";
 
 const TeacherAddMock = () => {
+    useAuth();
     return (
         <>
         <div>

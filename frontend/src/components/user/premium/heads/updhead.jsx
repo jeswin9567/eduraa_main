@@ -35,7 +35,7 @@ const UserPremDHead = () => {
 
     useEffect(() => {
         if (userEmail) {
-            axios.get(`http://localhost:5000/user/user-details?email=${userEmail}`)
+            axios.get(`${import.meta.env.VITE_API_URL}/user/user-details?email=${userEmail}`)
                 .then(response => {
                     setUserName(response.data.name);
                 })
@@ -59,7 +59,7 @@ const UserPremDHead = () => {
         setIsSearching(true);
 
         try {
-            const response = await axios.get(`http://localhost:5000/api/search/search`, {
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/search/search`, {
                 params: {
                     query: searchQuery,
                     userEmail: userEmail

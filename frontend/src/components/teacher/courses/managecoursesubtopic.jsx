@@ -24,7 +24,7 @@ const SubtopicsPageCom = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:5000/api/course/subtopics?email=${email}&topic=${encodeURIComponent(topic)}`
+          `${import.meta.env.VITE_API_URL}/api/course/subtopics?email=${email}&topic=${encodeURIComponent(topic)}`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch subtopics");
@@ -45,7 +45,7 @@ const SubtopicsPageCom = () => {
     const newStatus = !currentStatus;
 
     try {
-      const response = await fetch(`http://localhost:5000/api/course/toggle-subtopic/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/course/toggle-subtopic/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -74,7 +74,7 @@ const SubtopicsPageCom = () => {
   const handleViewFeedbacks = async (classId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/course/feedback/${classId}`
+        `${import.meta.env.VITE_API_URL}/api/course/feedback/${classId}`
       );
       
       if (!response.ok) {
@@ -92,7 +92,7 @@ const SubtopicsPageCom = () => {
   const handleViewedClick = async (classId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/course/viewed-students/${classId}`
+        `${import.meta.env.VITE_API_URL}/api/course/viewed-students/${classId}`
       );
       
       if (!response.ok) {

@@ -15,7 +15,7 @@ const ViewStepsPage = () => {
   useEffect(() => {
     const fetchViewStepsData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/viewans/quiz/viewSteps/${mockTestId}`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/viewans/quiz/viewSteps/${mockTestId}`, {
           params: { email: userEmail },
         });
         setViewStepsData(response.data);

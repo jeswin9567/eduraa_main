@@ -30,7 +30,7 @@ const AddFieldCourses = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/api/entrancefield/addfield", {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/entrancefield/addfield`, {
         field: selectedField,
         courses: selectedCourses,
       });

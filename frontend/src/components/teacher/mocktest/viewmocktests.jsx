@@ -15,7 +15,7 @@ const TeachMockTestList = () => {
   useEffect(() => {
     const fetchMockTests = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/mocktest/teacherviewmocktests/${examId}`,
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/mocktest/teacherviewmocktests/${examId}`,
             {
                 headers: {email}, // passemail
             }
@@ -34,7 +34,7 @@ const TeachMockTestList = () => {
   // Handle delete mock test
   const handleDelete = async (mockTestId) => {
     try {
-      await axios.delete(`http://localhost:5000/mocktest/mockTest/deactivate/${mockTestId}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/mocktest/mockTest/deactivate/${mockTestId}`);
       // Filter out the deleted mock test from the list
       setMockTests(mockTests.filter((mockTest) => mockTest._id !== mockTestId));
     } catch (error) {

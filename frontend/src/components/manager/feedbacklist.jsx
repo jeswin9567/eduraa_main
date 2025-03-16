@@ -10,7 +10,7 @@ const FeedbackList = () => {
   useEffect(() => {
     const fetchFeedback = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/feed/vfeedback');
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/feed/vfeedback`);
         setFeedbackList(response.data);
         setLoading(false);
       } catch (error) {

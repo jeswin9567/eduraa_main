@@ -25,7 +25,7 @@ const UploadClass = () => {
     const fetchTopics = async () => {
       try {
         const teacherEmail = localStorage.getItem("userEmail");
-        const response = await fetch(`http://localhost:5000/api/course/topics?teacherEmail=${teacherEmail}`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/course/topics?teacherEmail=${teacherEmail}`);
         const data = await response.json();
         setTopics(data);
       } catch (error) {
@@ -106,7 +106,7 @@ const UploadClass = () => {
     formData.append("teacherEmail", teacherEmail);
 
     try {
-      const response = await fetch("http://localhost:5000/api/course/upload-class", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/course/upload-class`, {
         method: "POST",
         body: formData,
       });

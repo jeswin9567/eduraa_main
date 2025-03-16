@@ -4,8 +4,12 @@ import ManHomHeader from "../../components/manager/mheads/mhomehead";
 import Managersidebrcom from "../../components/manager/sidebarmain/sidebarmain";
 import { FaUserGraduate, FaEnvelope, FaPhone, FaClock, FaGraduationCap, FaStar } from 'react-icons/fa';
 import './StudentDetails.css';
+import useAuth from '../../../function/useAuth';
 
 const StudentDetails = () => {
+
+    useAuth();
+
     const [students, setStudents] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -15,7 +19,7 @@ const StudentDetails = () => {
 
     const fetchStudents = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/user/users');
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/user/users`);
             setStudents(response.data);
             setLoading(false);
         } catch (error) {

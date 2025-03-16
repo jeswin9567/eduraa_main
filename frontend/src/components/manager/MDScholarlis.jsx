@@ -8,7 +8,7 @@ const MDScholarshipList = () => {
     useEffect(() => {
         const fetchScholarshipDetails = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/viewscho/managerdelscho'); // Correct URL
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/viewscho/managerdelscho`); // Correct URL
                 setScholarships(response.data);
             } catch (error) {
                 console.error("Error fetching scholarships:", error);
@@ -21,7 +21,7 @@ const MDScholarshipList = () => {
     // Handle enabling the scholarship (change status to true)
     const handleEnable = async (id) => {
         try {
-            await axios.put(`http://localhost:5000/delscho/managerescho/${id}`, { status: true });  // Correct URL
+            await axios.put(`${import.meta.env.VITE_API_URL}/delscho/managerescho/${id}`, { status: true });  // Correct URL
             setScholarships(scholarships.map(scholarship =>
                 scholarship._id === id ? { ...scholarship, status: true } : scholarship
             ));

@@ -3,8 +3,10 @@ import TeacherDashHead from "../../components/teacher/heads/teacherhomehead";
 import Teachersidebrcom from "../../components/teacher/sidebar/teachersidebarcom";
 import TeacherAnnouncementsCom from "../../components/teacher/viewannouncement";
 import './uploadedClasseslistsTopic.css'
+import useAuth from "../../function/useAuth";
 
 const ViewTeachAnnouncement = () => {
+    useAuth();
     return (
         <>
         <div>

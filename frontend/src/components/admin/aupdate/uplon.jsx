@@ -43,7 +43,7 @@ const UpdateLoan = () => {
     useEffect(() => {
         const fetchLoanDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/viewln/${id}`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/viewln/${id}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch loan details');
                 }
@@ -84,7 +84,7 @@ const UpdateLoan = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`http://localhost:5000/upln/${id}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/upln/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

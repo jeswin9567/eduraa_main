@@ -12,7 +12,7 @@ const UMockEntranceExamList = () => {
   useEffect(() => {
     const fetchEntranceExams = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/viewentr'); // Adjust URL to your API endpoint
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/viewentr`); // Adjust URL to your API endpoint
         setEntranceExams(response.data);
       } catch (error) {
         setError('Error fetching entrance exams');

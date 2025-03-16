@@ -22,7 +22,7 @@ const ScheduleLiveClassCom = () => {
       const email = localStorage.getItem("userEmail"); // Fetch email from localStorage
       if (email) {
         try {
-          const response = await axios.get(`http://localhost:5000/api/liveclass/teacher/${email}`);
+          const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/liveclass/teacher/${email}`);
           const { firstname, lastname } = response.data;
           setFormData((prev) => ({
             ...prev,
@@ -109,7 +109,7 @@ const ScheduleLiveClassCom = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/api/liveclass/schedule-live-class", {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/liveclass/schedule-live-class`, {
         ...formData,
         teacherEmail: email,
       });

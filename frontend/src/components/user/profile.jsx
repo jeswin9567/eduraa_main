@@ -17,14 +17,14 @@ function Profile() {
     const fetchUserProfile = async () => {
       const token = localStorage.getItem('token');
       try {
-        const response = await axios.get('http://localhost:5000/vuprofile', {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/vuprofile`, {
           headers: { Authorization: token },
         });
         setUser(response.data);
 
         // If user has premium, fetch the expiration date
         if (response.data.premium) {
-          const paymentResponse = await axios.get('http://localhost:5000/vuprofile/payment/latest', {
+          const paymentResponse = await axios.get(`${import.meta.env.VITE_API_URL}/vuprofile/payment/latest`, {
             headers: { Authorization: token },
           });
           setExpirationDate(paymentResponse.data.expirationDate);
@@ -49,7 +49,7 @@ function Profile() {
   const cancelPremium = async () => {
     const token = localStorage.getItem('token');
     try {
-      await axios.post('http://localhost:5000/vuprofile/payment/cancel', {}, {
+      await axios.post(`${import.meta.env.VITE_API_URL}/vuprofile/payment/cancel`, {}, {
         headers: { Authorization: token },
       });
       Swal.fire({

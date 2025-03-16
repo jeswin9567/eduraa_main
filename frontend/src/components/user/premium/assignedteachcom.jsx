@@ -23,7 +23,7 @@ const StudentAssignedTeachersCom = () => {
         }
 
         const response = await axios.get(
-          `http://localhost:5000/api/viewassign/assigned-teachers?email=${userEmail}`
+          `${import.meta.env.VITE_API_URL}/api/viewassign/assigned-teachers?email=${userEmail}`
         );
 
         setTeachers(response.data.assignedTeacher);
@@ -42,7 +42,7 @@ const StudentAssignedTeachersCom = () => {
     try {
       const userEmail = localStorage.getItem("userEmail");
       const response = await axios.post(
-        `http://localhost:5000/api/viewassign/teacher-feedback/${selectedTeacherId}`,
+        `${import.meta.env.VITE_API_URL}/api/viewassign/teacher-feedback/${selectedTeacherId}`,
         {
           studentEmail: userEmail,
           feedback,

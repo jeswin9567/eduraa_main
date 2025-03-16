@@ -16,7 +16,7 @@ const EditPriceForm = () => {
         }
         const fetchPriceData = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/price/vprices/${id}`);
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/price/vprices/${id}`);
                 setPriceData(response.data);
             } catch (error) {
                 console.error('Error fetching price details:', error);
@@ -51,7 +51,7 @@ const EditPriceForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:5000/price/prices/${id}`, priceData);
+            await axios.put(`${import.meta.env.VITE_API_URL}/price/prices/${id}`, priceData);
             Swal.fire({
                 icon: 'success',
                 title: 'Success',

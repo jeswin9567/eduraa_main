@@ -13,7 +13,7 @@ const MockTestList = () => {
   useEffect(() => {
     const fetchMockTests = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/mocktest/viewmocktests/${examId}`); // Adjust URL to your API endpoint
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/mocktest/viewmocktests/${examId}`); // Adjust URL to your API endpoint
         setMockTests(response.data);
       } catch (error) {
         setError('Error fetching mock tests');
@@ -26,7 +26,7 @@ const MockTestList = () => {
   // Handle delete mock test
   const handleDelete = async (mockTestId) => {
     try {
-      await axios.delete(`http://localhost:5000/mocktest/mockTest/deactivate/${mockTestId}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/mocktest/mockTest/deactivate/${mockTestId}`);
       // Filter out the deleted mock test from the list
       setMockTests(mockTests.filter((mockTest) => mockTest._id !== mockTestId));
     } catch (error) {

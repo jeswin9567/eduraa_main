@@ -5,7 +5,12 @@ import './RevenueDetails.css';
 import ManHomHeader from "../../components/manager/mheads/mhomehead";
 import Managersidebrcom from "../../components/manager/sidebarmain/sidebarmain";
 
+import useAuth from '../../../function/useAuth';
+
 function RevenueDetails() {
+
+    useAuth();
+
     const [revenueData, setRevenueData] = useState({
         currentMonth: {
             revenue: 0,
@@ -27,7 +32,7 @@ function RevenueDetails() {
 
     const fetchRevenueDetails = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/payment/revenue-details');
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/payment/revenue-details`);
             setRevenueData(response.data);
             setLoading(false);
         } catch (error) {

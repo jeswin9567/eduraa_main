@@ -19,7 +19,7 @@ const UserViewScheduledClassesCom = () => {
     }
   
     axios
-      .get(`http://localhost:5000/api/liveclass/user/scheduled-classes?email=${userEmail}`)
+      .get(`${import.meta.env.VITE_API_URL}/api/liveclass/user/scheduled-classes?email=${userEmail}`)
       .then((response) => {
         if (response.data.message === "No scheduled classes available") {
           setClasses([]);

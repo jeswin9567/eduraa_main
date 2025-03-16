@@ -15,7 +15,7 @@ const StudentProgress = () => {
     const fetchStudentProgress = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/viewassign/student-progress/${studentEmail}`,
+          `${import.meta.env.VITE_API_URL}/api/viewassign/student-progress/${studentEmail}`,
           {
             params: { teacherEmail }
           }

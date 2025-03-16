@@ -8,7 +8,7 @@ const MDLoanList = () => {
     useEffect(() => {
         const fetchLoanDetails = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/viewln/managerdellaon'); // This should fetch loans with status false
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/viewln/managerdellaon`); // This should fetch loans with status false
 
                 setLoans(response.data);
             } catch (error) {
@@ -22,7 +22,7 @@ const MDLoanList = () => {
     // Handle enabling the loan (change status to true)
     const handleEnable = async (id) => {
         try {
-            await axios.put(`http://localhost:5000/delln/managerloan/${id}`, { status: true });  // Adjust the endpoint
+            await axios.put(`${import.meta.env.VITE_API_URL}/delln/managerloan/${id}`, { status: true });  // Adjust the endpoint
             setLoans(loans.map(loan =>
                 loan._id === id ? { ...loan, status: true } : loan
             ));

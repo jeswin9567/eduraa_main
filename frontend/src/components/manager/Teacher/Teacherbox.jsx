@@ -10,7 +10,7 @@ const ActiveTeacherBox = () => {
   useEffect(() => {
     const fetchActiveTeachers = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/viewteachers/active-teachers");
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/viewteachers/active-teachers`);
         const activeTeachers = response.data.filter((teacher) => teacher.active);
         setActiveTeachersCount(activeTeachers.length);
       } catch (error) {

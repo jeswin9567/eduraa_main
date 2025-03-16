@@ -20,7 +20,7 @@ const TeacherAssignedStudentsCom = () => {
         }
 
         const response = await axios.get(
-          `http://localhost:5000/api/viewassign/assigned-students?email=${userEmail}`
+          `${import.meta.env.VITE_API_URL}/api/viewassign/assigned-students?email=${userEmail}`
         );
 
         setStudents(response.data.assignedStudents);

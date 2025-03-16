@@ -14,7 +14,7 @@ const MVLoanDetails = () => {
     useEffect(() => {
         const fetchLoanDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/viewln/${id}`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/viewln/${id}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch loan details');
                 }
@@ -33,7 +33,7 @@ const MVLoanDetails = () => {
         if (!confirmDelete) return; // Cancel deletion if user chooses not to proceed
 
         try {
-            const response = await fetch(`http://localhost:5000/delln/${id}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/delln/${id}`, {
                 method: 'DELETE',
             });
 

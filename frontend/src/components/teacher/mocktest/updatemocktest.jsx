@@ -16,7 +16,7 @@ const TeacherMockTestUpdateCom = () => {
   useEffect(() => {
     const fetchMockTest = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/mocktest/mockTest/${mockTestId}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/mocktest/mockTest/${mockTestId}`);
         setMockTest(response.data);
         setLoading(false);
       } catch (error) {
@@ -168,7 +168,7 @@ const TeacherMockTestUpdateCom = () => {
       });
 
       const response = await axios.put(
-        `http://localhost:5000/mocktest/teachupdmockTest/${mockTestId}`,
+        `${import.meta.env.VITE_API_URL}/mocktest/teachupdmockTest/${mockTestId}`,
         formData,
         {
           headers: {

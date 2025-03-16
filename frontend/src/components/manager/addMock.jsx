@@ -33,7 +33,7 @@ const ManMockTestForm = () => {
   useEffect(() => {
     const fetchEntranceExams = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/viewentr'); // Adjust URL to your API endpoint
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/viewentr`); // Adjust URL to your API endpoint
         setEntranceExams(response.data);
       } catch (error) {
         console.error('Error fetching entrance exams:', error);
@@ -153,7 +153,7 @@ const ManMockTestForm = () => {
     };
   
     try {
-      const response = await axios.post('http://localhost:5000/mocktest/addMockTest', mockTest);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/mocktest/addMockTest`, mockTest);
       setMessage('Mock test created successfully!');
       setError('');
   

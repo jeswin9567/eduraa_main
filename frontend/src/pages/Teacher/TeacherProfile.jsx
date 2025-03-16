@@ -3,8 +3,10 @@ import TeacherDashHead from "../../components/teacher/heads/teacherhomehead";
 import Teachersidebrcom from "../../components/teacher/sidebar/teachersidebarcom";
 import ViewTeachProf from "../../components/teacher/ViewProfile";
 import './TeacherProfile.css'
+import useAuth from "../../function/useAuth";
 
 const TeacherProfile = () => {
+    useAuth();
     return (
         <>
         <div>

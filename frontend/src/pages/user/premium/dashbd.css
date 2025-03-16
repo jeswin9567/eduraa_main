@@ -91,8 +91,8 @@
     height: 120px;
     border-radius: 50%;
     background: conic-gradient(
-        #3498db ${props => props.progress}%, 
-        #ecf0f1 ${props => props.progress}%
+        #3498db var(--progress, 0%), 
+        #ecf0f1 var(--progress, 0%)
     );
     display: flex;
     align-items: center;

@@ -12,7 +12,7 @@ const UVScholarshipDetails = () => {
 
     useEffect(() => {
         const fetchScholarshipDetails = async () => {
-            const response = await fetch(`http://localhost:5000/viewscho/${id}`);
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/viewscho/${id}`);
             const data = await response.json();
             setScholarship(data);
         };

@@ -20,7 +20,7 @@ const UpdateFieldCourses = () => {
   // Fetch available fields from the backend
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/entrancefield/getfields") // Endpoint to fetch fields
+      .get(`${import.meta.env.VITE_API_URL}/api/entrancefield/getfields`) // Endpoint to fetch fields
       .then((response) => setFields(response.data))
       .catch((error) => console.error("Error fetching fields:", error));
   }, []);
@@ -29,7 +29,7 @@ const UpdateFieldCourses = () => {
   useEffect(() => {
     if (selectedField) {
       axios
-        .get(`http://localhost:5000/api/entrancefield/getfield/${selectedField}`)
+        .get(`${import.meta.env.VITE_API_URL}/api/entrancefield/getfield/${selectedField}`)
         .then((response) => {
           setExistingCourses(response.data.courses);
           setSelectedCourses(response.data.courses);
@@ -46,7 +46,7 @@ const UpdateFieldCourses = () => {
     }
 
     try {
-      const response = await axios.put(`http://localhost:5000/api/entrancefield/updatefield/${selectedField}`, {
+      const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/entrancefield/updatefield/${selectedField}`, {
         courses: selectedCourses,
       });
       alert(response.data.message);

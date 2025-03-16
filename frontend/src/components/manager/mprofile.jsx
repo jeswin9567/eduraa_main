@@ -15,7 +15,7 @@ function MProfile () {
         const fetchManagerProfile = async () => {
             const token = localStorage.getItem('token');
             try{
-                const response = await axios.get('http://localhost:5000/manprof', {
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/manprof`, {
                     headers: { Authorization: token}
 
         });
@@ -70,7 +70,7 @@ const handleChangePassword = async() => {
         if(newPassword === confirmPassword){
             const token = localStorage.getItem('token');
             try {
-                await axios.put('http://localhost:5000/manchangepass', { currentPassword, newPassword }, {
+                await axios.put(`${import.meta.env.VITE_API_URL}/manchangepass`, { currentPassword, newPassword }, {
                     headers: { Authorization: token }
                   });
                   Swal.fire('Success!', 'Your password has been updated.', 'success');

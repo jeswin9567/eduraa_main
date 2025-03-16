@@ -5,8 +5,12 @@ import Managersidebrcom from "../../components/manager/sidebarmain/sidebarmain";
 import { FaUsers, FaBook, FaCheckCircle, FaComments, FaEye, FaVideo } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import './CourseDetails.css';
+import useAuth from '../../../function/useAuth';
 
 function CourseDetails() {
+
+    useAuth();
+
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [stats, setStats] = useState({
@@ -24,7 +28,7 @@ function CourseDetails() {
 
     const fetchCourses = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/course/active');
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/course/active`);
             setCourses(response.data);
             
             // Calculate statistics
@@ -49,7 +53,7 @@ function CourseDetails() {
     const fetchFeedbacks = async (courseId) => {
         setFeedbackLoading(true);
         try {
-            const response = await axios.get(`http://localhost:5000/api/course/feedback/${courseId}`);
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/course/feedback/${courseId}`);
             setFeedbacks(response.data);
         } catch (error) {
             console.error('Error fetching feedbacks:', error);
