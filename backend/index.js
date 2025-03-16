@@ -1,3 +1,4 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require('express');
 const cors = require('cors');
@@ -8,7 +9,7 @@ const server = http.createServer(app);
 const { PeerServer } = require('peer');
 const io = require('socket.io')(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: process.env.FRONTEND_URL,
     methods: ["GET", "POST"],
     credentials: true
   }
@@ -74,27 +75,27 @@ const seachRoutes = require('./routes/searchRoutes');
 const analyticsRoutes = require('./routes/analytics');
 // CORS configuration
 app.use(cors({
-    origin: 'http://localhost:5173', // Your frontend URL
+    origin: process.env.FRONTEND_URL,
     credentials: true
 }));
 
 // Middleware
 app.use(express.json());
 app.use(session({
-  secret: 'hgghdftdg@123',  // A secret key to sign the session ID
-  resave: false,              // Prevents resaving session if it hasn't been modified
-  saveUninitialized: true,    // Save uninitialized sessions (new but not modified)
-  cookie: { secure: false }   // Set to true if using HTTPS
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
 }));
 
 // Connect to MongoDB
 const connectDB = async () => {
   try {
-    await mongoose.connect('mongodb+srv://jeswinmathew2025:UyHHB610kn6p7Xsh@eduraa.hztx3.mongodb.net/?retryWrites=true&w=majority&appName=Eduraa');
+    await mongoose.connect(process.env.MONGODB_URI);
     console.log('MongoDB connected');
   } catch (error) {
     console.error('MongoDB connection error:', error);
-    process.exit(1); // Exit the process with a failure code
+    process.exit(1);
   }
 };
 
@@ -156,7 +157,7 @@ app.use((err, req, res, next) => {
 
 // Create PeerJS server
 const peerServer = PeerServer({
-  port: 3001,
+  port: process.env.PEER_PORT,
   path: '/',
   allow_discovery: true
 });
@@ -192,5 +193,5 @@ io.on('connection', socket => {
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-  console.log(`PeerJS server running on port 3001`);
+  console.log(`PeerJS server running on port ${process.env.PEER_PORT}`);
 });
