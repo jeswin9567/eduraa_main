@@ -9,7 +9,7 @@ const server = http.createServer(app);
 const { PeerServer } = require('peer');
 const io = require('socket.io')(server, {
   cors: {
-    origin: 'https://eduraatest.netlify.app',  // Update this too
+    origin: '*',  // We'll make this more restrictive once frontend is deployed
     methods: ["GET", "POST"],
     credentials: true
   }
@@ -73,11 +73,11 @@ const TeacherCalendarRoute = require('./routes/reminders');
 const aiChatRouter = require('./routes/aiChat');
 const seachRoutes = require('./routes/searchRoutes');
 const analyticsRoutes = require('./routes/analytics');
-
-const allowedOrigins = [
-    'https://eduraatest.netlify.app',
-    'http://localhost:5173'  // Your local development URL
-];
+// CORS configuration
+app.use(cors({
+    origin: '*',  // We'll make this more restrictive once frontend is deployed
+    credentials: true
+}));
 
 // Middleware
 app.use(express.json());
