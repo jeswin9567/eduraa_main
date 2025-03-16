@@ -1,0 +1,371 @@
+html {
+  scroll-behavior: smooth;
+}
+
+.newrgag-teacher-careers {
+  max-width: 100%;
+  overflow-x: hidden;
+  font-family: 'Poppins', sans-serif;
+  will-change: transform;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* For Safari and iOS support, add these styles */
+@supports (-webkit-overflow-scrolling: touch) {
+  html {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+.newrgag-hero-section {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
+              url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  position: relative;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+.newrgag-hero-content {
+  max-width: 800px;
+  padding: 20px;
+  z-index: 2;
+}
+
+.newrgag-hero-section h1 {
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  animation: fadeInUp 1s ease;
+}
+
+.newrgag-hero-section p {
+  font-size: 1.8rem;
+  opacity: 0.9;
+  margin-bottom: 30px;
+  animation: fadeInUp 1s ease 0.2s;
+}
+
+.newrgag-hero-button {
+  display: inline-block;
+  padding: 18px 40px;
+  background: #4CAF50;
+  color: white;
+  text-decoration: none;
+  border-radius: 50px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  animation: fadeInUp 1s ease 0.4s;
+}
+
+.newrgag-hero-button:hover {
+  background: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+}
+
+.newrgag-benefits-section {
+  padding: 100px 20px;
+  background: #f8f9fa;
+  transition: background-color 0.3s ease;
+}
+
+.newrgag-benefits-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 60px;
+  color: #333;
+}
+
+.newrgag-benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.newrgag-benefit-card {
+  background: white;
+  padding: 40px 30px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease-out;
+}
+
+.newrgag-benefit-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.newrgag-benefit-icon {
+  font-size: 3rem;
+  color: #4CAF50;
+  margin-bottom: 20px;
+}
+
+.newrgag-features-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 600px;
+  transition: background-color 0.3s ease;
+}
+
+.newrgag-feature-content {
+  padding: 80px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.newrgag-feature-image {
+  background: url('https://images.unsplash.com/photo-1571260899304-425eee4c7efc?ixlib=rb-4.0.3') center/cover;
+}
+
+.newrgag-feature-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 30px;
+}
+
+.newrgag-feature-list li {
+  margin: 15px 0;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.newrgag-testimonial-section {
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+              url('https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3') center/cover fixed;
+  padding: 100px 20px;
+  color: white;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.newrgag-testimonial {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.newrgag-testimonial-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin: 0 auto 30px;
+  background: url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3') center/cover;
+  border: 4px solid #4CAF50;
+}
+
+.newrgag-testimonial p {
+  font-size: 1.5rem;
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+.newrgag-testimonial h4 {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.newrgag-testimonial span {
+  color: #4CAF50;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .newrgag-hero-section h1 {
+    font-size: 2.5rem;
+  }
+  
+  .newrgag-hero-section p {
+    font-size: 1.2rem;
+  }
+  
+  .newrgag-features-section {
+    grid-template-columns: 1fr;
+  }
+  
+  .newrgag-feature-content {
+    padding: 40px 20px;
+  }
+  
+  .newrgag-feature-image {
+    min-height: 400px;
+  }
+}
+
+.newrgag-process-section {
+  padding: 80px 20px;
+  background: white;
+  transition: background-color 0.3s ease;
+}
+
+.newrgag-process-steps {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.newrgag-step {
+  text-align: center;
+  flex: 1;
+  min-width: 200px;
+  max-width: 300px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease-out;
+}
+
+.newrgag-step-number {
+  width: 50px;
+  height: 50px;
+  background: #4CAF50;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.newrgag-stats-section {
+  background: #4CAF50;
+  color: white;
+  padding: 60px 20px;
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  flex-wrap: wrap;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease-out;
+}
+
+.newrgag-stat {
+  text-align: center;
+}
+
+.newrgag-stat h2 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.newrgag-cta-section {
+  text-align: center;
+  padding: 100px 20px;
+  background: #f8f9fa;
+  transition: background-color 0.3s ease;
+}
+
+.newrgag-cta-button {
+  display: inline-block;
+  padding: 15px 40px;
+  background: #4CAF50;
+  color: white;
+  text-decoration: none;
+  border-radius: 30px;
+  font-size: 1.2rem;
+  margin-top: 30px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.newrgag-cta-button:hover {
+  background: #45a049;
+}
+
+/* Optional: Add smooth transitions for all elements */
+* {
+  transition: all 0.3s ease-out;
+}
+
+/* Add smooth transition for section backgrounds */
+.newrgag-benefits-section,
+.newrgag-features-section,
+.newrgag-process-section,
+.newrgag-testimonial-section,
+.newrgag-stats-section,
+.newrgag-cta-section {
+  transition: background-color 0.3s ease;
+}
+
+/* Add smooth transition for hover states */
+.newrgag-benefit-card,
+.newrgag-hero-button,
+.newrgag-cta-button {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Optimize performance */
+.newrgag-teacher-careers {
+  will-change: transform;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.newrgag-home-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #4CAF50;
+  padding: 10px 20px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+.newrgag-home-button:hover {
+  background: #4CAF50;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.newrgag-home-button svg {
+  font-size: 1.2em;
+}
+
+@media (max-width: 768px) {
+  .newrgag-home-button {
+    top: 10px;
+    left: 10px;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+} 

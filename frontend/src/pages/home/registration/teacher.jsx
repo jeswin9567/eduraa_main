@@ -3,6 +3,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from 'react-router-dom';
 import './teacher.css';
+import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCalendar, FaBook, FaGraduationCap, FaFileAlt } from 'react-icons/fa';
 
 const TeacherRegistration = () => {
   const [formData, setFormData] = useState({
@@ -218,260 +219,218 @@ case "declaration":
   
 
   return (
-    <div className="teachreg">
-      <h1>Teacher Registration</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <input
-            type="text"
-            placeholder="First Name"
-            name="firstname"
-            value={formData.firstname}
-            onChange={handleChange}
-            className="teachreg"
-          />
-          {errors.firstname && <span className="teachreg">{errors.firstname}</span>}
-        </div>
-        <div>
-          <input
-            type="text"
-            placeholder="Last Name"
-            name="lastname"
-            value={formData.lastname}
-            onChange={handleChange}
-            className="teachreg"
-          />
-          {errors.lastname && <span className="teachreg">{errors.lastname}</span>}
-        </div>
-        <div>
-          <input
-            type="email"
-            placeholder="Email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="teachreg"
-          />
-          {errors.email && <span className="teachreg">{errors.email}</span>}
-        </div>
-        <div>
-          <input
-            type="tel"
-            placeholder="Phone"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            className="teachreg"
-          />
-          {errors.phone && <span className="teachreg">{errors.phone}</span>}
-        </div>
-        <div>
-  <input
-    type="tel"
-    placeholder="Alternative Phone"
-    name="altPhone"
-    value={formData.altPhone}
-    onChange={handleChange}
-    className="teachreg"
-  />
-  {errors.altPhone && <span className="teachreg">{errors.altPhone}</span>}
-</div>
-        <fieldset>
-          <legend>Gender</legend>
-          <label htmlFor="male">Male</label>
-          <input
-            type="radio"
-            id="male"
-            name="gender"
-            value="Male"
-            checked={formData.gender === "Male"}
-            onChange={handleChange}
-            className="teachreg"
-          />
-          <label htmlFor="female">Female</label>
-          <input
-            type="radio"
-            id="female"
-            name="gender"
-            value="Female"
-            checked={formData.gender === "Female"}
-            onChange={handleChange}
-            className="teachreg"
-          />
-        </fieldset>
-        {errors.gender && <span className="teachreg">{errors.gender}</span>}
-        <div>
-        <div>
-          <input
-            type="text"
-            placeholder="Address"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            className="teachreg"
-          />
-          {errors.address && <span className="teachreg">{errors.address}</span>}
-        </div>
-        <div>
-          <label htmlFor="dateofbirth">Date of Birth:</label>
-          <input
-            type="date"
-            id="dateofbirth"
-            name="dateofbirth"
-            value={formData.dateofbirth}
-            onChange={handleChange}
-            className="teachreg"
-          />
-          {errors.dateofbirth && <span className="teachreg">{errors.dateofbirth}</span>}
-        </div>
-  <label htmlFor="subjects">Subject Interested:</label>
-  <select
-    id="subjects"
-    name="subjects"
-    value={formData.subjects || ""}
-    onChange={handleChange}
-    className="teachreg"
-  >
-    <option value="" disabled>Select a subject</option>
-    <option value="Mathematics">Mathematics</option>
-    <option value="Physics">Physics</option>
-    <option value="Chemistry">Chemistry</option>
-    <option value="Biology">Biology</option>
-    <option value="English">English</option>
-    <option value="Computer Science">Computer Science</option>
-  </select>
-  {errors.subjects && <span className="teachreg">{errors.subjects}</span>}
-</div>
-<div>
-  <label htmlFor="qualification">Highest Qualification:</label>
-  <select
-    id="qualification"
-    name="qualification"
-    value={formData.qualification}
-    onChange={handleChange}
-    className="teachreg"
-  >
-    <option value="" disabled>Select Qualification</option>
-    <option value="B.Ed">B.Ed</option>
-    <option value="M.Ed">M.Ed</option>
-    <option value="PhD">PhD</option>
-  </select>
-  {errors.qualification && <span className="teachreg">{errors.qualification}</span>}
-</div>
+    <div className="teachreg-container">
+      <div className="teachreg-header">
+        <h1>Join Our Teaching Team</h1>
+        <p>Share your knowledge and inspire the next generation</p>
+      </div>
 
-<div>
-  <textarea
-    placeholder="Specialization Areas (e.g., Competitive Exams, Soft Skills)"
-    name="specialization"
-    value={formData.specialization}
-    onChange={handleChange}
-    className="teachreg"
-  ></textarea>
-  {errors.specialization && <span className="teachreg">{errors.specialization}</span>}
-</div>
+      <form onSubmit={handleSubmit} className="teachreg-form">
+        <div className="form-sections">
+          {/* Personal Information Section */}
+          <div className="form-section">
+            <h2><FaUser /> Personal Information</h2>
+            <div className="input-grid">
+              <div className="input-group">
+                <input
+                  type="text"
+                  placeholder="First Name"
+                  name="firstname"
+                  value={formData.firstname}
+                  onChange={handleChange}
+                />
+                {errors.firstname && <span className="error">{errors.firstname}</span>}
+              </div>
 
-<div>
-  <label>Experience:</label>
-  <input
-    type="number"
-    placeholder="Years of Experience"
-    name="experience"
-    value={formData.experience}
-    onChange={handleChange}
-    className="teachreg"
-  />
-  {errors.experience && <span className="teachreg">{errors.experience}</span>}
-</div>
-        <h2>Upload Documents</h2><br></br>
-        <div>
-          <label htmlFor="idCard">ID Card (PDF only):</label>
-          <input
-            type="file"
-            id="idCard"
-            name="idCard"
-            accept="application/pdf"
-            onChange={handleChange}
-            className="teachreg"
-          />
-          {errors.idCard && <span className="teachreg">{errors.idCard}</span>}
-        </div>
-        <div>
-  <label htmlFor="photo">Photo (JPG only, max 2MB):</label>
-  <input
-    type="file"
-    id="photo"
-    name="photo"
-    accept="image/jpeg"
-    onChange={handleChange}
-    className="teachreg"
-  />
-  {errors.photo && <span className="teachreg error">{errors.photo}</span>}
-  {formData.photo && (
-    <p className="teachreg success">
-      Selected file: {formData.photo.name} ({(formData.photo.size / 1024).toFixed(2)} KB)
-    </p>
-  )}
-</div>
+              <div className="input-group">
+                <input
+                  type="text"
+                  placeholder="Last Name"
+                  name="lastname"
+                  value={formData.lastname}
+                  onChange={handleChange}
+                />
+                {errors.lastname && <span className="error">{errors.lastname}</span>}
+              </div>
 
-        <div>
-          <label htmlFor="degreeCertificate">Degree Certificate (PDF only):</label>
-          <input
-            type="file"
-            id="degreeCertificate"
-            name="degreeCertificate"
-            accept="application/pdf"
-            onChange={handleChange}
-            className="teachreg"
-          />
-          {errors.degreeCertificate && <span className="teachreg">{errors.degreeCertificate}</span>}
+              <div className="input-group">
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+                {errors.email && <span className="error">{errors.email}</span>}
+              </div>
+
+              <div className="input-group">
+                <input
+                  type="tel"
+                  placeholder="Phone Number"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                />
+                {errors.phone && <span className="error">{errors.phone}</span>}
+              </div>
+            </div>
+
+            <div className="gender-group">
+              <label>Gender</label>
+              <div className="radio-group">
+                <label className="radio-label">
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="Male"
+                    checked={formData.gender === "Male"}
+                    onChange={handleChange}
+                  />
+                  <span className="radio-custom"></span>
+                  Male
+                </label>
+                <label className="radio-label">
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="Female"
+                    checked={formData.gender === "Female"}
+                    onChange={handleChange}
+                  />
+                  <span className="radio-custom"></span>
+                  Female
+                </label>
+              </div>
+              {errors.gender && <span className="error">{errors.gender}</span>}
+            </div>
+          </div>
+
+          {/* Professional Information Section */}
+          <div className="form-section">
+            <h2><FaGraduationCap /> Professional Details</h2>
+            <div className="input-grid">
+              <div className="input-group">
+                <select
+                  name="qualification"
+                  value={formData.qualification}
+                  onChange={handleChange}
+                  className="select-field"
+                >
+                  <option value="" disabled>Select Qualification</option>
+                  <option value="B.Ed">B.Ed</option>
+                  <option value="M.Ed">M.Ed</option>
+                  <option value="PhD">PhD</option>
+                </select>
+                {errors.qualification && <span className="error">{errors.qualification}</span>}
+              </div>
+
+              <div className="input-group">
+                <select
+                  name="subjects"
+                  value={formData.subjects}
+                  onChange={handleChange}
+                  className="select-field"
+                >
+                  <option value="" disabled>Select Subject</option>
+                  <option value="Mathematics">Mathematics</option>
+                  <option value="Physics">Physics</option>
+                  <option value="Chemistry">Chemistry</option>
+                  <option value="Biology">Biology</option>
+                  <option value="English">English</option>
+                  <option value="Computer Science">Computer Science</option>
+                </select>
+                {errors.subjects && <span className="error">{errors.subjects}</span>}
+              </div>
+
+              <div className="input-group full-width">
+                <textarea
+                  placeholder="Specialization Areas"
+                  name="specialization"
+                  value={formData.specialization}
+                  onChange={handleChange}
+                />
+                {errors.specialization && <span className="error">{errors.specialization}</span>}
+              </div>
+            </div>
+          </div>
+
+          {/* Document Upload Section */}
+          <div className="form-section">
+            <h2><FaFileAlt /> Document Upload</h2>
+            <div className="upload-grid">
+              <div className="upload-group">
+                <label>Profile Photo (JPG)</label>
+                <input
+                  type="file"
+                  name="photo"
+                  accept="image/jpeg"
+                  onChange={handleChange}
+                  className="file-input"
+                />
+                {errors.photo && <span className="error">{errors.photo}</span>}
+              </div>
+
+              <div className="upload-group">
+                <label>ID Card (PDF)</label>
+                <input
+                  type="file"
+                  name="idCard"
+                  accept="application/pdf"
+                  onChange={handleChange}
+                  className="file-input"
+                />
+                {errors.idCard && <span className="error">{errors.idCard}</span>}
+              </div>
+
+              <div className="upload-group">
+                <label>Degree Certificate (PDF)</label>
+                <input
+                  type="file"
+                  name="degreeCertificate"
+                  accept="application/pdf"
+                  onChange={handleChange}
+                  className="file-input"
+                />
+                {errors.degreeCertificate && <span className="error">{errors.degreeCertificate}</span>}
+              </div>
+
+              <div className="upload-group">
+                <label>Resume (PDF)</label>
+                <input
+                  type="file"
+                  name="resume"
+                  accept="application/pdf"
+                  onChange={handleChange}
+                  className="file-input"
+                />
+                {errors.resume && <span className="error">{errors.resume}</span>}
+              </div>
+            </div>
+          </div>
         </div>
-        <div>
-          <label htmlFor="experienceCertificate">Experience Certificate (PDF only):</label>
-          <input
-            type="file"
-            id="experienceCertificate"
-            name="experienceCertificate"
-            accept="application/pdf"
-            onChange={handleChange}
-            className="teachreg"
-          />
-          {errors.experienceCertificate && <span className="teachreg">{errors.experienceCertificate}</span>}
-        </div>
-        <div>
-          <label htmlFor="resume">Resume (PDF only):</label>
-          <input
-            type="file"
-            id="resume"
-            name="resume"
-            accept="application/pdf"
-            onChange={handleChange}
-            className="teachreg"
-          />
-          {errors.resume && <span className="teachreg">{errors.resume}</span>}
-        </div>
-        <div>
-          <label>
+
+        <div className="form-footer">
+          <label className="declaration-label">
             <input
               type="checkbox"
               name="declaration"
               checked={formData.declaration}
-              onChange={(e) =>
-                setFormData({ ...formData, declaration: e.target.checked })
-              }
-              className="teachreg"
+              onChange={(e) => setFormData({ ...formData, declaration: e.target.checked })}
             />
-            I agree to the terms and conditions and confirm the accuracy of the information provided.{" "}<br></br>
-            <span
-              className="terms-link"
-              onClick={() => setShowTerms(true)} // Show modal on click
-            >
-              terms and conditions
-            </span>
+            <span className="checkbox-custom"></span>
+            I agree to the <span className="terms-link" onClick={() => setShowTerms(true)}>terms and conditions</span>
           </label>
-          {errors.declaration && <span className="teachreg">{errors.declaration}</span>}
+          {errors.declaration && <span className="error">{errors.declaration}</span>}
+
+          <button type="submit" className="submit-button">
+            Submit Application
+          </button>
         </div>
-        {showTerms && (
-        <div className="modal">
+      </form>
+
+      {showTerms && (
+        <div className="terms-modal">
           <div className="modal-content">
             <h2>Terms and Conditions</h2>
             <p>
@@ -487,15 +446,12 @@ case "declaration":
             <p>
               Failing to meet these terms may result in termination of your account.
             </p>
-            <button onClick={() => setShowTerms(false)}>Close</button>
+            <button onClick={() => setShowTerms(false)} className="modal-close">
+              Close
+            </button>
           </div>
         </div>
       )}
-        <button type="submit" className="teachreg">Register</button>
-      </form>
-
-      {/* Terms and Conditions Modal */}
-      
     </div>
   );
 };

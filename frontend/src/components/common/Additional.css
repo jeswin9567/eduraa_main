@@ -1,27 +1,31 @@
 /* Additional Info Section */
 .uhome-additional-info-section {
-    padding: 50px;
+    padding: 4vw;
     background-color: #F2F0E9;
+    text-align: center;
   }
   
   .uhome-additional-info-section h4 {
-    font-size: 20px;
+    font-size: clamp(16px, 1.5vw, 20px);
     color: #004429;
-    margin-bottom: 20px;
-    margin-left: 640px;
-    font-weight: 100;
+    margin-bottom: 2vw;
+    font-weight: 500;
   }
   
   .uhome-additional-info-section h2 {
-    font-size: 28px;
+    font-size: clamp(24px, 2.5vw, 28px);
     color: #004429;
-    margin-bottom: 20px;
-    margin-left: 430px;
+    margin-bottom: 2vw;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
   }
   
   .uhome-additional-info-section p {
-    font-size: 20px;
+    font-size: clamp(16px, 1.5vw, 20px);
     color: #004429;
-    margin-left: 200px;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
   }
   

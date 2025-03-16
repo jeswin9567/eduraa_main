@@ -1,27 +1,33 @@
 /* src/components/user/Footer.css */
 .uhome-footer {
-    padding: 50px;
+    padding: 4vw;
     background-color: #D3D3D3;
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
+    gap: 3vw;
   }
   
   .uhome-footer-logo {
-    width: 150px;
+    width: clamp(100px, 10vw, 150px);
+    height: auto;
   }
   
   .uhome-footer-content {
-    max-width: 50%;
+    flex: 1;
+    max-width: 600px;
   }
   
   .uhome-footer-content h3 {
-    font-size: 24px;
+    font-size: clamp(20px, 2vw, 24px);
     color: #004429;
-    margin-bottom: 20px;
+    margin-bottom: 1.5vw;
   }
   
   .uhome-footer-content p {
-    font-size: 18px;
+    font-size: clamp(14px, 1.2vw, 18px);
     color: #333;
+    line-height: 1.6;
+    margin-bottom: 1vw;
   }
   

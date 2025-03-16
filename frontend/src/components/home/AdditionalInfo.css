@@ -1,0 +1,126 @@
+.additional-info-section {
+  padding: 4vw;
+  background-color: #F2F0E9;
+  text-align: center;
+  overflow: hidden;
+}
+
+.additional-info-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.highlight-text {
+  display: inline-block;
+  font-size: clamp(16px, 1.5vw, 20px);
+  color: #004429;
+  font-weight: 500;
+  margin-bottom: 20px;
+  position: relative;
+  padding: 0.5vw 1.5vw;
+  border-radius: 20px;
+  background: rgba(0, 68, 41, 0.1);
+}
+
+.additional-info-section h2 {
+  font-size: clamp(28px, 3vw, 42px);
+  color: #004429;
+  margin: 2vw 0;
+  line-height: 1.2;
+  font-weight: 600;
+  text-align: center;
+}
+
+.info-content {
+  max-width: 800px;
+  margin: 2vw auto 0;
+  display: flex;
+  justify-content: center;
+}
+
+.info-text {
+  max-width: 600px; /* Control the width of the text */
+  text-align: center;
+}
+
+.info-text p {
+  font-size: clamp(16px, 1.5vw, 20px);
+  color: #004429;
+  line-height: 1.6;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .additional-info-section {
+    padding: 40px 15px;
+  }
+
+  .additional-info-container {
+    padding: 10px;
+  }
+
+  .highlight-text {
+    font-size: 16px;
+    padding: 4px 12px;
+  }
+
+  .additional-info-section h2 {
+    font-size: 28px;
+    padding: 0 10px;
+    margin: 15px 0;
+  }
+
+  .info-content {
+    margin-top: 20px;
+    padding: 0 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+
+  .info-text p {
+    font-size: 16px;
+    line-height: 1.5;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+}
+
+/* For very small screens */
+@media (max-width: 480px) {
+  .additional-info-section {
+    padding: 30px 10px;
+  }
+
+  .highlight-text {
+    font-size: 14px;
+  }
+
+  .additional-info-section h2 {
+    font-size: 24px;
+  }
+
+  .info-text p {
+    font-size: 15px;
+    max-width: 280px;
+  }
+}
+
+/* For landscape orientation */
+@media (max-width: 768px) and (orientation: landscape) {
+  .additional-info-section {
+    padding: 30px 20px;
+  }
+
+  .additional-info-container {
+    max-width: 600px;
+  }
+
+  .info-content {
+    max-width: 500px;
+  }
+} 

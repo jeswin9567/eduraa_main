@@ -2,43 +2,47 @@
 .uhome-mission-section {
     display: flex;
     align-items: center;
-    padding: 50px;
+    padding: 4vw;
     background-color: #F2F0E9;
+    min-height: 50vh;
   }
   
   .uhome-mission-content {
     flex: 1;
     max-width: 50%;
-    padding-right: 50px;
+    padding-right: 4vw;
   }
   
   .uhome-mission-logo {
-    width: 150px;
-    margin-top: -100px;
-    margin-bottom: 20px;
+    width: clamp(80px, 8vw, 150px);
+    margin-bottom: 2vw;
   }
   
   .uhome-mission-content h2 {
-    font-size: 32px;
+    font-size: clamp(24px, 2.5vw, 32px);
     color: #004429;
-    margin-top: -40px;
-    margin-bottom: 20px;
+    margin-bottom: 2vw;
+    line-height: 1.2;
   }
   
   .uhome-mission-content p {
-    font-size: 20px;
+    font-size: clamp(16px, 1.5vw, 20px);
     color: #333;
+    line-height: 1.6;
   }
   
   .uhome-mission-image {
     flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   .uhome-mission-image img {
-    max-width: 60%;
+    width: 90%;
+    max-width: 500px;
     height: auto;
-    border-radius: 2%;
-    margin-top: 50px;
-    margin-left: 200px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   }
   

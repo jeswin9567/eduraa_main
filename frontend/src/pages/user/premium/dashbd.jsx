@@ -127,66 +127,66 @@ const UserPrmDashBrd = () => {
     return (
         <>
             <UserPremDHead/>
-            <div className="userdashbbprm-containerrr">
+            <div className="usrmp-userdashbbprm-containerrr">
                 <Usersidebrcom />
-                <div className="dashboard-content">
-                    <div className="welcome-section">
-                        <div className="premium-badge">PREMIUM</div>
+                <div className="usrmp-dashboard-content">
+                    <div className="usrmp-welcome-section">
+                        <div className="usrmp-premium-badge">PREMIUM</div>
                         <h1>Welcome to Your Premium Experience</h1>
                         <p>Unlock your full potential with exclusive premium features</p>
                     </div>
                     
-                    <div className="stats-container">
-                        <div className="stat-card progress-card">
+                    <div className="usrmp-stats-container">
+                        <div className="usrmp-stat-card usrmp-progress-card">
                             <h3>Learning Progress</h3>
-                            <div className="progress-circle">
-                                <div className="progress-value">{learningProgress}%</div>
+                            <div className="usrmp-progress-circle">
+                                <div className="usrmp-progress-value">{learningProgress}%</div>
                             </div>
                             <p>Overall Completion</p>
                         </div>
                         
-                        <div className="stat-card">
+                        <div className="usrmp-stat-card">
                             <h3>Classes Progress</h3>
-                            <div className="stat-value">
+                            <div className="usrmp-stat-value">
                                 {progressDetails.completedClasses}/{progressDetails.totalClasses}
                             </div>
-                            <div className="progress-bar">
+                            <div className="usrmp-progress-bar">
                                 <div 
-                                    className="progress-fill" 
+                                    className="usrmp-progress-fill" 
                                     style={{width: `${(progressDetails.completedClasses/progressDetails.totalClasses) * 100}%`}}
                                 ></div>
                             </div>
                             <p>Classes Completed</p>
                         </div>
 
-                        <div className="stat-card feature-card">
-                            <div className="feature-icon">🔥</div>
+                        <div className="usrmp-stat-card usrmp-feature-card">
+                            <div className="usrmp-feature-icon">🔥</div>
                             <h3>Learning Streak</h3>
-                            <div className="stat-value">{streak.currentStreak} Days</div>
+                            <div className="usrmp-stat-value">{streak.currentStreak} Days</div>
                             <p>Longest Streak: {streak.longestStreak} Days</p>
-                            <div className="streak-info">
-                                <div className="streak-tip">
+                            <div className="usrmp-streak-info">
+                                <div className="usrmp-streak-tip">
                                     Complete daily activities to maintain your streak!
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="premium-features">
+                    <div className="usrmp-premium-features">
                         <h2>Premium Benefits</h2>
-                        <div className="features-grid">
-                            <div className="feature-item">
-                                <div className="feature-icon">📚</div>
+                        <div className="usrmp-features-grid">
+                            <div className="usrmp-feature-item">
+                                <div className="usrmp-feature-icon">📚</div>
                                 <h4>Exclusive Content</h4>
                                 <p>Access premium learning materials</p>
                             </div>
-                            <div className="feature-item">
-                                <div className="feature-icon">👨‍🏫</div>
+                            <div className="usrmp-feature-item">
+                                <div className="usrmp-feature-icon">👨‍🏫</div>
                                 <h4>1-on-1 Sessions</h4>
                                 <p>Direct interaction with teachers</p>
                             </div>
-                            <div className="feature-item">
-                                <div className="feature-icon">📊</div>
+                            <div className="usrmp-feature-item">
+                                <div className="usrmp-feature-icon">📊</div>
                                 <h4>Detailed Analytics</h4>
                                 <p>Track your progress in detail</p>
                             </div>

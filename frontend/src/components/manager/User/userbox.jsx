@@ -21,7 +21,7 @@ const UserBox = () => {
   }, []);
 
   const handleClick = () => {
-    navigate("/manager/viewusers"); // Replace with the actual route
+    navigate("/manager/students"); // Replace with the actual route
   };
 
   return (

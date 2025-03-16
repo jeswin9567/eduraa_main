@@ -1,26 +1,28 @@
 /* About Section */
 .uhome-about-section {
     display: flex;
-    padding: 50px;
+    padding: 4vw;
     background-color: #FFFFFF;
+    min-height: 50vh;
     align-items: center;
   }
   
   .uhome-about-content {
     flex: 1;
     max-width: 50%;
+    padding-right: 3vw;
   }
   
   .uhome-about-content h2 {
-    font-size: 32px;
+    font-size: clamp(24px, 2.5vw, 32px);
     color: #004429;
-    margin-top: 0;
-    margin-bottom: 20px;
+    margin-bottom: 2vw;
   }
   
   .uhome-about-content p {
-    font-size: 20px;
+    font-size: clamp(16px, 1.5vw, 20px);
     color: #333;
+    line-height: 1.6;
   }
   
   .uhome-about-image {
@@ -30,9 +32,10 @@
   }
   
   .uhome-about-image img {
-    max-width: 60%;
+    width: 90%;
+    max-width: 500px;
     height: auto;
-    margin-left: 100px;
     border-radius: 10px;
+    object-fit: cover;
   }
   
