@@ -9,7 +9,7 @@ const server = http.createServer(app);
 const { PeerServer } = require('peer');
 const io = require('socket.io')(server, {
   cors: {
-    origin: process.env.FRONTEND_URL,
+    origin: '*',  // We'll make this more restrictive once frontend is deployed
     methods: ["GET", "POST"],
     credentials: true
   }
@@ -75,7 +75,7 @@ const seachRoutes = require('./routes/searchRoutes');
 const analyticsRoutes = require('./routes/analytics');
 // CORS configuration
 app.use(cors({
-    origin: process.env.FRONTEND_URL,
+    origin: '*',  // We'll make this more restrictive once frontend is deployed
     credentials: true
 }));
 
