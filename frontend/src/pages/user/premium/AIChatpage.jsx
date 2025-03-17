@@ -2,7 +2,7 @@ import React from 'react';
 import UserPremDHead from '../../../components/user/premium/heads/updhead';
 import Usersidebrcom from '../../../components/user/premium/sidebar/usersidebar';
 import AiChat from '../../../components/user/premium/AiChat';
-import './dashbd.css';
+import './AIChatpage.css';
 import useAuth from "../../../../function/useAuth";
 
 const AIChatPage = () => {
@@ -11,7 +11,7 @@ const AIChatPage = () => {
     <>
     <div>
         <UserPremDHead />
-        <div className='userdashbbprm-containerrr'>
+        <div className='aichat-userdashbbprm-containerrr'>
             <Usersidebrcom />
             <AiChat />
         </div>
