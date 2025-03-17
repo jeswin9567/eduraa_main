@@ -34,7 +34,7 @@ const WeakAreas = () => {
             setGeneratingTest(true);
             console.log('Generating test for:', { subject, topic });
 
-            const response = await axios.post('http://localhost:5000/quiz/generate-ai-test', {
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/quiz/generate-ai-test`, {
                 subject,
                 topic
             });
