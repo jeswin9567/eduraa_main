@@ -24,7 +24,8 @@ const io = require('socket.io')(server, {
       }
     },
     methods: ["GET", "POST"],
-    credentials: true
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization', 'useremail']
   }
 });
 
@@ -104,7 +105,7 @@ app.use(cors({
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization', 'useremail']
 }));
 
 // Add this before your routes to ensure cookies work properly
