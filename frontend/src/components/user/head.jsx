@@ -37,7 +37,7 @@ function UHead({ scrollToAbout, scrollToServices, scrollToContact }) {
             cancelButtonText: 'Maybe Later'
           }).then((result) => {
             if (result.isConfirmed) {
-              navigate('/pricing');
+              navigate('/uvpro');
             }
           });
         } else {
