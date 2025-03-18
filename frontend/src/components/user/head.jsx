@@ -55,7 +55,7 @@ function UHead({ scrollToAbout, scrollToServices, scrollToContact }) {
           cancelButtonText: 'Later'
         }).then((result) => {
           if (result.isConfirmed) {
-            navigate('/pricing');
+            navigate('/uvpro');
           }
         });
       }
