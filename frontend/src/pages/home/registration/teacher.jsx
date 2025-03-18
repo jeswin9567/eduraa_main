@@ -186,7 +186,7 @@ case "declaration":
           formDataToSend.append(key, formData[key]);
         }
       });
-      axios.post(`${import.meta.env.VITE_API_URL}/api/teacher/register`, formDataToSend)
+      axios.post(`${import.meta.env.VITE_API_URL}/api/teachers/register`, formDataToSend)
         .then((response) => {
           if (response.data.success) {
             Swal.fire({
