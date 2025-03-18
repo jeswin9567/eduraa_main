@@ -1,38 +1,72 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Prof from './button/profile';
+import Swal from 'sweetalert2';
 import './head.css';
 
 function UHead({ scrollToAbout, scrollToServices, scrollToContact }) {
   const navigate = useNavigate();
 
-  // to check if the user has a subscription plan
   const premium = async () => {
     const email = localStorage.getItem('userEmail');
 
     if (!email) {
-      console.error("User is not logged in.");
+      Swal.fire({
+        icon: 'error',
+        title: 'Authentication Required',
+        text: 'Please log in to access premium features',
+        confirmButtonColor: '#3085d6'
+      });
       return;
     }
 
     try {
-      // Make an API call to get user details from the server
       const response = await fetch(`${import.meta.env.VITE_API_URL}/user/users/${email}`);
       const userData = await response.json();
 
-      // Check if user has a valid subscription plan
       if (userData.subscriptionPlan) {
         if (userData.subscriptionPlan === 'weekly') {
-          alert("You currently have a weekly plan. To access premium content, please upgrade to a monthly or yearly plan.");
+          Swal.fire({
+            icon: 'info',
+            title: 'Upgrade Required',
+            text: 'You currently have a weekly plan. To access premium content, please upgrade to a monthly or yearly plan.',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Upgrade Now',
+            cancelButtonText: 'Maybe Later'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate('/pricing');
+            }
+          });
         } else {
-          // Navigate to the premium page if the subscription plan is not weekly
           navigate('/user/premium');
         }
       } else {
-        alert("You don't have a subscription plan. Please subscribe to a plan.");
+        Swal.fire({
+          icon: 'warning',
+          title: 'Subscription Required',
+          text: 'You don\'t have an active subscription plan. Subscribe to unlock premium features!',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Subscribe Now',
+          cancelButtonText: 'Later'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate('/pricing');
+          }
+        });
       }
     } catch (error) {
       console.error("Error fetching user data:", error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong! Please try again later.',
+        confirmButtonColor: '#3085d6'
+      });
     }
   };
 
