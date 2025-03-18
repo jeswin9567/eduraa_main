@@ -5,14 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import './teacher.css';
 import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCalendar, FaBook, FaGraduationCap, FaFileAlt } from 'react-icons/fa';
 
-
 const TeacherRegistration = () => {
-
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
     email: "",
     phone: "",
+    altPhone: "",
     gender: "",
     address: "",
     dateofbirth: "",
@@ -22,7 +21,6 @@ const TeacherRegistration = () => {
     experienceCertificate: null,
     resume: null,
     subjects: "",
-    altPhone: "",
     qualification: "",
     specialization: "",
     experience: "",
@@ -188,7 +186,7 @@ case "declaration":
           formDataToSend.append(key, formData[key]);
         }
       });
-      axios.post(`${import.meta.env.VITE_API_URL}/api/teachers/register`, formDataToSend)
+      axios.post(`${import.meta.env.VITE_API_URL}/api/teacher/register`, formDataToSend)
         .then((response) => {
           if (response.data.success) {
             Swal.fire({
@@ -197,7 +195,7 @@ case "declaration":
               icon: 'success',
               confirmButtonText: 'OK'
             }).then(() => {
-              navigate('/teacher-dashboard');
+              navigate('/careers/teaching');
             });
           } else {
             Swal.fire({
@@ -275,6 +273,38 @@ case "declaration":
                   onChange={handleChange}
                 />
                 {errors.phone && <span className="error">{errors.phone}</span>}
+              </div>
+
+              <div className="input-group">
+                <input
+                  type="tel"
+                  placeholder="Alternative Phone Number"
+                  name="altPhone"
+                  value={formData.altPhone}
+                  onChange={handleChange}
+                />
+                {errors.altPhone && <span className="error">{errors.altPhone}</span>}
+              </div>
+
+              <div className="input-group">
+                <input
+                  type="date"
+                  placeholder="Date of Birth"
+                  name="dateofbirth"
+                  value={formData.dateofbirth}
+                  onChange={handleChange}
+                />
+                {errors.dateofbirth && <span className="error">{errors.dateofbirth}</span>}
+              </div>
+
+              <div className="input-group full-width">
+                <textarea
+                  placeholder="Address"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleChange}
+                />
+                {errors.address && <span className="error">{errors.address}</span>}
               </div>
             </div>
 
@@ -354,6 +384,18 @@ case "declaration":
                 />
                 {errors.specialization && <span className="error">{errors.specialization}</span>}
               </div>
+
+              <div className="input-group">
+                <input
+                  type="number"
+                  placeholder="Years of Experience"
+                  name="experience"
+                  value={formData.experience}
+                  onChange={handleChange}
+                  min="0"
+                />
+                {errors.experience && <span className="error">{errors.experience}</span>}
+              </div>
             </div>
           </div>
 
@@ -395,6 +437,18 @@ case "declaration":
                   className="file-input"
                 />
                 {errors.degreeCertificate && <span className="error">{errors.degreeCertificate}</span>}
+              </div>
+
+              <div className="upload-group">
+                <label>Experience Certificate (PDF)</label>
+                <input
+                  type="file"
+                  name="experienceCertificate"
+                  accept="application/pdf"
+                  onChange={handleChange}
+                  className="file-input"
+                />
+                {errors.experienceCertificate && <span className="error">{errors.experienceCertificate}</span>}
               </div>
 
               <div className="upload-group">

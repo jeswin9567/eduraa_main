@@ -52,10 +52,10 @@ router.post("/register", upload.fields([
     await teacher.save();
 
     const mailOptions = {
-      from:'your-email@gmail.com',
-      to:email,
-      subject:'Teacher Registration successfull',
-      text:`Hello, ${firstname},\n\nYour registration as a teacher was successful! We are thrilled to have you on board.\n\nBest regards,\nThe Eduraa Team`
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: 'Teacher Registration successful',
+      text: `Hello, ${firstname},\n\nYour registration as a teacher was successful! We are thrilled to have you on board.\n\nBest regards,\nThe Eduraa Team`
     };
 
     transporter.sendMail(mailOptions,(error, info) => {
