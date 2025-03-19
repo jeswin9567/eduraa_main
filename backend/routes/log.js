@@ -4,46 +4,44 @@ const LoginModel = require('../model/login');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-// Login route
-router.post('/', (req, res) => {
-  const { email, password } = req.body;
+// Login route with performance improvements
+router.post('/', async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-  LoginModel.findOne({ email: email })
-    .then(user => {
-      if (!user) {
-        return res.status(404).json({ message: "Incorrect email or password" });
-      }
+    // Use lean() for faster query execution
+    const user = await LoginModel.findOne({ email: email }).lean();
 
-      // Check if the user's status is active
-      if (!user.status) {
-        return res.status(403).json({ message: "Account is inactive. Please contact the administrator." });
-      }
+    if (!user) {
+      return res.status(404).json({ message: "Incorrect email or password" });
+    }
 
-      // If the user is an admin, directly compare plaintext passwords
-      if (user.role === 'admin') {
-        if (password === user.password) { // direct comparison for admin's plain password
-          const token = jwt.sign({ email: user.email }, 'sceret_key'); 
-          return res.json({ message: "success", role: user.role, token: token });
-        } else {
-          return res.status(401).json({ message: "Incorrect password" });
-        }
-      } 
-      
-      // For non-admins, compare hashed passwords
-      bcrypt.compare(password, user.password, (err, isMatch) => {
-        if (err) {
-          return res.status(500).json({ message: "Error: " + err.message });
-        }
+    // Check if the user's status is active
+    if (!user.status) {
+      return res.status(403).json({ message: "Account is inactive. Please contact the administrator." });
+    }
 
-        if (isMatch) {
-          const token = jwt.sign({ email: user.email }, 'sceret_key'); 
-          return res.json({ message: "success", role: user.role, token: token });
-        } else {
-          return res.status(401).json({ message: "Incorrect password" });
-        }
-      });
-    })
-    .catch(error => res.status(500).json({ message: "Error: " + error.message }));
+    // Simplified password comparison logic
+    const isMatch = user.role === 'admin' 
+      ? password === user.password
+      : await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(401).json({ message: "Incorrect password" });
+    }
+
+    // Generate token with minimal payload
+    const token = jwt.sign({ email: user.email }, 'sceret_key', { expiresIn: '24h' });
+    return res.json({ 
+      message: "success", 
+      role: user.role, 
+      token 
+    });
+
+  } catch (error) {
+    console.error('Login error:', error);
+    return res.status(500).json({ message: "Server error" });
+  }
 });
 
 module.exports = router;

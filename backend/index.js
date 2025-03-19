@@ -128,6 +128,13 @@ const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI);
     console.log('MongoDB connected');
+    
+    // Ensure indexes are created
+    mongoose.connection.db.on('index', function(err) {
+      if (err) {
+        console.error('MongoDB index error:', err);
+      }
+    });
   } catch (error) {
     console.error('MongoDB connection error:', error);
     process.exit(1);
@@ -135,6 +142,15 @@ const connectDB = async () => {
 };
 
 connectDB();
+
+// Add error handling for MongoDB connection
+mongoose.connection.on('error', (err) => {
+  console.error('MongoDB connection error:', err);
+});
+
+mongoose.connection.on('disconnected', () => {
+  console.log('MongoDB disconnected');
+});
 
 // Use the login and signup routes
 app.use('/log', loginRoute);
