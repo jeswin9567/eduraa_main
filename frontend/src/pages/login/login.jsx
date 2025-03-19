@@ -9,50 +9,48 @@ function Login() {
 
   const [email, setEmail] = useState('');
   const [pass, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate(); // React Router's navigation hook
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Prevent page reload on form submission
 
-    try {
-      // Create axios instance with timeout
-      const axiosInstance = axios.create({
-        timeout: 10000, // 10 second timeout
-        baseURL: import.meta.env.VITE_API_URL
+    // Use the environment variable for the API URL
+    axios.post(`${import.meta.env.VITE_API_URL}/log`, { email, password: pass })
+      .then(result => {
+        // If login is successful, navigate to home
+        if(result.data.message === "success"){
+          localStorage.setItem('userEmail', email);
+          localStorage.setItem('token',result.data.token)
+          
+          const userRole =result.data.role;
+
+          if(userRole === "admin"){
+            navigate('/adhome');
+          }
+
+          else if(userRole === "user"){
+            navigate('/userhome');
+          }
+          else if(userRole === "teacher"){
+            navigate('/teacherhome');
+          }
+
+          else if(userRole === "manager"){
+            navigate('/mhome');
+          }
+        }
+      })
+      .catch(error => {
+        // Show appropriate error message
+        Swal.fire({
+          title: 'Error!',
+          text: error.response?.data?.message || 'An unexpected error occurred.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+        console.error(error);
       });
-
-      const result = await axiosInstance.post('/log', { 
-        email, 
-        password: pass 
-      });
-
-      if (result.data.message === "success") {
-        localStorage.setItem('userEmail', email);
-        localStorage.setItem('token', result.data.token);
-
-        // Simplified navigation logic
-        const roleRoutes = {
-          admin: '/adhome',
-          user: '/userhome',
-          teacher: '/teacherhome',
-          manager: '/mhome'
-        };
-
-        navigate(roleRoutes[result.data.role] || '/');
-      }
-    } catch (error) {
-      Swal.fire({
-        title: 'Error!',
-        text: error.response?.data?.message || 'Login failed. Please try again.',
-        icon: 'error',
-        confirmButtonText: 'OK'
-      });
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   return (
@@ -92,7 +90,7 @@ function Login() {
           <a href="/forgotpassword" className='fp'>Forgot password?</a>
 
           {/* Submit button */}
-          <button type="submit" id="login" className='lb' disabled={isLoading}>Login</button>
+          <button type="submit" id="login" className='lb'>Login</button>
         </form>
 
         <p className='not'>

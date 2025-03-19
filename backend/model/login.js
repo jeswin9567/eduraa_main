@@ -8,8 +8,7 @@ const LoginSchema = new mongoose.Schema({
     required: true,
     unique: true,
     lowercase: true,
-    trim: true,
-    index: true
+    trim: true
   },
   password: {
     type: String,
@@ -17,22 +16,18 @@ const LoginSchema = new mongoose.Schema({
   },
   status: {
     type: Boolean,
-    default: true,
-    index: true
+    default:true,
   },
   role: {
     type: String,
-    enum: ['user', 'admin', 'manager', 'teacher', 'agent'],
+    enum: ['user', 'admin', 'manager','teacher','agent'],
     required: true
   }
-}, { 
-  timestamps: true,
-  autoIndex: process.env.NODE_ENV !== 'production'
-});
+}, { timestamps: true });
 
 // Password hashing middleware for LoginModel
 LoginSchema.pre('save', async function(next) {
-  if (this.isModified('password') && this.role !== 'admin') {
+  if (this.isModified('password')) {
     this.password = await bcrypt.hash(this.password, 10);
   }
   next();
@@ -45,8 +40,5 @@ LoginSchema.methods.comparePassword = async function(candidatePassword) {
 
 // Export the Login model
 const LoginModel = mongoose.model('Login', LoginSchema);
-
-// Add index for common queries
-LoginModel.collection.createIndex({ email: 1, status: 1 });
 
 module.exports = LoginModel;
