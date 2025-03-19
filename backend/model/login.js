@@ -8,8 +8,7 @@ const LoginSchema = new mongoose.Schema({
     required: true,
     unique: true,
     lowercase: true,
-    trim: true,
-    index: true
+    trim: true
   },
   password: {
     type: String,
@@ -17,23 +16,18 @@ const LoginSchema = new mongoose.Schema({
   },
   status: {
     type: Boolean,
-    default: true,
-    index: true
+    default:true,
   },
   role: {
     type: String,
-    enum: ['user', 'admin', 'manager', 'teacher', 'agent'],
+    enum: ['user', 'admin', 'manager','teacher','agent'],
     required: true
   }
-}, { 
-  timestamps: true,
-  autoIndex: true,
-  autoCreate: true
-});
+}, { timestamps: true });
 
 // Password hashing middleware for LoginModel
 LoginSchema.pre('save', async function(next) {
-  if (this.isModified('password') && this.role !== 'admin') {
+  if (this.isModified('password')) {
     this.password = await bcrypt.hash(this.password, 10);
   }
   next();
@@ -44,17 +38,7 @@ LoginSchema.methods.comparePassword = async function(candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
-// Create compound index
-LoginSchema.index({ email: 1, status: 1 }, { background: true });
-
 // Export the Login model
 const LoginModel = mongoose.model('Login', LoginSchema);
-
-// Handle index creation errors
-LoginModel.on('index', function(err) {
-  if (err) {
-    console.error('Login Model Index Error:', err);
-  }
-});
 
 module.exports = LoginModel;
