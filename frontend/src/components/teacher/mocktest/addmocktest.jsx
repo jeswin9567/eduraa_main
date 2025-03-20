@@ -3,6 +3,7 @@ import axios from 'axios'; // For making API requests
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import './addmocktest.css';
+import * as XLSX from 'xlsx';
 
 const TeacherMocktest = () => { 
   const navigate = useNavigate();
@@ -35,11 +36,14 @@ const TeacherMocktest = () => {
   const [isManualTitle, setIsManualTitle] = useState(true);
   const teacherEmail = localStorage.getItem('userEmail');
 
+  const [excelFile, setExcelFile] = useState(null);
+  const [excelError, setExcelError] = useState('');
+
   useEffect(() => {
     const fetchEntranceExams = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/viewentr/teacher-assigned-entrances`,
+          '${import.meta.env.VITE_API_URL}/viewentr/teacher-assigned-entrances',
           {
             headers: {
               email: teacherEmail
@@ -160,6 +164,61 @@ const TeacherMocktest = () => {
     }
   };
 
+  const handleExcelUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Check file extension
+    const fileExt = file.name.split('.').pop().toLowerCase();
+    if (!['xlsx', 'xls'].includes(fileExt)) {
+      setExcelError('Please upload only Excel files (.xlsx or .xls)');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      try {
+        const data = e.target.result;
+        const workbook = XLSX.read(data, { type: 'array' });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        const jsonData = XLSX.utils.sheet_to_json(worksheet);
+
+        if (jsonData.length === 0) {
+          setExcelError('Excel file is empty');
+          return;
+        }
+
+        // Set test details from the first row
+        const firstRow = jsonData[0];
+        setTotalMarks(parseInt(firstRow.totalMarks) || 1);
+        setPassingMarks(parseInt(firstRow.passingMarks) || 1);
+        setDuration(parseInt(firstRow.duration) || 1);
+
+        // Transform Excel data to match questions format
+        const transformedQuestions = jsonData.map(row => ({
+          questionText: row.questionText || '',
+          marks: parseInt(row.marks) || 1,
+          options: [
+            { optionText: row.option1 || '', isCorrect: row.correctOption === 1 },
+            { optionText: row.option2 || '', isCorrect: row.correctOption === 2 },
+            { optionText: row.option3 || '', isCorrect: row.correctOption === 3 },
+            { optionText: row.option4 || '', isCorrect: row.correctOption === 4 }
+          ],
+          steps: row.steps ? row.steps.split(';') : ['']
+        }));
+
+        setQuestions(transformedQuestions);
+        setNumberOfQuestions(transformedQuestions.length);
+        setExcelError('');
+      } catch (error) {
+        setExcelError('Error processing Excel file. Please check the format.');
+        console.error('Excel processing error:', error);
+      }
+    };
+    reader.readAsArrayBuffer(file);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -227,6 +286,76 @@ const TeacherMocktest = () => {
         setMessage('Error creating mock test. Please try again.');
       }
     }
+  };
+
+  const downloadSampleExcel = () => {
+    // Sample data
+    const sampleData = [
+      {
+        totalMarks: 10,          // Total marks for the test
+        passingMarks: 4,         // Passing marks for the test
+        duration: 30,            // Duration in minutes
+        questionText: "What is 2 + 2?",
+        marks: 1,
+        option1: "3",
+        option2: "4",
+        option3: "5",
+        option4: "6",
+        correctOption: 2,
+        steps: "First identify the numbers;Add the numbers together;Verify the answer"
+      },
+      {
+        totalMarks: 10,          // Same total marks for all rows
+        passingMarks: 4,         // Same passing marks for all rows
+        duration: 30,            // Same duration for all rows
+        questionText: "What is the capital of France?",
+        marks: 2,
+        option1: "London",
+        option2: "Paris",
+        option3: "Berlin",
+        option4: "Madrid",
+        correctOption: 2,
+        steps: "Look at the map of Europe;Find France;Identify its capital city"
+      },
+      {
+        totalMarks: 10,          // Same total marks for all rows
+        passingMarks: 4,         // Same passing marks for all rows
+        duration: 30,            // Same duration for all rows
+        questionText: "Which planet is known as the Red Planet?",
+        marks: 1,
+        option1: "Venus",
+        option2: "Jupiter",
+        option3: "Mars",
+        option4: "Saturn",
+        correctOption: 3,
+        steps: "Think about planet colors;Remember Mars appears red;Identify the correct option"
+      }
+    ];
+
+    // Create worksheet
+    const ws = XLSX.utils.json_to_sheet(sampleData);
+
+    // Add column widths
+    ws['!cols'] = [
+      { wch: 12 }, // totalMarks
+      { wch: 12 }, // passingMarks
+      { wch: 10 }, // duration
+      { wch: 40 }, // questionText
+      { wch: 8 },  // marks
+      { wch: 20 }, // option1
+      { wch: 20 }, // option2
+      { wch: 20 }, // option3
+      { wch: 20 }, // option4
+      { wch: 15 }, // correctOption
+      { wch: 50 }  // steps
+    ];
+
+    // Create workbook
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sample Questions");
+
+    // Save file
+    XLSX.writeFile(wb, "mocktest_template.xlsx");
   };
 
   return (
@@ -388,6 +517,48 @@ const TeacherMocktest = () => {
           required
         />
         {questionsError && <p className="teachermocktest-error">{questionsError}</p>}
+      </div>
+
+      <div className="teachermocktest-field">
+        <label className="teachermocktest-label">Or Upload Excel File:</label>
+        <input
+          type="file"
+          accept=".xlsx,.xls"
+          onChange={handleExcelUpload}
+          className="teachermocktest-input"
+        />
+        {excelError && <p className="teachermocktest-error">{excelError}</p>}
+        <div className="teachermocktest-field">
+          <button
+            type="button"
+            onClick={downloadSampleExcel}
+            className="teachermocktest-download-template"
+            style={{
+              backgroundColor: '#4CAF50',
+              color: 'white',
+              padding: '10px 15px',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              marginTop: '10px'
+            }}
+          >
+            Download Sample Excel Template
+          </button>
+          <div className="teachermocktest-template-info" style={{ marginTop: '10px', fontSize: '0.9em' }}>
+            <p><strong>Excel Template Format:</strong></p>
+            <ul style={{ paddingLeft: '20px' }}>
+              <li>totalMarks: Total marks for the test</li>
+              <li>passingMarks: Minimum marks required to pass</li>
+              <li>duration: Test duration in minutes</li>
+              <li>questionText: The question to be asked</li>
+              <li>marks: Points for the question (number)</li>
+              <li>option1, option2, option3, option4: Multiple choice options</li>
+              <li>correctOption: Number (1-4) indicating the correct answer</li>
+              <li>steps: Solution steps separated by semicolons (;)</li>
+            </ul>
+          </div>
+        </div>
       </div>
 
       <div className="teachermocktest-questions">

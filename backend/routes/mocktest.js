@@ -8,8 +8,14 @@ const upload = require('../config/multerStorage');
 const QuizAnswer = require('../model/quiz');
 const Class = require('../model/courses');
 
+// Add multer configuration for Excel files
+const excelUpload = upload.fields([
+  { name: 'questionImages', maxCount: 10 },
+  { name: 'excelFile', maxCount: 1 }
+]);
+
 //teacher add mocktest
-router.post('/teacheraddMockTest', upload.array('questionImages', 10), async (req, res) => {
+router.post('/teacheraddMockTest', excelUpload, async (req, res) => {
   try {
     const {
       title,
