@@ -87,6 +87,8 @@ const TeacherCalendarRoute = require('./routes/reminders');
 const aiChatRouter = require('./routes/aiChat');
 const seachRoutes = require('./routes/searchRoutes');
 const analyticsRoutes = require('./routes/analytics');
+const teacherTimeRoute = require('./routes/teachertimeTable');
+const teacherTimetableRouter = require('./routes/teachertimeTable');
 // CORS configuration
 app.use(cors({
     origin: function(origin, callback) {
@@ -180,6 +182,8 @@ app.use('/api/teachercalendar', TeacherCalendarRoute);
 app.use('/api/ai-chat', aiChatRouter);
 app.use('/api/search',seachRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/teacher-timetable', teacherTimeRoute);
+app.use('/api/teacher-timetable', teacherTimetableRouter);
 
 // Add this after all your routes
 app.use((err, req, res, next) => {

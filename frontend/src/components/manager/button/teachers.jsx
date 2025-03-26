@@ -29,6 +29,12 @@ function MTeacherButton() {
           >
             Teacher list
           </button>
+          <button
+            className="managerservicebtnnn-dropdown-item"
+            onClick={() => navigate('/manager/teacher-timetable')}
+          >
+            Timetable
+          </button>
 
         </div>
       )}

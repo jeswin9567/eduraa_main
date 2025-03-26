@@ -108,6 +108,7 @@ import CourseDetails from './pages/Manager/CourseDetails';
 import NewRptgn from './pages/Manager/NewRptgn';
 import StudentDetails from './pages/Manager/StudentDetails';
 import TeacherCareers from './pages/home/careers/TeacherCareers';
+import TimetablePage from './pages/Manager/teacherTimetable';
 
 
 function App() {
@@ -234,6 +235,7 @@ function App() {
         <Route path="/manager/analytics" element={<NewRptgn />} />
         <Route path="/manager/students" element={<StudentDetails />} />
         <Route path="/careers/teaching" element={<TeacherCareers />} />
+        <Route path="//manager/teacher-timetable" element={<TimetablePage />} />
 
       </Routes>
     </Router>
