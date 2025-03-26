@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './TeacherTimetable.css';
+import './Timetable.css';
 import * as XLSX from 'xlsx';
 
 const TeacherTimetable = () => {
