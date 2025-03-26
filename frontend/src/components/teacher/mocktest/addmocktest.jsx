@@ -43,7 +43,7 @@ const TeacherMocktest = () => {
     const fetchEntranceExams = async () => {
       try {
         const response = await axios.get(
-          '${import.meta.env.VITE_API_URL}/viewentr/teacher-assigned-entrances',
+          `${import.meta.env.VITE_API_URL}/viewentr/teacher-assigned-entrances`,
           {
             headers: {
               email: teacherEmail
