@@ -25,7 +25,7 @@ const io = require('socket.io')(server, {
     },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization', 'useremail']
+    allowedHeaders: ['Content-Type', 'Authorization', 'useremail', 'email']
   }
 });
 
@@ -90,25 +90,28 @@ const analyticsRoutes = require('./routes/analytics');
 const teacherTimeRoute = require('./routes/teachertimeTable');
 const teacherTimetableRouter = require('./routes/teachertimeTable');
 // CORS configuration
-app.use(cors({
-    origin: function(origin, callback) {
-        if (!origin) return callback(null, true);
-        
-        const allowedOrigins = [
-            'https://eduraatest.netlify.app',
-            'http://localhost:5173'  // Your local development URL
-        ];
-        
-        if (allowedOrigins.indexOf(origin) !== -1) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'useremail']
-}));
+const corsOptions = {
+  origin: function(origin, callback) {
+    if (!origin) return callback(null, true);
+    
+    const allowedOrigins = [
+      'https://eduraatest.netlify.app',
+      'http://localhost:5173'  // Your local development URL
+    ];
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization', 'useremail', 'email']
+};
+
+// Apply the CORS configuration
+app.use(cors(corsOptions));
 
 // Add this before your routes to ensure cookies work properly
 app.use((req, res, next) => {

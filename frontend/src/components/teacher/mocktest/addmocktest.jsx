@@ -46,12 +46,11 @@ const TeacherMocktest = () => {
           `${import.meta.env.VITE_API_URL}/viewentr/teacher-assigned-entrances`,
           {
             headers: {
-              email: teacherEmail
+              'email': teacherEmail,
+              'Content-Type': 'application/json'
             }
           }
-          ); 
-          // 
-          // // Adjust URL to your API endpoint
+        );
         setEntranceExams(response.data);
       } catch (error) {
         console.error('Error fetching entrance exams:', error);
