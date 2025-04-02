@@ -1,56 +1,63 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import './login.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'; // Import SweetAlert
 
+// Create axios instance with default config
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+  timeout: 5000 // 5 second timeout
+});
 
 function Login() {
-
-  const [email, setEmail] = useState('');
-  const [pass, setPassword] = useState('');
-
+  const [credentials, setCredentials] = useState({ email: '', password: '' });
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate(); // React Router's navigation hook
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent page reload on form submission
+  // Memoize the handleChange function
+  const handleChange = useCallback((e) => {
+    const { id, value } = e.target;
+    setCredentials(prev => ({
+      ...prev,
+      [id === 'emailid' ? 'email' : 'password']: value
+    }));
+  }, []);
 
-    // Use the environment variable for the API URL
-    axios.post(`${import.meta.env.VITE_API_URL}/log`, { email, password: pass })
-      .then(result => {
-        // If login is successful, navigate to home
-        if(result.data.message === "success"){
-          localStorage.setItem('userEmail', email);
-          localStorage.setItem('token',result.data.token)
-          
-          const userRole =result.data.role;
+  // Optimized submit handler
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (isLoading) return;
+    setIsLoading(true);
 
-          if(userRole === "admin"){
-            navigate('/adhome');
-          }
+    try {
+      const { data } = await api.post('/log', credentials);
 
-          else if(userRole === "user"){
-            navigate('/userhome');
-          }
-          else if(userRole === "teacher"){
-            navigate('/teacherhome');
-          }
+      if (data.message === "success") {
+        // Store minimal data
+        localStorage.setItem('userEmail', credentials.email);
+        localStorage.setItem('token', data.token);
 
-          else if(userRole === "manager"){
-            navigate('/mhome');
-          }
+        // Optimized navigation
+        switch (data.role) {
+          case 'admin': navigate('/adhome'); break;
+          case 'user': navigate('/userhome'); break;
+          case 'teacher': navigate('/teacherhome'); break;
+          case 'manager': navigate('/mhome'); break;
+          default: throw new Error('Invalid role');
         }
-      })
-      .catch(error => {
-        // Show appropriate error message
-        Swal.fire({
-          title: 'Error!',
-          text: error.response?.data?.message || 'An unexpected error occurred.',
-          icon: 'error',
-          confirmButtonText: 'OK'
-        });
-        console.error(error);
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.response?.data?.message || 'Login failed',
+        icon: 'error',
+        confirmButtonText: 'OK'
       });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -74,8 +81,9 @@ function Login() {
             className='un' 
             placeholder='username/email' 
             id="emailid"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}  // Capture email input
+            value={credentials.email}
+            onChange={handleChange}
+            disabled={isLoading}
             required
           />
           <input 
@@ -83,14 +91,22 @@ function Login() {
             className='pass' 
             placeholder='password' 
             id="passwords"
-            value={pass}
-            onChange={(e) => setPassword(e.target.value)}  // Capture password input
+            value={credentials.password}
+            onChange={handleChange}
+            disabled={isLoading}
             required
           />
           <a href="/forgotpassword" className='fp'>Forgot password?</a>
 
           {/* Submit button */}
-          <button type="submit" id="login" className='lb'>Login</button>
+          <button 
+            type="submit" 
+            id="login" 
+            className='lb'
+            disabled={isLoading}
+          >
+            {isLoading ? 'Logging in...' : 'Login'}
+          </button>
         </form>
 
         <p className='not'>
@@ -102,4 +118,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default React.memo(Login);

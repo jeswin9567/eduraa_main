@@ -89,35 +89,43 @@ const seachRoutes = require('./routes/searchRoutes');
 const analyticsRoutes = require('./routes/analytics');
 const teacherTimeRoute = require('./routes/teachertimeTable');
 const teacherTimetableRouter = require('./routes/teachertimeTable');
-// CORS configuration
+// Add these near the top after imports
+const compression = require('compression');
+const helmet = require('helmet');
+
+// Add these middleware before routes
+app.use(helmet()); // Security headers
+app.use(compression()); // Compress responses
+
+// Optimize CORS
 const corsOptions = {
   origin: function(origin, callback) {
-    if (!origin) return callback(null, true);
-    
     const allowedOrigins = [
       'https://eduraatest.netlify.app',
-      'http://localhost:5173'  // Your local development URL
+      'http://localhost:5173'
     ];
     
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
   },
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+  methods: ["POST", "OPTIONS"], // Limit methods for login
   credentials: true,
-  allowedHeaders: ['Content-Type', 'Authorization', 'useremail', 'email']
+  maxAge: 86400 // CORS preflight cache for 24 hours
 };
 
-// Apply the CORS configuration
 app.use(cors(corsOptions));
 
-// Add this before your routes to ensure cookies work properly
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Credentials', 'true');
-    next();
+// Add rate limiting
+const rateLimit = require('express-rate-limit');
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // limit each IP to 100 requests per windowMs
 });
+
+app.use('/log', loginLimiter);
 
 // Middleware
 app.use(express.json());
